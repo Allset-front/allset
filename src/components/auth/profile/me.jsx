@@ -13,15 +13,15 @@ import {
 } from "@chakra-ui/react";
 import premium from "@/assets/imgs/premium.png";
 
-export const Me = ({ isLoading, user }) => {
+export const Me = ({ isLoading, data }) => {
   return (
     <HStack py="16px" gap="30px">
       {isLoading ? (
         <SkeletonCircle w="124px" h="124px" />
       ) : (
         <Avatar.Root w="124px" h="124px">
-          <Avatar.Fallback name={user?.given_name} />
-          <Avatar.Image src={user?.picture || ""} />
+          <Avatar.Fallback name={name} />
+          <Avatar.Image src={data?.picture} />
         </Avatar.Root>
       )}
 
@@ -30,9 +30,9 @@ export const Me = ({ isLoading, user }) => {
       ) : (
         <Stack gap="4px">
           <Text fontSize={"20px"} color={"#4B5563"} fontWeight="500">
-            {user?.name}
+            {data?.name}
           </Text>
-          <Text>{user?.email}</Text>
+          <Text>{data?.email}</Text>
 
           <Flex
             w="158px"

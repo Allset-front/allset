@@ -1,10 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useMutateAuthTanstack } from "@/hooks/useTanstack";
+import { queryClient } from "@/providers/queryProvider";
+import { error, success } from "@/components/ui/alerts";
 import { Field, Input, Skeleton, Stack, Text } from "@chakra-ui/react";
 
-export const MyInfo = ({ isLoading, user }) => {
-  if (isLoading) return <Skeleton w="672px" h="394px" borderRadius={"8px"}/>;
+export const MyInfo = ({ isLoading, data }) => {
+  const timers = useRef({});
+  const [edited, setEdited] = useState({});
+
+  const { mutate } = useMutateAuthTanstack("user", "patch", {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      success("Personal info has been changed.");
+    },
+    onError: (err) =>
+      error(err?.response?.data?.error || "Personal info editing error!"),
+  });
+
+
+  const handleChange = (field) => (e) => {
+    const value = e.target.value;
+
+    setEdited((prev) => ({ ...prev, [field]: value }));
+
+    clearTimeout(timers.current[field]);
+
+    timers.current[field] = setTimeout(() => {
+      if (value !== data?.[field]) {
+        mutate({ [field]: value });
+      }
+    }, 700);
+  };
+
+  if (isLoading) return <Skeleton w="672px" h="394px" borderRadius={"8px"} />;
+
+  const val = (key) => edited[key] ?? data?.[key] ?? "";
 
   return (
     <Stack borderRadius="8px" bg="white" p="24px" gap="16px">
@@ -17,7 +49,9 @@ export const MyInfo = ({ isLoading, user }) => {
           Full name
         </Field.Label>
         <Input
-          defaultValue={user?.name}
+          value={val("name")}
+          onChange={handleChange("name")}
+          //
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
@@ -31,6 +65,9 @@ export const MyInfo = ({ isLoading, user }) => {
           Phone number
         </Field.Label>
         <Input
+          value={val("phoneNumber")}
+          onChange={handleChange("phoneNumber")}
+          //
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
@@ -41,10 +78,12 @@ export const MyInfo = ({ isLoading, user }) => {
       </Field.Root>
       <Field.Root>
         <Field.Label fontSize="12px" color="#6B7280">
-          e-mail address
+          E-mail address
         </Field.Label>
         <Input
-          defaultValue={user?.email}
+          defaultValue={data?.email}
+          disabled
+          //
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
@@ -57,6 +96,9 @@ export const MyInfo = ({ isLoading, user }) => {
           Date of birth
         </Field.Label>
         <Input
+          value={val("dateOfBirth")}
+          onChange={handleChange("dateOfBirth")}
+          //
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"

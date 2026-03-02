@@ -2,14 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import {
-  Stack,
-  Container,
-  Flex,
-  For,
-  Text,
-  Span,
-} from "@chakra-ui/react";
+import { Stack, Container, Flex, For, Text, Span } from "@chakra-ui/react";
 import { Title } from "./typography/title";
 import { Description } from "./typography/description";
 import { available } from "@/utils/constants";
@@ -29,7 +22,14 @@ export const Available = () => {
           <Flex gap="16px">
             <For each={available}>
               {({ id, bg, icon, iconBg, title, description }) => (
-                <Stack key={id} bg={bg} p="16px" borderRadius="5px" w="294px">
+                <Stack
+                  key={id}
+                  bg={bg}
+                  p="16px"
+                  borderRadius="5px"
+                  w="294px"
+                  h="270px"
+                >
                   <Flex
                     w="62px"
                     h="62px"
@@ -40,8 +40,12 @@ export const Available = () => {
                   >
                     {icon.icon}
                   </Flex>
-                  <Text fontSize={"18px"} fontWeight={700} color={"#FFFFFF"}>{t(title)}</Text>
-                  <Span fontSize={"14px"} fontWeight={400} color={"#FFFFFF"}>{t(description)}</Span>
+                  <Text fontSize={"18px"} fontWeight={700} color={"#FFFFFF"}>
+                    {t(title)}
+                  </Text>
+                  <Span fontSize={"14px"} fontWeight={400} color={"#FFFFFF"}>
+                    {t(description)}
+                  </Span>
                 </Stack>
               )}
             </For>

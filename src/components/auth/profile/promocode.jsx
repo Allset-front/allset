@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { usePostTanstack } from "../../../hooks/useTanstack";
+import { useMutateAuthTanstack } from "../../../hooks/useTanstack";
 import {
   Button,
   DataList,
@@ -25,7 +25,7 @@ export const Promocode = () => {
   const [promocode, setPromocode] = useState("");
   const [applied, setApplied] = useState(false);
 
-  const { mutate, isPending } = usePostTanstack("promocode", {
+  const { mutate, isPending } = useMutateAuthTanstack("promocode", "post", {
     onSuccess: (data) => success(`Aplied! Discount: ${data.discount}%`),
     onError: (err) => error(err?.response?.data?.error || "Invalid promocode"),
   });

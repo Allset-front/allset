@@ -14,6 +14,7 @@ export const useGetTanstack = (name) => {
     });
 };
 
+// TODO get token by getAccessTokenSilently,store in cookies and remove from here
 export const useGetAuthTanstack = (name) => {
     const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
 
@@ -38,12 +39,37 @@ export const useGetAuthTanstack = (name) => {
     });
 };
 
-export const usePostTanstack = (name, options) => {
+// export const usePostTanstack = (name, options) => {
+//     return useMutation({
+//         mutationFn: async (body) => {
+//             const { data } = await apiClient.post(`${name}`, body);
+//             return data;
+//         },
+//         ...options,
+//     });
+// };
+
+// TODO get token by getAccessTokenSilently,store in cookies and remove from here
+export const useMutateAuthTanstack = (name, method, options) => {
+    const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+
     return useMutation({
         mutationFn: async (body) => {
-            const { data } = await apiClient.post(`${name}`, body);
+            if (!isAuthenticated) throw new Error("User not authenticated");
+
+            const token = await getAccessTokenSilently();
+
+            const { data } = await apiClient({
+                url: name,
+                method,
+                data: body,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             return data;
         },
         ...options,
+        enabled: !isLoading && isAuthenticated,
     });
 };
