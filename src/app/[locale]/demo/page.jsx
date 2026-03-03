@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { BASE_URL } from "@/lib/api/config";
 import logo from "@/assets/imgs/allset.png";
-import { SoonClient } from "./client";
+import { DemoClient } from "./client";
 
 export async function generateMetadata({ params }) {
   const t = await getTranslations();
@@ -45,6 +45,6 @@ export async function generateMetadata({ params }) {
   return metadata;
 }
 
-export default async function Soon() {
-  return <SoonClient />;
+export default async function Demo() {
+  return <DemoClient />;
 }
