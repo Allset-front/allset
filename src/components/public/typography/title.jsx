@@ -15,7 +15,7 @@ export const Title = ({ as, text, fontSize, color, textAlign }) => {
       fontSize={fontSize ?? "32px"}
       color={color ?? "#161E24"}
       textAlign={textAlign ?? "unset"}
-      dangerouslySetInnerHTML={{ __html: t(text) }}
+      dangerouslySetInnerHTML={{ __html: t(text).replace(/\n/g, "<br />") }}
     />
   );
 };

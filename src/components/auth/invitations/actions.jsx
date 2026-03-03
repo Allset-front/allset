@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { Flex, InputGroup, Input, Icon } from "@chakra-ui/react";
 import { plus, search } from "@/assets/svgs";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { Tooltip } from "@/components/ui/tooltip";
 
 export const Actions = () => {
+  const t = useTranslations()
   const router = useRouter();
   const pathname = usePathname();
 
@@ -25,18 +28,24 @@ export const Actions = () => {
         />
       </InputGroup>
 
-      <Icon
-        onClick={() => router.push("invitations/add")}
-        cursor={"pointer"}
-        _hover={{
-          "& path": {
-            fill: "#004143",
-            transition: "all 0.3s ease",
-          },
-        }}
+      <Tooltip
+        // ids={{ trigger:  }}
+        positioning={{ placement: "top" }}
+        content={t("add")}
       >
-        {plus.icon}
-      </Icon>
+        <Icon
+          onClick={() => router.push("/build/templates")}
+          cursor={"pointer"}
+          _hover={{
+            "& path": {
+              fill: "#004143",
+              transition: "all 0.3s ease",
+            },
+          }}
+        >
+          {plus.icon}
+        </Icon>
+      </Tooltip>
     </Flex>
   );
 };

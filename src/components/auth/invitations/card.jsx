@@ -15,9 +15,17 @@ import img from "@/assets/imgs/active_bg.png";
 import { editActive, guestList } from "@/assets/svgs";
 import { formatDDMMYYYY } from "@/utils/formatters";
 import { useLocale } from "next-intl";
+import { useRouter } from "@/i18n/routing";
+import { useQueryState } from "nuqs";
 
 export const Card = ({ el }) => {
+  const router = useRouter();
   const language = useLocale();
+
+  const [tab] = useQueryState("tab", {
+    defaultValue: "active",
+  });
+
   console.log(el);
 
   const { id, publishedAt, title } = el;
@@ -104,7 +112,10 @@ export const Card = ({ el }) => {
           }}
           transition="all 0.3s ease"
         >
-          <Icon>{guestList.icon}</Icon>Guest list
+          <Icon onClick={() => router.push(`invitations/${tab}/${id}/guests`)}>
+            {guestList.icon}
+          </Icon>
+          Guest list
         </Button>
         <Button
           w="52px"

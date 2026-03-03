@@ -1,15 +1,14 @@
 "use client";
 
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { useNuqs } from "@/hooks/useNuqs";
 import { Accordion as Acc, For, Span, Image } from "@chakra-ui/react";
-import { faqs } from "@/utils/constants";
 import plus from "@/assets/imgs/plus.png";
 import minus from "@/assets/imgs/minus.png";
 
-export const Accordion = () => {
-  const t = useTranslations();
+export const Accordion = ({ faqs }) => {
+  const language = useLocale();
 
   const [question, setQuestion] = useNuqs("question");
 
@@ -23,15 +22,19 @@ export const Accordion = () => {
   };
 
   return (
-    <Acc.Root collapsible value={[question]} onValueChange={(e) => handleChange(e)}>
+    <Acc.Root
+      collapsible
+      value={[question]}
+      onValueChange={(e) => handleChange(e)}
+    >
       <For each={faqs}>
-        {({ value, title, text }) => {
-          const isOpen = question == value;
+        {(faq, index) => {
+          const isOpen = question === index.toString();
 
           return (
             <Acc.Item
-              key={value}
-              value={value}
+              key={index}
+              value={index.toString()}
               background="#FFFFFF"
               borderRadius="3px"
               marginBottom="16px"
@@ -45,7 +48,7 @@ export const Accordion = () => {
                   fontWeight={500}
                   color={"#4B5563"}
                 >
-                  {t(title)}
+                  {faq.question[language]}
                 </Span>
 
                 <Acc.ItemIndicator>
@@ -64,7 +67,7 @@ export const Accordion = () => {
                   fontWeight={300}
                   color={"#4B5563"}
                 >
-                  {t(text)}
+                  {faq.answer[language]}
                 </Acc.ItemBody>
               </Acc.ItemContent>
             </Acc.Item>

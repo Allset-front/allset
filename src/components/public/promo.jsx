@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { Stack, Container, Flex, Image, Span } from "@chakra-ui/react";
 import { Title } from "./typography/title";
 import bg from "@/assets/imgs/special_bg.png";
 import img from "@/assets/imgs/special_img.png";
 
-export const Special = () => {
-  const t = useTranslations();
+export const Promo = ({ promo }) => {
+  const language = useLocale();
 
   return (
-    <Stack py="64px"  bg="#f6f6f7">
+    <Stack py="64px" bg="#f6f6f7">
       <Container maxW="1360px" px={0}>
         <Flex
           bgImage={`url(${bg.src})`}
@@ -26,10 +26,12 @@ export const Special = () => {
           overflow="hidden"
         >
           <Stack w="100%" p="32px 0 32px 32px">
-            <Title text="special_one" color="#FFFFFF" />
-            <Title text="special_two" color="#FFFFFF" />
+            <Title
+              color="#FFFFFF"
+              text={promo.title[language]}
+            />
             <Span fontSize={"16px"} fontWeight={400} color={"#FFFFFF"}>
-              {t("special_desc")}
+              {promo.description[language]}
             </Span>
           </Stack>
           <Image

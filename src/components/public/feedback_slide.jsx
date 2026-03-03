@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Box,
   Flex,
@@ -17,14 +17,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 import { star, starEmpty } from "@/assets/svgs";
-import { feedback } from "@/utils/constants";
 
-export const FeedbackSlide = () => {
+export const FeedbackSlide = ({ feedbacks }) => {
   const t = useTranslations();
+  const language = useLocale();
 
   const [swiper, setSwiper] = useState(null);
   const [showPrevArrow, setShowPrevArrow] = useState(false);
-  const [showNextArrow, setShowNextArrow] = useState(true);
+  const [showNextArrow, setShowNextArrow] = useState(feedbacks?.length > 3 ? true : false);
 
   return (
     <Box>
@@ -72,51 +72,48 @@ export const FeedbackSlide = () => {
         // }}
         // modules={[Autoplay]}
       >
-        {feedback.map(({ id, name, invitations, stars, feedback }) => {
-          return (
-            <SwiperSlide key={id} >
-              <Stack
-                gap="8px"
-                p="16px"
-                borderRadius="5px"
-                bg="#FFFFFF"
-                cursor={"pointer"}
-              >
-                <Flex gap="16px">
-                  <Avatar.Root size="md">
-                    <Avatar.Fallback name={name} />
-                    <Avatar.Image
-                      src={`https://i.pravatar.cc/150?img=4${id}`}
-                      alt={name}
-                    />
-                  </Avatar.Root>
-                  <Stack gap={"4px"}>
-                    <Text fontSize={"16px"} color={"#4B5563"} fontWeight={500}>
-                      {name}
-                    </Text>
-                    <Span fontSize={"12px"} color={"#A0A0A0"} fontWeight={300}>
-                      {invitations} {t("invitation")}
+        {feedbacks?.map(({ name, image, count, rating, text }, index) => (
+          <SwiperSlide key={index}>
+            <Stack
+              gap="8px"
+              p="16px"
+              borderRadius="5px"
+              bg="#FFFFFF"
+              cursor={"pointer"}
+              minW={"443px"}
+              maxW={"443px"}
+            >
+              <Flex gap="16px">
+                <Avatar.Root size="md">
+                  <Avatar.Fallback name={name} />
+                  <Avatar.Image src={image} alt={name} />
+                </Avatar.Root>
+                <Stack gap={"4px"}>
+                  <Text fontSize={"16px"} color={"#4B5563"} fontWeight={500}>
+                    {name}
+                  </Text>
+                  <Span fontSize={"12px"} color={"#A0A0A0"} fontWeight={300}>
+                    {count} {t("invitation")}
+                  </Span>
+                </Stack>
+              </Flex>
+
+              <Flex pt={"8px"}>
+                <For each={Array.from({ length: 5 })}>
+                  {(_, index) => (
+                    <Span key={index}>
+                      {index < 5 - rating ? starEmpty.icon : star.icon}
                     </Span>
-                  </Stack>
-                </Flex>
+                  )}
+                </For>
+              </Flex>
 
-                <Flex pt={"8px"}>
-                  <For each={Array.from({ length: 5 })}>
-                    {(_, index) => (
-                      <Span key={index}>
-                        {index < 5 - stars ? starEmpty.icon : star.icon}
-                      </Span>
-                    )}
-                  </For>
-                </Flex>
-
-                <Text fontSize={"12px"} color={"#4B5563"} fontWeight={300}>
-                  {feedback}
-                </Text>
-              </Stack>
-            </SwiperSlide>
-          );
-        })}
+              <Text fontSize={"12px"} color={"#4B5563"} fontWeight={300}>
+                {text[language]}
+              </Text>
+            </Stack>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </Box>
   );

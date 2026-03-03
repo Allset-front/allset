@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "@/i18n/routing";
 import { useRef, useState, useEffect } from "react";
-import { useNuqs } from "@/hooks/useNuqs";
 import { detailsForm } from "@/utils/constants";
+import { useRouter } from "@/i18n/routing";
+import { useNuqs } from "@/hooks/useNuqs";
+import { useGetTanstack } from "@/hooks/useTanstack";
 import apiClient from "@/lib/api";
-import { Animate } from "@/components/ui/animate";
 import { Box, Container, Stack } from "@chakra-ui/react";
+import { Animate } from "@/components/ui/animate";
 import { LngSelector } from "@/components/build/lngSelector";
 import { TitleCreator } from "@/components/build/titleCreator";
 import { EventDate } from "@/components/build/eventDate";
@@ -21,7 +22,6 @@ import { Expire } from "@/components/build/expire";
 import { error } from "@/components/ui/alerts";
 import { Venue } from "@/components/build/venue";
 import { Rsvp } from "@/components/build/rsvp";
-import { useGetTanstack } from "@/hooks/useTanstack";
 
 export const DetailsClient = () => {
   const router = useRouter();

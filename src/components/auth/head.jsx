@@ -29,7 +29,6 @@ export const Head = ({ text }) => {
       >
         {t(text)}
       </Heading>
-      {/* Need hide||show logic based on pathname */}
       <Actions />
     </Flex>
   );

@@ -39,13 +39,15 @@ export function isNotEmptyArray(arr) {
     return Array?.isArray(arr) && arr?.length > 0;
 }
 
-export function isEmptyObject(obj) {
-    return Object?.keys(obj)?.length === 0 && obj?.constructor === Object;
-}
+export const isEmptyObject = (obj) => !obj || Object.keys(obj).length === 0;
 
 export function isNotEmptyObject(obj) {
-    return Object?.keys(obj)?.length > 0 || obj?.constructor !== Object;
+  return obj && obj.constructor === Object && Object.keys(obj).length > 0;
 }
+
+// export function isNotEmptyObject(obj) {
+//     return Object?.keys(obj)?.length > 0 || obj?.constructor !== Object;
+// }
 
 export const isFileSizeValid = (file, maxFileSizeMB) => {
     const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;

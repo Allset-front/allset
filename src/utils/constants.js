@@ -350,64 +350,6 @@ export const instruction = [
   }
 ]
 
-export const feedback = [
-  {
-    id: 1,
-    name: "Անի Հակոբյան",
-    invitations: 2,
-    stars: 4,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 2,
-    name: "Luiza Abrahamyan",
-    invitations: 2,
-    stars: 5,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 3,
-    name: "Anna Ayvazyan",
-    invitations: 8,
-    stars: 4,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 4,
-    name: "Alina Avagyan",
-    invitations: 1,
-    stars: 5,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-];
-
-export const faqs = [
-  {
-    value: "1",
-    title: "faqs_one_title",
-    text: "faqs_one_text",
-  },
-  {
-    value: "2",
-    title: "faqs_two_title",
-    text: "faqs_two_text",
-  },
-  {
-    value: "3",
-    title: "faqs_three_title",
-    text: "faqs_three_text",
-  },
-  {
-    value: "4",
-    title: "faqs_four_title",
-    text: "faqs_four_text",
-  },
-]
-
 // export const translitMap = {
 //   // Armenian letters
 //   ա: "a", բ: "b", գ: "g", դ: "d", ե: "e", զ: "z", է: "e", ը: "y",

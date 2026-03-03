@@ -7,7 +7,7 @@ import { Title } from "./typography/title";
 import { Description } from "./typography/description";
 import bg from "@/assets/imgs/faqs_bg.png";
 
-export const Faqs = () => {
+export const Faqs = ({ faqs }) => {
   return (
     <Stack p={"100px 0 50px 0"} bg="#f6f6f7">
       <Container maxW="1360px" px={0}>
@@ -21,7 +21,7 @@ export const Faqs = () => {
               <Image src={bg.src} alt="faqs" />
             </Flex>
           </Center>
-          <Accordion />
+          <Accordion faqs={faqs} />
         </Stack>
       </Container>
     </Stack>

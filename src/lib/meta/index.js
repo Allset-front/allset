@@ -2,11 +2,13 @@ import { BASE_URL } from "../api/config";
 import logo from "@/assets/imgs/allset.png";
 
 export function meta({ title, description, locale }) {
+    const fullTitle = title ? `${title} - Allset.am` : "Allset.am";
+
     return {
-        title: `${title} - Allset.am`,
+        title: fullTitle,
         description,
         openGraph: {
-            title: `${title} - Allset.am`,
+            title: fullTitle,
             description,
             type: "website",
             url: `${BASE_URL}/${locale}`,
@@ -19,7 +21,7 @@ export function meta({ title, description, locale }) {
         },
         twitter: {
             card: "summary_large_image",
-            title: `${title} - Allset.am`,
+            title: fullTitle,
             description,
             images: [`${BASE_URL}${logo.src}`],
         },
