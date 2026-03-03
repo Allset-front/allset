@@ -23,7 +23,6 @@ import { formatPrice } from "../../utils/formatters";
 
 export const Card = ({ el }) => {
   const t = useTranslations();
-
   const language = useLocale();
 
   const {

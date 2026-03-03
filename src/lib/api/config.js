@@ -1,7 +1,5 @@
 "use strict";
 
-// import { storage } from "@/api/storage";
-
 const MODE = process.env.NODE_ENV
 
 const BASE_API = MODE === "development" ? process.env.NEXT_PUBLIC_API_DEV : process.env.NEXT_PUBLIC_API_RELEASE; // api url

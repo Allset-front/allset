@@ -1,11 +1,41 @@
 "use client";
 
 import React from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { isMobile } from "react-device-detect";
 import bg from "@/assets/imgs/referal_bg.png";
-import { Box, Button, Heading, Icon, Stack, Text } from "@chakra-ui/react";
+import { Button, Heading, Icon, Stack, Text } from "@chakra-ui/react";
 import { share } from "@/assets/svgs";
+import { BASE_URL } from "@/lib/api/config";
+import { success, error } from "@/components/ui/alerts";
 
-export const Referal = () => {
+export const Referal = ({ code }) => {
+  const t = useTranslations();
+  const language = useLocale();
+
+  const url = BASE_URL + `${language}/connection?referral=${code}`;
+
+  const handleCopy = async () => {
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share({
+          title: "Share Allset Referral url.",
+          //   text: `Your Referral code: ${code}`,
+          url,
+        });
+      } catch (err) {
+        error("Native share failed:", err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        success("Referral url copied to clipboard.");
+      } catch (err) {
+        error("Failed to copy:", err);
+      }
+    }
+  };
+
   return (
     <Stack
       w="100%"
@@ -29,7 +59,7 @@ export const Referal = () => {
       justifyContent={"space-between"}
     >
       <Heading size="lg" color={"white"}>
-        Referal code
+        Referral code
       </Heading>
 
       <Text fontSize={"14px"} color={"white"} w="50%">
@@ -45,9 +75,10 @@ export const Referal = () => {
         w="163px"
         h="40px"
         borderRadius={"20px"}
+        onClick={handleCopy}
       >
         <Icon>{share.icon}</Icon>
-        Share
+        {t("copy")}
       </Button>
     </Stack>
   );

@@ -17,7 +17,9 @@ import {
 import { Label } from "@/components/build/typography/label";
 import { error, success } from "@/components/ui/alerts";
 
-export const Promocode = () => {
+export const Promocode = ({ code }) => {
+  console.log(code);
+
   const discount = 20;
 
   const t = useTranslations();
@@ -32,7 +34,7 @@ export const Promocode = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setApplied(true); // test case
+    setApplied(true); //* test case
     if (!promocode) return;
     mutate({ promocode });
   };

@@ -18,9 +18,9 @@ export const ProfileClient = () => {
       <Flex w="100%" gap="16px" justify={"space-between"}>
         <MyInfo isLoading={isLoading} data={data} />
         <Stack w="100%" gap="16px">
-          <Promocode />
+          <Promocode code={data?.appliedPromoCodes}/>
           <Opt />
-          <Referal />
+          <Referal code={data?.referralCode}/>
         </Stack>
       </Flex>
     </Stack>
