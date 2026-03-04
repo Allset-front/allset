@@ -110,7 +110,7 @@ export const Card = ({ el }) => {
             },
           }}
           transition="all 0.3s ease"
-          onClick={() => router.push(`invitations/${tab}/${id}/guests`)}
+          onClick={() => router.push(`invitations/${id}/guests`)}
         >
           <Icon>{guestList.icon}</Icon>
           {t("guests")}

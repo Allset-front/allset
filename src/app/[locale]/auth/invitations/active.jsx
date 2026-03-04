@@ -7,12 +7,9 @@ import { Card } from "@/components/auth/invitations/card";
 import { isNotEmptyArray } from "@/utils/checkers";
 
 export default function Active({ isLoading, data }) {
-  // const el = { id: 1, publishedAt: "25-25-25", title: "Title" };
-  // return <Card el={el} />;
   if (isLoading) {
     return <Skeleton w="307px" h="550px" borderRadius="10px" />;
   }
-  console.log(data);
 
   return isNotEmptyArray(data) ? (
     <Flex gap="44px" flexWrap={"wrap"}>

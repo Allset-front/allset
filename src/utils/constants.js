@@ -350,6 +350,17 @@ export const instruction = [
   }
 ]
 
+export const guestsTableHeader = [
+  "Main guest name",
+  "Accompanying guest(s)",
+  "RSVP status",
+  "Note",
+  "Guest count",
+  "Guest Side",
+  "Table number",
+];
+
+
 // export const translitMap = {
 //   // Armenian letters
 //   ա: "a", բ: "b", գ: "g", դ: "d", ե: "e", զ: "z", է: "e", ը: "y",
