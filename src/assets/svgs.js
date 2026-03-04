@@ -426,3 +426,19 @@ export const dash = {
         </svg>
     )
 }
+
+export const open = {
+    icon: (
+        <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.30775 6.0155L0 0.70775L0.70775 0L5.30775 4.6L9.90775 0L10.6155 0.70775L5.30775 6.0155Z" fill="#5F6368" />
+        </svg>
+    )
+}
+
+export const close = {
+    icon: (
+        <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.65375 2.1075L1.05375 6.7075L0 5.65375L5.65375 0L11.3075 5.65375L10.2537 6.7075L5.65375 2.1075Z" fill="#5F6368" />
+        </svg>
+    )
+}
