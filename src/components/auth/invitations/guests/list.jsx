@@ -1,12 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { isNotEmptyArray } from "@/utils/checkers";
-import { Skeleton, Table, For, Icon, Stack } from "@chakra-ui/react";
+import { format } from "date-fns";
+import {
+  Skeleton,
+  Table,
+  For,
+  Icon,
+  Stack,
+  Menu,
+  Portal,
+  Button,
+} from "@chakra-ui/react";
 import { guestsTableHeader } from "@/utils/constants";
-import { close, open } from "@/assets/svgs";
+import { openClose, status, actions, asc } from "@/assets/svgs";
+import { Edit } from "./edit";
 
 export const List = ({ isLoading, data }) => {
+  const t = useTranslations();
   const [expandedId, setExpandedId] = useState(null);
 
   const toggleRow = (id) => {
@@ -16,6 +29,7 @@ export const List = ({ isLoading, data }) => {
   if (isLoading) {
     return <Skeleton w="100%" h="550px" />;
   }
+  console.log(data); //
 
   return (
     isNotEmptyArray(data) && (
@@ -30,8 +44,13 @@ export const List = ({ isLoading, data }) => {
                   fontWeight={600}
                   lineHeight="24px"
                   color="#004143"
+                  w={el === "" ? "10px" : "auto"}
+                  border="none"
+                  py="17px"
                 >
-                  {el}
+                  {el === "guest_name" && <Icon mr="8px">{asc.icon}</Icon>}
+                  {el === "status" && <Icon mr="8px">{status.icon}</Icon>}
+                  {el && t(el)}
                 </Table.ColumnHeader>
               )}
             </For>
@@ -47,25 +66,25 @@ export const List = ({ isLoading, data }) => {
                 onClick={() => toggleRow(item.id)}
                 _hover={{ bg: expandedId === item.id ? "#F4F8FD" : "#e8e8ea" }}
               >
-                <Table.Cell verticalAlign="top">
+                <Table.Cell verticalAlign={expandedId === item.id && "top"}>
                   <Icon
-                    mr={"8px"}
-                    transition="transform 0.4s ease"
+                    mr={"15px"}
+                    transition="transform 0.3s ease"
                     transform={
                       expandedId === item.id ? "rotate(180deg)" : "rotate(0deg)"
                     }
                   >
-                    {expandedId === item.id ? close.icon : open.icon}
+                    {openClose.icon}
                   </Icon>
                   {item.mainGuest}
                   {expandedId === item.id && item.createdBy !== "GUEST" && (
                     <Stack pl="20px" pt="8px">
-                      {/* {item.createdBy} */}Added by me
+                      {/* {item.createdBy} */} {t("by_me")}
                     </Stack>
                   )}
                 </Table.Cell>
-                <Table.Cell verticalAlign="top">
-                  {item.secondaryGuests?.length || 0} Guests
+                <Table.Cell>
+                  {item.secondaryGuests?.length || 0} {t("guest")}
                   <br />
                   {expandedId === item.id && (
                     <Stack pt={"8px"} gap="8px" as="ul">
@@ -76,7 +95,7 @@ export const List = ({ isLoading, data }) => {
                   )}
                 </Table.Cell>
                 <Table.Cell
-                  verticalAlign="top"
+                  verticalAlign={expandedId === item.id && "top"}
                   color={
                     item.status === "CONFIRMED"
                       ? "green.500"
@@ -85,24 +104,57 @@ export const List = ({ isLoading, data }) => {
                         : "orange.400"
                   }
                 >
-                  {item.status === "CONFIRMED"
-                    ? "Confirmed"
-                    : item.status === "DECLINED"
-                      ? "Declined"
-                      : "Pending"}
+                  {t(item.status.toLowerCase())}
+                  {item.status === "CONFIRMED" &&
+                    format(new Date(item.createdAt), " (dd.MM.yy)")}
                 </Table.Cell>
-                <Table.Cell verticalAlign="top">{item.notes || "-"}</Table.Cell>
-                <Table.Cell verticalAlign="top">
-                  {(item.secondaryGuests?.length || 0) + 1}
+                <Table.Cell verticalAlign={expandedId === item.id && "top"}>
+                  {item.notes || "-"}
                 </Table.Cell>
-                <Table.Cell verticalAlign="top">
+                <Table.Cell verticalAlign={expandedId === item.id && "top"}>
+                  {item.secondaryGuests?.length + 1}
+                </Table.Cell>
+                <Table.Cell verticalAlign={expandedId === item.id && "top"}>
                   {item.guestSide
                     ? item.guestSide.charAt(0).toUpperCase() +
                       item.guestSide.slice(1).toLowerCase()
                     : "-"}
                 </Table.Cell>
-                <Table.Cell verticalAlign="top">
+                <Table.Cell verticalAlign={expandedId === item.id && "top"}>
                   {item.tableNumber || "-"}
+                </Table.Cell>
+                <Table.Cell verticalAlign="top">
+                  <Menu.Root>
+                    <Menu.Trigger asChild>
+                      <Button
+                        variant="ghost"
+                        padding="0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Icon>{actions.icon}</Icon>
+                      </Button>
+                    </Menu.Trigger>
+                    <Portal>
+                      <Menu.Positioner>
+                        <Menu.Content p="0">
+                          <Menu.Item value="edit" p="0">
+                            <Edit guestID={item.id} />
+                          </Menu.Item>
+                          <Menu.Item value="delete" p="0">
+                            <Button
+                              w="100%"
+                              variant="plain"
+                              outline="none"
+                              _hover={{ bg: "#CF2B2B", color: "#FFFFFF" }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Delete
+                            </Button>
+                          </Menu.Item>
+                        </Menu.Content>
+                      </Menu.Positioner>
+                    </Portal>
+                  </Menu.Root>
                 </Table.Cell>
               </Table.Row>
             )}

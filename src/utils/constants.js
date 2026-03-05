@@ -351,13 +351,14 @@ export const instruction = [
 ]
 
 export const guestsTableHeader = [
-  "Main guest name",
-  "Accompanying guest(s)",
-  "RSVP status",
-  "Note",
-  "Guest count",
-  "Guest Side",
-  "Table number",
+  "guest_name",
+  "accompanying_name",
+  "status",
+  "note",
+  "group_count",
+  "guest_group",
+  "table_number",
+  ""
 ];
 
 

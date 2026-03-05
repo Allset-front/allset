@@ -156,5 +156,18 @@
     "feature_two_desc": "From guest management to budget tracking and an AI-powered assistant",
     "feature_three_title": "Get inspired and plan",
     "feature_three_desc": "Explore other events and discover unique ideas for your own",
-    "invitation": "invitation"
+    "invitation": "invitation",
+    "guest_name": "Main Guest Name",
+    "accompanying_name": "Accompanying guest(s)",
+    "status": "Status",
+    "confirmed": "Confirmed",
+    "declined": "Not Coming",
+    "pending": "Pending",
+    "note": "Note",
+    "group_count": "Group Count",
+    "guest_group": "Guest Group",
+    "table_number": "Table Number",
+    "by_me": "Added by me",
+    "guest": "Guests",
+    "edit_guest": "Edit guest information"
 }
