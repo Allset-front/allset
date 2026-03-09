@@ -21,7 +21,7 @@ import { useParams } from "next/navigation";
 export const Edit = ({ guestId }) => {
   const t = useTranslations();
   const closeButtonRef = useRef(null);
-  
+
   const { id } = useParams();
   const { data } = useGetAuthTanstack(`confirmations/${guestId}`);
 
@@ -32,16 +32,21 @@ export const Edit = ({ guestId }) => {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: [`confirmations/invitation/${id}`],
+          exact: false,
         });
         queryClient.invalidateQueries({
           queryKey: [`confirmations/invitation/${id}/tables`],
         });
         queryClient.invalidateQueries({
+          queryKey: [`confirmations/invitation/${id}/stats`],
+        });
+        queryClient.invalidateQueries({
           queryKey: [`confirmations/${guestId}`],
         });
-        success(" has been changed.");
+        success("Guest list has been changed.");
       },
-      onError: (err) => error(err?.response?.data?.error || " editing error!"),
+      onError: (err) =>
+        error(err?.response?.data?.error || "Guest list editing error!"),
     },
   );
 

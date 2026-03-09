@@ -25,27 +25,33 @@ export const Add = () => {
   const closeButtonRef = useRef(null);
 
   const { id } = useParams();
-  console.log(id);
 
-  const { mutate, isPending } = useMutateAuthTanstack(
-    "confirmations/guest",
-    "post",
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData([`confirmations/invitation/${id}`], data);
-        success("Guest list has been changed.");
-      },
-      onError: (err) => error(err?.response?.data?.error || "Guest list editing error!"),
+  const { mutate } = useMutateAuthTanstack("confirmations/guest", "post", {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`confirmations/invitation/${id}`],
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: [`confirmations/invitation/${id}/tables`],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [`confirmations/invitation/${id}/stats`],
+      });
+      success("Guest list has been changed.");
     },
-  );
+    onError: (err) =>
+      error(err?.response?.data?.error || "Guest list adding error!"),
+  });
 
   const [form, setForm] = useState({
     invitationId: id,
     mainGuest: "",
-    secondaryGuests: [],
-    tableNumber: 0,
+    secondaryGuests: [""],
+    // tableNumber: 0,
     guestSide: "",
-    // createdBy: "GUEST",
+    status: "DECLINED",
+    createdBy: "INVITATION_OWNER",
   });
   // console.log(form);
 
@@ -124,12 +130,12 @@ export const Add = () => {
                   setForm((prev) => ({ ...prev, guestSide: value }))
                 }
               />
-              <Collection
+              {/* <Collection
                 value={form.tableNumber}
                 onChange={(value) =>
                   setForm((prev) => ({ ...prev, tableNumber: value }))
                 }
-              />
+              /> */}
             </Dialog.Body>
             <Dialog.Footer>
               <Button

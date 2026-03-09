@@ -33,7 +33,7 @@ export const Info = () => {
         color={"#289600"}
         background={"#26A0361C"}
         p="8px 27.5px"
-        w="156px"
+        minW="156px"
         borderRadius={"8px"}
       >
         {t("confirmed")}{" "}
@@ -48,7 +48,7 @@ export const Info = () => {
         color={"#CF2B2B"}
         background={"#FF552E1C"}
         p="8px 27.5px"
-        w="156px"
+        minW="156px"
         borderRadius={"8px"}
       >
         {t("declined")}{" "}
@@ -63,7 +63,7 @@ export const Info = () => {
         color={"#4B5563"}
         background={"#FFFFFF"}
         p="8px 27.5px"
-        w="156px"
+        minW="156px"
         borderRadius={"8px"}
       >
         {t("total")}{" "}
