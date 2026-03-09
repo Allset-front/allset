@@ -34,7 +34,7 @@ export default function Layout({ children }) {
     >
       <Container maxW="1360px" px={0}>
         <Head text={getAuthTitle(pathname)} />
-        <Separator colorPalette="blue" pb={"32px"}/>
+        <Separator colorPalette="blue" pb={"16px"}/>
         {children}
       </Container>
     </Box>

@@ -9,11 +9,7 @@ export const Head = ({ text }) => {
   const t = useTranslations();
 
   return (
-    <Flex
-    align={"center"}
-      justify={"space-between"}
-      pb={"21px"}
-    >
+    <Flex align={"center"} justify={"space-between"} pb={"16px"}>
       <Heading
         as="h2"
         fontSize="28px"

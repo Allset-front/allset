@@ -148,3 +148,29 @@ export function getAuthTitle(pathname) {
     return "invitations"
   } else return "guests"
 }
+
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
+export async function downloadTableList(printRef) {
+  const element = printRef.current;
+
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "px",
+    format: "a4",
+  });
+
+  const imgWidth = pdf.internal.pageSize.getWidth();
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  pdf.save("table-list.pdf");
+}

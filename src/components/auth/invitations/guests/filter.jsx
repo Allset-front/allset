@@ -35,8 +35,6 @@ export const Filter = () => {
     "get",
     {
       onSuccess: (data) => {
-        console.log(data);
-
         // queryClient.invalidateQueries({ queryKey: [`confirmations/invitation/${id}`] });
         queryClient.setQueryData([`confirmations/invitation/${id}`], data);
       },

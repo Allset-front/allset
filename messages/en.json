@@ -57,8 +57,8 @@
     "add_variant": "Add my variant",
     "add": "Add",
     "edit": "Edit",
-    "save":"Save",
-    "filter":"Filter",
+    "save": "Save",
+    "filter": "Filter",
     "delete": "Delete",
     "time": "Time",
     "location": "URL Location",
@@ -175,6 +175,10 @@
     "guest": "Guests",
     "edit_guest": "Edit guest information",
     "add_guest": "Add guest",
-    "groom":"Groom",
-    "bride":"Bride"
+    "groom": "Groom",
+    "bride": "Bride",
+    "table_list": "Table List",
+    "download_guest_list": "Download guest list",
+    "download_table_list": "Download table list",
+    "unassigned":"unassigned"
 }
