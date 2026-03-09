@@ -166,6 +166,7 @@
     "status": "Status",
     "confirmed": "Confirmed",
     "declined": "Not Coming",
+    "total": "Total guests",
     "pending": "Pending",
     "note": "Note",
     "group_count": "Group Count",
@@ -180,5 +181,5 @@
     "table_list": "Table List",
     "download_guest_list": "Download guest list",
     "download_table_list": "Download table list",
-    "unassigned":"unassigned"
+    "unassigned": "unassigned"
 }

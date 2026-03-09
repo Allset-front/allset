@@ -2,7 +2,16 @@
 
 import React, { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Dialog, Portal, IconButton, Flex, Text } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
+import { useGetAuthTanstack } from "@/hooks/useTanstack";
+import {
+  Dialog,
+  Portal,
+  IconButton,
+  Flex,
+  Text,
+  Skeleton,
+} from "@chakra-ui/react";
 import { downloadTable, table } from "@/assets/svgs";
 import { downloadTableList } from "@/utils/helpers";
 
@@ -10,10 +19,20 @@ export const TableList = () => {
   const t = useTranslations();
   const printRef = useRef();
 
+  const { id } = useParams();
+  const { isLoading, data } = useGetAuthTanstack(
+    `confirmations/invitation/${id}/tables`,
+  );
+  console.log(data);
+
+  if (isLoading) {
+    return <Skeleton w="103px" h="44px" />;
+  }
+
   return (
     <Dialog.Root placement="center" motionPreset="slide-in-bottom" size="lg">
       <Dialog.Trigger asChild onClick={(e) => e.stopPropagation()}>
-        <IconButton px="3px" color={"#0C6DE2"} variant="ghost">
+        <IconButton px="3px" color={"#0C6DE2"} variant="ghost" h="44px">
           {table.icon} {t("table_list")}
         </IconButton>
       </Dialog.Trigger>
@@ -31,7 +50,7 @@ export const TableList = () => {
                 <Flex>
                   {t("table_list")}
                   <Text fontSize={"16px"} fontWeight={500} color={"#B0B0B0"}>
-                    (X {t("unassigned")})
+                    ({data?.unassignedCount} {t("unassigned")})
                   </Text>
                 </Flex>
 

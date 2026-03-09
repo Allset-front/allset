@@ -23,22 +23,29 @@ import { plus } from "@/assets/svgs";
 export const Add = () => {
   const t = useTranslations();
   const closeButtonRef = useRef(null);
+
   const { id } = useParams();
   console.log(id);
 
-  const { mutate, isPending } = useMutateAuthTanstack("", "", {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [""] });
-      success(" has been changed.");
+  const { mutate, isPending } = useMutateAuthTanstack(
+    "confirmations/guest",
+    "post",
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData([`confirmations/invitation/${id}`], data);
+        success("Guest list has been changed.");
+      },
+      onError: (err) => error(err?.response?.data?.error || "Guest list editing error!"),
     },
-    onError: (err) => error(err?.response?.data?.error || " editing error!"),
-  });
+  );
 
   const [form, setForm] = useState({
+    invitationId: id,
     mainGuest: "",
     secondaryGuests: [],
     tableNumber: 0,
     guestSide: "",
+    // createdBy: "GUEST",
   });
   console.log(form);
 

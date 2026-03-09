@@ -21,6 +21,7 @@ export const Head = () => {
 
         <IconButton
           px="3px"
+          h="44px"
           color={"#004143"}
           variant="ghost"
           onClick={handleDownload}

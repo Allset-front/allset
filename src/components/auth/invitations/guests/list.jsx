@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { useGetAuthTanstack } from "@/hooks/useTanstack";
 import { isNotEmptyArray } from "@/utils/checkers";
 import { format } from "date-fns";
 import {
@@ -18,9 +20,14 @@ import { guestsTableHeader } from "@/utils/constants";
 import { openClose, status, actions, asc } from "@/assets/svgs";
 import { Edit } from "./edit";
 
-export const List = ({ isLoading, data }) => {
+export const List = () => {
   const t = useTranslations();
   const [expandedId, setExpandedId] = useState(null);
+
+  const { id } = useParams();
+  const { isLoading, data } = useGetAuthTanstack(
+    `confirmations/invitation/${id}`,
+  );
 
   const toggleRow = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -29,7 +36,6 @@ export const List = ({ isLoading, data }) => {
   if (isLoading) {
     return <Skeleton w="100%" h="550px" />;
   }
-  console.log(data); //
 
   return (
     isNotEmptyArray(data) && (
