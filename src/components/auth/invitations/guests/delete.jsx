@@ -11,7 +11,7 @@ export const Delete = ({ id, guestId }) => {
   const t = useTranslations();
 
   const { mutate } = useMutateAuthTanstack(
-    `confirmations/guest/${guestId}`,
+    `confirmations/${guestId}`,
     "delete",
     {
       onSuccess: () => {
