@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { useGetAuthTanstack } from "@/hooks/useTanstack";
+import { useGetAuthTanstack, useMutateAuthTanstack } from "@/hooks/useTanstack";
 import { isNotEmptyArray } from "@/utils/checkers";
 import { format } from "date-fns";
 import {
@@ -21,6 +21,9 @@ import { guestsTableHeader } from "@/utils/constants";
 import { openClose, status, actions, asc } from "@/assets/svgs";
 import { Edit } from "./edit";
 import { joinFilters } from "@/utils/formatters";
+import { error } from "@/components/ui/alerts";
+import { queryClient } from "@/providers/queryProvider";
+import { Delete } from "./delete";
 
 export const List = () => {
   const t = useTranslations();
@@ -29,7 +32,7 @@ export const List = () => {
     defaultValue: ["show_all_guests"],
   });
   const { id } = useParams();
-  const { isLoading, data } = useGetAuthTanstack(
+  const { isFetching, data } = useGetAuthTanstack(
     `confirmations/invitation/${id}?filterId=${joinFilters(filters)}`,
   );
 
@@ -37,7 +40,7 @@ export const List = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  if (isLoading) {
+  if (isFetching) {
     return <Skeleton w="100%" h="550px" />;
   }
 
@@ -148,18 +151,10 @@ export const List = () => {
                       <Menu.Positioner>
                         <Menu.Content p="0">
                           <Menu.Item value="edit" p="0">
-                            <Edit guestId={item.id} />
+                            <Edit id={id} guestId={item.id} />
                           </Menu.Item>
                           <Menu.Item value="delete" p="0">
-                            <Button
-                              w="100%"
-                              variant="plain"
-                              outline="none"
-                              _hover={{ bg: "#CF2B2B", color: "#FFFFFF" }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {t("delete")}
-                            </Button>
+                            <Delete id={id} guestId={item.id} />
                           </Menu.Item>
                         </Menu.Content>
                       </Menu.Positioner>

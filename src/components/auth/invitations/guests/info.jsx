@@ -10,11 +10,11 @@ export const Info = () => {
   const t = useTranslations();
 
   const { id } = useParams();
-  const { isLoading, data } = useGetAuthTanstack(
+  const { isFetching, data } = useGetAuthTanstack(
     `confirmations/invitation/${id}/stats`,
   );
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <Flex gap="16px">
         <Skeleton w="156px" h="40px" borderRadius="8px" />

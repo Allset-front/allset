@@ -22,12 +22,11 @@ export const TableList = () => {
   const printRef = useRef();
 
   const { id } = useParams();
-  const { isLoading, data } = useGetAuthTanstack(
+  const { isFetching, data } = useGetAuthTanstack(
     `confirmations/invitation/${id}/tables`,
   );
-  console.log(data);
 
-  if (isLoading) {
+  if (isFetching) {
     return <Skeleton w="103px" h="44px" />;
   }
 

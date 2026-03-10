@@ -16,37 +16,31 @@ import { Input } from "./input";
 import { Radio } from "./radio";
 import { Collection } from "./collection";
 import { error, success } from "@/components/ui/alerts";
-import { useParams } from "next/navigation";
 
-export const Edit = ({ guestId }) => {
+export const Edit = ({ id, guestId }) => {
   const t = useTranslations();
   const closeButtonRef = useRef(null);
 
-  const { id } = useParams();
-  const { data } = useGetAuthTanstack(`confirmations/${guestId}`);
+  const { isLoading, data } = useGetAuthTanstack(`confirmations/${guestId}`);
 
   const { mutate } = useMutateAuthTanstack(
     `confirmations/${guestId}`,
     "patch",
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [`confirmations/invitation/${id}`],
-          exact: false,
-        });
-        queryClient.invalidateQueries({
-          queryKey: [`confirmations/invitation/${id}/tables`],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [`confirmations/invitation/${id}/stats`],
-        });
+        // guest data
         queryClient.invalidateQueries({
           queryKey: [`confirmations/${guestId}`],
         });
-        success("Guest list has been changed.");
+        // invitation by id,tables,stats
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0]?.startsWith(`confirmations/invitation/${id}`),
+        });
+        success("Guest has been changed.");
       },
       onError: (err) =>
-        error(err?.response?.data?.error || "Guest list editing error!"),
+        error(err?.response?.data?.error || "Guest editing error!"),
     },
   );
 
@@ -93,18 +87,19 @@ export const Edit = ({ guestId }) => {
   const handleSave = (e) => {
     e.preventDefault();
     mutate(form);
-    console.log("submit", form);
     if (closeButtonRef.current) closeButtonRef.current.click();
   };
 
   return (
-    <Dialog.Root placement="center" motionPreset="slide-in-bottom" as="form">
+    <Dialog.Root placement="center" motionPreset="slide-in-bottom">
       <Dialog.Trigger asChild onClick={(e) => e.stopPropagation()}>
         <Button
           w="100%"
           variant="plain"
           outline="none"
           _hover={{ bg: "#80A0A133" }}
+          // loading={isLoading}
+          disabled={isLoading}
           onClick={handleOpen}
         >
           {t("edit")}

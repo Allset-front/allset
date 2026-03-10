@@ -29,15 +29,10 @@ export const Add = () => {
 
   const { mutate } = useMutateAuthTanstack("confirmations/guest", "post", {
     onSuccess: () => {
+      // invitation by id,tables,stats
       queryClient.invalidateQueries({
-        queryKey: [`confirmations/invitation/${id}`],
-        exact: false,
-      });
-      queryClient.invalidateQueries({
-        queryKey: [`confirmations/invitation/${id}/tables`],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [`confirmations/invitation/${id}/stats`],
+        predicate: (query) =>
+          query.queryKey[0]?.startsWith(`confirmations/invitation/${id}`),
       });
       success("Guest list has been changed.");
     },
