@@ -202,6 +202,49 @@ export const OAuth = ({ bg, noMenu = false }) => {
     );
   }
 
+  if (!user) {
+    return (
+      <Flex
+        gap="16px"
+        w="fit-content"
+        flexDirection={{ base: "row-reverse", md: "unset" }}
+      >
+        <Button
+          w="60px"
+          variant="ghost"
+          color="#004143"
+          fontWeight="400"
+          lineHeight="24px"
+          loading={isLoading}
+          onClick={loginWithPopup}
+        >
+          {t("login")}
+        </Button>
+
+        <Button
+          w="171px"
+          bg="#004143"
+          color="white"
+          fontWeight="400"
+          lineHeight="24px"
+          border="1px solid"
+          borderColor="white"
+          boxShadow="xl"
+          _hover={{ bg: "white", color: "#004143", borderColor: "#004143" }}
+          transition="all 0.3s ease"
+          loading={isLoading}
+          onClick={() =>
+            loginWithPopup({
+              authorizationParams: { screen_hint: "signup" },
+            })
+          }
+        >
+          {t("signup")}
+        </Button>
+      </Flex>
+    );
+  }
+
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
@@ -214,7 +257,7 @@ export const OAuth = ({ bg, noMenu = false }) => {
                 <Circle size="2" bg="green" />
               </Float>
             </Avatar.Root>
-            Hello, {user?.given_name}
+            {t("hi")}, {user?.given_name}
           </Button>
         ) : (
           <Flex

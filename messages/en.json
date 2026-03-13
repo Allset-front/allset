@@ -1,6 +1,7 @@
 {
     "title": "Wedding Constructor",
     "step": "Step",
+    "hi": "Hello",
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",
