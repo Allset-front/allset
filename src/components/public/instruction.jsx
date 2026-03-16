@@ -3,7 +3,15 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { Stack, Container, Flex, Button, For, Text } from "@chakra-ui/react";
+import {
+  Stack,
+  Container,
+  Flex,
+  Button,
+  For,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Title } from "./typography/title";
 import { SubTitle } from "./typography/subTitle";
 import { instruction } from "@/utils/constants";
@@ -12,8 +20,10 @@ export const Instruction = () => {
   const t = useTranslations();
   const router = useRouter();
 
+  const [wrap] = useMediaQuery("(max-width: 1440px)");
+
   return (
-    <Stack p="36px 0 64px 0">
+    <Stack p={{ base: "80px 0", md: "36px 0 64px 0" }}>
       <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Stack gap="42px" align="center">
           <Stack gap="16px">
@@ -21,13 +31,13 @@ export const Instruction = () => {
             <SubTitle text="create_subtitle" textAlign="center" />
           </Stack>
 
-          <Flex gap="16px">
+          <Flex gap="16px" flexWrap={wrap && "wrap"} justify={"center"}>
             <For each={instruction}>
               {({ id, title, description }) => (
                 <Stack
                   key={id}
                   gap="16px"
-                  w="443px"
+                  w={{ base: "100%", md: "443px" }}
                   p="20px"
                   borderRadius={"5px"}
                   bg="#DEE4E680"
@@ -49,7 +59,7 @@ export const Instruction = () => {
           </Flex>
 
           <Button
-            w="442px"
+            w={{ base: "100%", md: "443px" }}
             h="52px"
             bg={"#004143"}
             color="white"
