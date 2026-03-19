@@ -16,7 +16,7 @@ import { OAuth } from "./oauth";
 import logo from "@/assets/imgs/allset.png";
 import { Language } from "./language";
 import { Navigation } from "./navigation";
-import { Humburger } from "./humburger";
+import { Hamburger } from "./hamburger";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -69,13 +69,13 @@ export const Header = () => {
             <OAuth bg={bg} />
           </Flex>
 
-          <Humburger>
+          <Hamburger bg={bg}>
             <Stack gap="20px">
               <Navigation direction={"column"} />
               <OAuth bg={bg} noMenu={true} />
               <Language bg={bg} noMenu={true} />
             </Stack>
-          </Humburger>
+          </Hamburger>
         </Flex>
       </Container>
     </Box>

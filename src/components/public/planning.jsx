@@ -81,7 +81,7 @@ export const Planning = () => {
 
           <Stack gap="27px" pt={"30px"}>
             <Stack gap="16px" align={"center"}>
-              <Title text="plan_title_two" />
+              <Title text="plan_title_two" textAlign={"center"} />
               <Description text="plan_desc_two" />
             </Stack>
 
@@ -100,7 +100,7 @@ export const Planning = () => {
             />
             <Description
               text="plan_desc_three"
-              width={"690px"}
+              width={{ base: "fit-content", md: "690px" }}
               textAlign={{ base: "center", md: "start" }}
             />
           </Flex>

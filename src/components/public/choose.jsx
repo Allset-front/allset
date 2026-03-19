@@ -81,7 +81,7 @@ export const Choose = () => {
                         lineHeight={"24px"}
                         fontWeight={300}
                         color={"#D9D9D9"}
-                        pl={"43px"}
+                        pl={{ base: 0, md: "43px" }}
                         textAlign={{ base: "center", md: "unset" }}
                       >
                         {t(description)}
