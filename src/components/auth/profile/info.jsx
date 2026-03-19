@@ -41,12 +41,12 @@ export const Info = ({ isLoading, data }) => {
   const val = (key) => edited[key] ?? data?.[key] ?? "";
 
   return (
-    <Stack borderRadius="8px" bg="white" p="24px" gap="16px">
+    <Stack borderRadius="8px" bg="white" p="24px" gap="16px" w="100%" >
       <Text fontSize={"16px"} color={"#4B5563"} fontWeight={"500"}>
         {t("my_info")}
       </Text>
 
-      <Field.Root>
+      <Field.Root >
         <Field.Label fontSize="12px" color="#6B7280">
           {t("full_name")}
         </Field.Label>
@@ -57,7 +57,7 @@ export const Info = ({ isLoading, data }) => {
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
-          w="624px"
+          maxW={{ base: "100%", md: "624px" }}
           h="52px"
           placeholder="Name Surname"
         />
@@ -73,7 +73,7 @@ export const Info = ({ isLoading, data }) => {
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
-          w="624px"
+          maxW={{ base: "100%", md: "624px" }}
           h="52px"
           placeholder="+374 XX XXXXXX"
         />
@@ -89,7 +89,7 @@ export const Info = ({ isLoading, data }) => {
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
-          w="624px"
+          maxW={{ base: "100%", md: "624px" }}
           h="52px"
         />
       </Field.Root>
@@ -104,7 +104,7 @@ export const Info = ({ isLoading, data }) => {
           variant="subtle"
           borderRadius={"4px"}
           bg="#F9FAFB"
-          w="624px"
+          maxW={{ base: "100%", md: "624px" }}
           h="52px"
           placeholder="DD/MM/YYYY"
         />

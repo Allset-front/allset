@@ -15,12 +15,12 @@ export const ProfileClient = () => {
   return (
     <Stack gap="16px">
       <Me isLoading={isLoading} data={data} />
-      <Flex w="100%" gap="16px" justify={"space-between"}>
+      <Flex w="100%" gap="16px" flexDirection={{ base: "column", md: "row" }}>
         <Info isLoading={isLoading} data={data} />
         <Stack w="100%" gap="16px">
-          <Promocode code={data?.appliedPromoCodes}/>
+          <Promocode code={data?.appliedPromoCodes} />
           <Opt />
-          <Referal code={data?.referralCode}/>
+          <Referal code={data?.referralCode} />
         </Stack>
       </Flex>
     </Stack>
