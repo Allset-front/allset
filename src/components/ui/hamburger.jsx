@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IconButton,
   CloseButton,
@@ -12,9 +12,16 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { burger } from "@/assets/svgs";
+import { usePathname } from "@/i18n/routing";
 
 export const Hamburger = ({ bg, children }) => {
+  const pathname = usePathname();
+
   const { open, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    open && onClose();
+  }, [pathname]);
 
   return (
     <Drawer.Root
@@ -37,10 +44,6 @@ export const Hamburger = ({ bg, children }) => {
         <Drawer.Positioner top="90px">
           <DrawerContent bg={bg}>
             <DrawerHeader />
-            {/* <Drawer.CloseTrigger asChild>
-                <CloseButton size="md" />
-              </Drawer.CloseTrigger> */}
-            {/* </DrawerHeader> */}
             <DrawerBody>{children}</DrawerBody>
           </DrawerContent>
         </Drawer.Positioner>
