@@ -14,8 +14,10 @@ export const ScrollToTop = () => {
     <Button
       onClick={() => scrollToTopWithDuration(1000)}
       position="fixed"
-      right={{ base: "33px", md: "10px" }}
-      bottom={{ base: "99px", md: "70px" }}
+      // right={{ base: "33px", md: "10px" }}
+      // bottom={{ base: "99px", md: "70px" }}
+      right={"10px"}
+      bottom={"70px"}
       zIndex="101"
       bg="#004143"
       border="1px solid"

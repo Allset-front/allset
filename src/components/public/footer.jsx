@@ -29,16 +29,21 @@ export const Footer = () => {
     <Box bg="#FFFFFF">
       <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         {/* <Box> */}
-        <Flex py={"29px"} justify={"space-between"} align={"center"}>
-          <Stack gap={"24px"}>
+        <Flex
+          py={{ base: "32px", sm: "29px" }}
+          gap="64px"
+          flexDirection={{ base: "column", lg: "row" }}
+        >
+          <Stack gap={"24px"} align={{ base: "center", sm: "unset" }}>
             <ChakraLink as={Link} href="/" gap="12px" w="fit-content">
               <Image src={logo.src} w="94px" h="58px" alt="AllSet" />
             </ChakraLink>
             <Text
-              w="525px"
+              w={{ base: "fit-content", lg: "525px" }}
               fontSize={"14px"}
               fontWeight={"300"}
               color={"#4B5563"}
+              textAlign={{ base: "center", sm: "unset" }}
             >
               {t("footer_about")}
             </Text>
@@ -53,8 +58,12 @@ export const Footer = () => {
             </Flex>
           </Stack>
 
-          <Flex gap={"56px"}>
-            <Stack gap={"12px"}>
+          <Flex
+            gap={{ base: "24px", md: "56px" }}
+            align={"center"}
+            flexDirection={{ base: "column", sm: "row" }}
+          >
+            <Stack gap={"12px"} align={{ base: "center", sm: "unset" }}>
               <For each={mainPages}>
                 {({ name, path }) => {
                   const isActive = pathname === `/${path}`;
@@ -76,7 +85,7 @@ export const Footer = () => {
                 }}
               </For>
             </Stack>
-            <Stack gap={"12px"}>
+            <Stack gap={"12px"} align={{ base: "center", sm: "unset" }}>
               <For each={socialPages}>
                 {({ name, path }) => {
                   const isActive = pathname === `/${path}`;
@@ -100,13 +109,14 @@ export const Footer = () => {
             </Stack>
           </Flex>
         </Flex>
-        <Separator />
+        <Separator display={{ base: "none", sm: "block" }} />
         <Text
-          pt="10px"
+          // pt="10px"
           fontSize={"14px"}
           fontWeight={"300"}
           color={"#4B5563"}
-          pb="16px"
+          py={{ base: "32px", sm: "16px" }}
+          textAlign={{ base: "center", sm: "unset" }}
         >
           © {getCurrentYear()} AllSet All rights reserved
         </Text>
