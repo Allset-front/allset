@@ -36,17 +36,25 @@ export const Info = ({ isLoading, data }) => {
   };
 
   if (isLoading || isPending)
-    return <Skeleton w="672px" h="448px" borderRadius={"8px"} />;
+    return (
+      <Stack w="100%">
+        <Skeleton
+          w="100%"
+          h="448px"
+          borderRadius="8px"
+        />
+      </Stack>
+    );
 
   const val = (key) => edited[key] ?? data?.[key] ?? "";
 
   return (
-    <Stack borderRadius="8px" bg="white" p="24px" gap="16px" w="100%" >
+    <Stack borderRadius="8px" bg="white" p="24px" gap="16px" w="100%">
       <Text fontSize={"16px"} color={"#4B5563"} fontWeight={"500"}>
         {t("my_info")}
       </Text>
 
-      <Field.Root >
+      <Field.Root>
         <Field.Label fontSize="12px" color="#6B7280">
           {t("full_name")}
         </Field.Label>

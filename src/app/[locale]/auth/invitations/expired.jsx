@@ -11,7 +11,11 @@ export default function Expired({ isLoading, data }) {
   }
 
   return isNotEmptyArray(data) ? (
-    <Flex justify={"space-between"} gap="44px" flexWrap={"wrap"}>
+    <Flex
+      gap={{ base: "22px", md: "44px" }}
+      flexWrap={"wrap"}
+      justify={{ base: "center", md: "unset" }}
+    >
       <For each={data}>{(el, index) => <></>}</For>
     </Flex>
   ) : (

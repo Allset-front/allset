@@ -9,10 +9,10 @@ import {
   Image,
   Flex,
   SkeletonCircle,
-  SkeletonText,
+  // SkeletonText,
+  Skeleton,
 } from "@chakra-ui/react";
 import premium from "@/assets/imgs/premium.png";
-// import noImg from "@/assets/imgs/no_img.png";
 
 export const Me = ({ isLoading, data }) => {
   return (
@@ -28,12 +28,15 @@ export const Me = ({ isLoading, data }) => {
         <Avatar.Root w="124px" h="124px">
           <Avatar.Fallback name={data?.name} />
           <Avatar.Image src={data?.picture} />
-          {/* <Avatar.Image src={noImg.src} /> */}
         </Avatar.Root>
       )}
 
       {isLoading ? (
-        <SkeletonText w="200px" height="7" noOfLines={3} />
+        // <SkeletonText w="200px" height="7" noOfLines={2} />
+        <Stack gap="6px" alignItems="center">
+          <Skeleton h="26px" w="200px" />
+          <Skeleton h="26px" w="200px" />
+        </Stack>
       ) : (
         <Stack gap="4px" alignItems={{ base: "center", md: "unset" }}>
           <Text fontSize={"20px"} color={"#4B5563"} fontWeight="500">

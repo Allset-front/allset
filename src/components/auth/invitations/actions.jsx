@@ -3,7 +3,16 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { Flex, InputGroup, Input, Icon } from "@chakra-ui/react";
+import {
+  Flex,
+  InputGroup,
+  Input,
+  Icon,
+  useMediaQuery,
+  IconButton,
+  Menu,
+  Portal,
+} from "@chakra-ui/react";
 import { plus, search } from "@/assets/svgs";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Add } from "./guests/add";
@@ -14,22 +23,52 @@ export const Actions = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
+
   if (!pathname?.includes("invitations")) return;
 
   return (
     <Flex gap="21px" align={"center"}>
       {pathname?.includes("guests") && <Filter />}
-      <InputGroup startElement={<Icon>{search.icon}</Icon>}>
-        <Input
-          w="326px"
-          h="44px"
-          border={"1px solid"}
-          borderColor={"#C7D5D6"}
-          borderRadius={"34px"}
-          bg="#FFFFFF"
-          placeholder={t("search")}
-        />
-      </InputGroup>
+      {isMobile ? (
+        <Menu.Root positioning={{ placement: "left-start" }}>
+          <Menu.Trigger asChild>
+            <IconButton size={"lg"} variant={"ghost"}>
+              {search.icon}
+            </IconButton>
+          </Menu.Trigger>
+          <Portal>
+            <Menu.Positioner>
+              <Menu.Content background="none" boxShadow="none" p="0">
+                <Input
+                  w={{ base: "100%", sm: "326px" }}
+                  h="44px"
+                  border={"1px solid"}
+                  borderColor={"#C7D5D6"}
+                  borderRadius={"34px"}
+                  bg="#FFFFFF"
+                  placeholder={t("search")}
+                  _focus={{
+                    outline: "none",
+                  }}
+                />
+              </Menu.Content>
+            </Menu.Positioner>
+          </Portal>
+        </Menu.Root>
+      ) : (
+        <InputGroup startElement={<Icon>{search.icon}</Icon>}>
+          <Input
+            w="326px"
+            h="44px"
+            border={"1px solid"}
+            borderColor={"#C7D5D6"}
+            borderRadius={"34px"}
+            bg="#FFFFFF"
+            placeholder={t("search")}
+          />
+        </InputGroup>
+      )}
 
       {pathname?.includes("guests") ? (
         <Add />

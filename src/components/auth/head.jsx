@@ -12,7 +12,7 @@ export const Head = ({ text }) => {
     <Flex align={"center"} justify={"space-between"} pb={"16px"}>
       <Heading
         as="h2"
-        fontSize="28px"
+        fontSize={{ base: "20px", md: "28px" }}
         fontWeight="500"
         color={"#4B5563"}
         w="100%"

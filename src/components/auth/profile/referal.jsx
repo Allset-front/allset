@@ -54,15 +54,19 @@ export const Referal = ({ code }) => {
       bgRepeat="no-repeat"
       bgPos={"right"}
       borderRadius={"20px"}
-      //   bg={"white"}
-      p="16px 24px"
-      justifyContent={"space-between"}
+      p={{ base: "26px 35px", md: "16px 24px" }}
+      gap={{ base: "15px", md: "11px" }}
     >
       <Heading size="lg" color={"white"}>
         {t("referral")}
       </Heading>
 
-      <Text fontSize={"14px"} color={"white"} w="50%">
+      <Text
+        fontSize={"14px"}
+        color={"white"}
+        w={{ base: "90%", md: "70%" }}
+        // lineClamp={{ base: 3, xl: 2 }}
+      >
         {t("referral_text")}
       </Text>
 
@@ -70,11 +74,15 @@ export const Referal = ({ code }) => {
         gap={"15px"}
         fontWeight="500"
         fontSize={"12px"}
-        bg="#004143"
+        bg="#375057"
         w="163px"
         h="40px"
         borderRadius={"20px"}
+        transition="all 0.3s ease"
         onClick={handleCopy}
+        _hover={{
+          bg: "#004143",
+        }}
       >
         <Icon>{share.icon}</Icon>
         {t("copy")}

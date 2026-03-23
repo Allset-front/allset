@@ -43,8 +43,13 @@ export default function Invitations() {
                 w="100%"
                 bg="#F9FAFB"
                 borderRadius="12px"
+                color="#4B5563"
+                fontWeight="400"
+                lineHeight="24px"
                 _selected={{
                   bg: "#0041431A",
+                  color: "#004143",
+                  fontWeight: "500",
                 }}
               >
                 {t(name)}
@@ -54,7 +59,7 @@ export default function Invitations() {
         </For>
       </Flex>
 
-      <Stack h="100vh">
+      <Stack minH="100vh">
         <Tabs.Content value="active">
           <Active isLoading={isLoading} data={data} />
         </Tabs.Content>
