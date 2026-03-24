@@ -92,9 +92,9 @@ export const Payment = () => {
             color={"#004143"}
             fontWeight={"600"}
             target="_blank"
-            href={`/policies/terms-of-service`}
+            href={`/policies/terms-conditions`}
           >
-            {t("terms_of_service")}
+            {t("terms_conditions")}
           </ChakraLink>{" "}
           {t("and")}
           <ChakraLink

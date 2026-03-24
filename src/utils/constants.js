@@ -65,7 +65,7 @@ export const mainPages = [
 
 export const socialPages = [
   { name: "privacy_policy", path: "policies/privacy-policy" },
-  { name: "terms_of_service", path: "policies/terms-of-service" },
+  { name: "terms_conditions", path: "policies/terms-conditions" },
   // { name: "guides", path: "guides" },
   // { name: "blog", path: "blog" },
 ]
