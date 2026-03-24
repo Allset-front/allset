@@ -91,7 +91,8 @@ export const Payment = () => {
             as={Link}
             color={"#004143"}
             fontWeight={"600"}
-            href={`/legal/terms-of-service`}
+            target="_blank"
+            href={`/policies/terms-of-service`}
           >
             {t("terms_of_service")}
           </ChakraLink>{" "}
@@ -100,7 +101,8 @@ export const Payment = () => {
             as={Link}
             color={"#004143"}
             fontWeight={"600"}
-            href={`/legal/privacy-policy`}
+            target="_blank"
+            href={`/policies/privacy-policy`}
           >
             {t("privacy_policy")}
           </ChakraLink>{" "}

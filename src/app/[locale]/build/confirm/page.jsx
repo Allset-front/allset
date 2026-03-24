@@ -1,11 +1,10 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { meta } from "@/lib/meta";
 import { ConfirmClient } from "./client";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata() {
   const t = await getTranslations();
-  const { locale } = params;
-
+  const locale = await getLocale();
   const title = t("confirm_title");
   const description = t("confirm_text");
 

@@ -9,7 +9,7 @@ export const PolicyClient = () => {
 
   return (
     <Box bg="#f6f6f7" py={{ base: "40px", md: "60px" }}>
-      <Container maxW="900px" px={{ base: "24px", md: "40px" }}>
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Stack spacing="32px">
           {/* Header */}
           <Stack spacing="8px">

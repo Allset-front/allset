@@ -82,6 +82,10 @@ export const Add = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
+
+    if (!form.mainGuest) return error(t("add_guest"));
+    if (!form.guestSide) return error(t("invitor"));
+
     mutate(form);
   };
 

@@ -11,11 +11,13 @@ import {
   For,
   Portal,
   Stack,
+  HStack,
 } from "@chakra-ui/react";
 import { Input } from "./input";
 import { Radio } from "./radio";
 import { Collection } from "./collection";
 import { error, success } from "@/components/ui/alerts";
+import { add, remove } from "@/assets/svgs";
 
 export const Edit = ({ id, guestId }) => {
   const t = useTranslations();
@@ -84,8 +86,26 @@ export const Edit = ({ id, guestId }) => {
     });
   };
 
+  const addSecondaryGuest = () => {
+    setForm((prev) => ({
+      ...prev,
+      secondaryGuests: [...prev.secondaryGuests, ""],
+    }));
+  };
+
+  const removeSecondaryGuest = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      secondaryGuests: prev.secondaryGuests.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
+
+    if (!form.mainGuest) return error(t("add_guest"));
+    if (!form.guestSide) return error(t("invitor"));
+
     mutate(form);
   };
 
@@ -118,7 +138,7 @@ export const Edit = ({ id, guestId }) => {
                 value={form.mainGuest}
                 onChange={handleChange}
               />
-              <For each={form.secondaryGuests}>
+              {/* <For each={form.secondaryGuests}>
                 {(el, idx) => (
                   <Input
                     key={idx}
@@ -129,7 +149,38 @@ export const Edit = ({ id, guestId }) => {
                     }
                   />
                 )}
+              </For> */}
+              <For each={form.secondaryGuests}>
+                {(el, idx) => (
+                  <HStack key={idx} align="flex-end">
+                    <Input
+                      label="accompanying_name"
+                      value={el}
+                      onChange={(e) =>
+                        handleSecondaryGuestChange(idx, e.target.value)
+                      }
+                    />
+
+                    {form?.secondaryGuests?.length > 1 && (
+                      <Button
+                        h="44px"
+                        variant="ghost"
+                        onClick={() => removeSecondaryGuest(idx)}
+                      >
+                        {remove.icon}
+                      </Button>
+                    )}
+                  </HStack>
+                )}
               </For>
+
+              <Button
+                w="fit-content"
+                variant="ghost"
+                onClick={addSecondaryGuest}
+              >
+                {t("add_guest")} {add.icon}
+              </Button>
               <Radio
                 value={form.guestSide}
                 onChange={(value) =>

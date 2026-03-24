@@ -11,7 +11,7 @@ export function meta({ title, description, locale }) {
             title: fullTitle,
             description,
             type: "website",
-            url: `${BASE_URL}/${locale}`,
+            url: `${BASE_URL}${locale}`,
             images: [
                 {
                     url: `${BASE_URL}${logo.src}`,
@@ -28,15 +28,15 @@ export function meta({ title, description, locale }) {
         authors: [
             {
                 name: "Allset.am",
-                url: `${BASE_URL}/${locale}`,
+                url: `${BASE_URL}${locale}`,
             },
         ],
         alternates: {
-            canonical: `${BASE_URL}/${locale}`,
+            canonical: `${BASE_URL}${locale}`,
             languages: {
-                "am-AM": `${BASE_URL}/hy`,
-                "en-GB": `${BASE_URL}/en`,
-                "ru-RU": `${BASE_URL}/ru`,
+                "am-AM": `${BASE_URL}hy`,
+                "en-GB": `${BASE_URL}en`,
+                "ru-RU": `${BASE_URL}ru`,
             },
         },
     };
