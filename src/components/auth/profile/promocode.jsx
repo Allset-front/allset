@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { useMutateAuthTanstack } from "../../../hooks/useTanstack";
 import {
   Button,
@@ -24,14 +24,17 @@ export const Promocode = ({ code }) => {
   const t = useTranslations();
   const maxPromocode = getMaxDiscountPromocode(code)?.code;
 
-  const [promocode, setPromocode] = useState(maxPromocode ?? "");
+  const [promocode, setPromocode] = useState("");
   const [data, setData] = useState({
     discount: "",
     basePrice: "",
     discountAmount: "",
     finalPrice: "",
   });
-  console.log(data);
+
+  useEffect(() => {
+    maxPromocode && setPromocode(maxPromocode);
+  }, [maxPromocode]);
 
   // const { mutate, isPending } = useMutateAuthTanstack("promocode", "post", {
   const { mutate, isPending } = useMutateAuthTanstack(
@@ -65,7 +68,7 @@ export const Promocode = ({ code }) => {
         discountAmount: "",
         finalPrice: "",
       });
-      
+
     mutate({ code: promocode });
   };
 
@@ -117,7 +120,7 @@ export const Promocode = ({ code }) => {
             fontWeight="400"
             lineHeight="24px"
             bg="#004143"
-            w="137px"
+            w={{ base: "fit-content", md: "137px" }}
             h="52px"
             border="1px solid"
             borderColor="white"

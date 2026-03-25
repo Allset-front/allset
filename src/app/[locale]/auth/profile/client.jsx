@@ -11,6 +11,7 @@ import { Opt } from "@/components/auth/profile/opt";
 
 export const ProfileClient = () => {
   const { isLoading, data } = useGetAuthTanstack("user");
+  // TODO: if !referralCode dont show Referal
 
   return (
     <Stack gap="16px">

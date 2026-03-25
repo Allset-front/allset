@@ -5,7 +5,6 @@ import { useGetTanstack } from "@/hooks/useTanstack";
 import { useQueryState } from "nuqs";
 import { useRouter } from "@/i18n/routing";
 import {
-  Box,
   Flex,
   For,
   Image,
@@ -23,7 +22,6 @@ export const PlanningSlide = () => {
 
   const { isLoading, data } = useGetTanstack("templates");
   const [_, setTemplate] = useQueryState("template");
-
   const [isLaptop] = useMediaQuery("(max-width: 992px)");
 
   const handleSelect = (id) => {

@@ -2,39 +2,14 @@
 
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { isMobile } from "react-device-detect";
 import bg from "@/assets/imgs/referal_bg.png";
 import { Button, Heading, Icon, Stack, Text } from "@chakra-ui/react";
+import { distribute } from "@/services/distribution";
 import { share } from "@/assets/svgs";
-import { BASE_URL } from "@/lib/api/config";
-import { success, error } from "@/components/ui/alerts";
 
 export const Referal = ({ code }) => {
   const t = useTranslations();
   const language = useLocale();
-
-  const url = BASE_URL + `${language}/connection?referral=${code}`;
-
-  const handleCopy = async () => {
-    if (isMobile && navigator.share) {
-      try {
-        await navigator.share({
-          title: "Share Allset Referral url.",
-          //   text: `Your Referral code: ${code}`,
-          url,
-        });
-      } catch (err) {
-        error("Native share failed:", err);
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(url);
-        success("Referral url copied to clipboard.");
-      } catch (err) {
-        error("Failed to copy:", err);
-      }
-    }
-  };
 
   return (
     <Stack
@@ -79,7 +54,7 @@ export const Referal = ({ code }) => {
         h="40px"
         borderRadius={"20px"}
         transition="all 0.3s ease"
-        onClick={handleCopy}
+        onClick={() => distribute({ language, code })}
         _hover={{
           bg: "#004143",
         }}
