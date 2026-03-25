@@ -21,9 +21,13 @@ export const BottomPart = () => {
       // zIndex="10"
     >
       <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
-        <Flex justify="space-between">
+        <Flex
+          gap="24px"
+          justify="space-between"
+          flexDirection={{ base: "column-reverse", md: "row" }}
+        >
           <Steps />
-          <Flex gap={"8px"}>
+          <Flex>
             <GoBack />
             <Continue />
           </Flex>

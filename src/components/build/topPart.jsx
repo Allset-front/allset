@@ -14,7 +14,7 @@ export const TopPart = () => {
   if (!content) return;
 
   return (
-    <Center pt="48px">
+    <Center pt={{ base: "32px", md: "48px" }}>
       <Stack gap="16px" align={"center"}>
         {/* <Image w="64px" h="64px" src={content?.img?.src} objectFit={"contain"}/> */}
         <Title text={content?.title} />

@@ -22,8 +22,8 @@ export default function Layout({ children }) {
     >
       <TopPart />
       <Container
-        maxW="1360px"
-        px={0}
+        maxW="1440px"
+        px={{ base: "24px", md: "40px" }}
         // for fixed bottom part
         // pb="80px"
       >

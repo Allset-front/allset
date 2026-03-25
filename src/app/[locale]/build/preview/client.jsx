@@ -1,11 +1,13 @@
 "use client";
 
-import { Box } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 
 export const PreviewClient = () => {
   return (
-      <Box maxW="1360px" px={0}>
+    <Box>
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         preview
-      </Box>
+      </Container>
+    </Box>
   );
 };

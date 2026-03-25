@@ -40,7 +40,7 @@ export const Continue = () => {
       fontWeight="400"
       lineHeight="24px"
       bg="#004143"
-      w="137px"
+      w={{ base: "100%", md: "137px" }}
       h="52px"
       border="1px solid"
       borderColor="white"
@@ -69,7 +69,7 @@ export const Continue = () => {
       fontWeight="400"
       lineHeight="24px"
       bg="#004143"
-      w="137px"
+      w={{ base: "100%", md: "137px" }}
       h="52px"
       border="1px solid"
       borderColor="white"
@@ -96,7 +96,7 @@ export const Continue = () => {
       fontWeight="400"
       lineHeight="24px"
       bg="#004143"
-      w="137px"
+      w={{ base: "100%", md: "137px" }}
       h="52px"
       border="1px solid"
       borderColor="white"
