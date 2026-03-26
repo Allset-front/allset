@@ -58,6 +58,12 @@ select:-webkit-autofill:focus {
   padding-top: 64px !important;
 }
 
+@media (max-width: 768px) {
+  .swiper-pagination {
+    padding-top: 20px !important;
+  }
+}
+
 .swiper-pagination-bullet {
   background: #d9d9d9 !important;
   width: 12px !important;

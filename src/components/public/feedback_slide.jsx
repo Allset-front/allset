@@ -23,7 +23,7 @@ export const FeedbackSlide = ({ feedbacks }) => {
   const t = useTranslations();
   const language = useLocale();
 
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
   const [isLaptop] = useMediaQuery("(max-width: 992px)");
   const [swiper, setSwiper] = useState(null);
   const [showPrevArrow, setShowPrevArrow] = useState(false);

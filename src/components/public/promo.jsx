@@ -17,7 +17,7 @@ import img from "@/assets/imgs/special_img.png";
 
 export const Promo = ({ promo }) => {
   const language = useLocale();
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   const content = (
     <Flex

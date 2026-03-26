@@ -1,8 +1,8 @@
 "use client";
 
-import { Center, Stack, Image } from "@chakra-ui/react";
 import { usePathname } from "@/i18n/routing";
 import { contentMap } from "../../utils/constants";
+import { Center, Stack } from "@chakra-ui/react";
 import { Title } from "@/components/build/typography/title";
 import { SubTitle } from "@/components/build/typography/subTitle";
 

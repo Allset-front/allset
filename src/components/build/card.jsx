@@ -40,7 +40,7 @@ export const Card = ({ el }) => {
 
   const [template, setTemplate] = useQueryState("template");
   const [_, setPalette] = useQueryState("palette");
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   const isSelected = template == id;
 
@@ -136,7 +136,7 @@ export const Card = ({ el }) => {
         fs="14px"
         color={isSelected && "#004143"}
         text={description[language]}
-        lineClamp={5}
+        lineClamp={4}
       />
 
       <VStack gap="16px">

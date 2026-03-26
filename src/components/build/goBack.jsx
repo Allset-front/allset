@@ -23,7 +23,7 @@ export const GoBack = () => {
       color="#4B5563"
       border={"1px solid"}
       borderColor={"#4B5563"}
-      w="137px"
+      w={{ base: "100%", md: "137px" }}
       h="52px"
     >
       {/* <Icon>{back.icon}</Icon> */}

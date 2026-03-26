@@ -16,7 +16,7 @@ import img from "@/assets/imgs/story_bg.png";
 import imgMobile from "@/assets/imgs/story_bg_mobile.png";
 
 export const Story = () => {
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   return (
     <Stack p={{ base: "50px 0 64px 0", md: "50px 0 100px 0" }} bg="#f6f6f7">

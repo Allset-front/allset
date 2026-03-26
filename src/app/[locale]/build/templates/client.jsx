@@ -14,7 +14,7 @@ export const TemplatesClient = () => {
   const { isLoading, data } = useGetTanstack("templates");
 
   const [isLaptop] = useMediaQuery("(max-width: 1280px)");
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   if (isLoading) {
     const skeletons = Array.from({ length: 3 });
@@ -32,23 +32,22 @@ export const TemplatesClient = () => {
 
   return (
     <Animate>
-      <Box pt="48px" pb="22px">
-
-      <Swiper
-        slidesPerView={isMobile ? 1 : isLaptop ? 2 : 3}
-        spaceBetween={isMobile ? 8 : 32}
-        speed={500}
-        loop={true}
-        pagination={true}
-        modules={[Pagination]}
+      <Box pt={{ base: "32px", md: "48px" }} pb="22px">
+        <Swiper
+          slidesPerView={isMobile ? 1 : isLaptop ? 2 : 3}
+          spaceBetween={isMobile ? 8 : 32}
+          speed={500}
+          loop={true}
+          pagination={true}
+          modules={[Pagination]}
         >
-        {data?.map((el, index) => (
-          <SwiperSlide key={index}>
-            <Card el={el} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-        </Box>
+          {data?.map((el, index) => (
+            <SwiperSlide key={index}>
+              <Card el={el} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
       {/* <Flex justify="space-between" gap="32px" pt="48px" pb="22px">
         <For each={data}>{(el, index) => <Card key={index} el={el} />}</For>
       </Flex> */}

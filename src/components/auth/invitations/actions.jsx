@@ -23,7 +23,7 @@ export const Actions = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   if (!pathname?.includes("invitations")) return;
 

@@ -10,8 +10,7 @@ export const BottomPart = () => {
     <Box
       w="100%"
       boxShadow="sm"
-      pt="32px"
-      pb="32px"
+      py={{ base: "24px", md: "32px" }}
       bg="white"
       // for fixed bottom part
       // position="fixed"
@@ -27,7 +26,10 @@ export const BottomPart = () => {
           flexDirection={{ base: "column-reverse", md: "row" }}
         >
           <Steps />
-          <Flex>
+          <Flex
+            gap={{ base: "16px", md: "8px" }}
+            flexDirection={{ base: "column-reverse", md: "row" }}
+          >
             <GoBack />
             <Continue />
           </Flex>

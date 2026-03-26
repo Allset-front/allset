@@ -9,7 +9,7 @@ export const SubTitle = ({ text }) => {
   return (
     <Text
       color={"#4B5563"}
-      w={{base:"90%",lg:"672px"}}
+      w={{ base: "90%", lg: "672px" }}
       fontSize={{ base: "14px", md: "16px" }}
       textAlign={"center"}
     >

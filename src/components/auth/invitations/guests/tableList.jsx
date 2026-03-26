@@ -29,7 +29,7 @@ export const TableList = () => {
     `confirmations/invitation/${id}/tables`,
   );
 
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   if (isFetching) {
     return <Skeleton w="103px" h="44px" />;

@@ -23,7 +23,7 @@ import { Animate } from "../ui/animate";
 
 export const Choose = () => {
   const t = useTranslations();
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   return (
     <Stack
