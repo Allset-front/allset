@@ -63,9 +63,10 @@ export const TableList = () => {
 
                 {!isMobile && (
                   <IconButton
-                    w={"224px"}
+                    w={"fit-content"}
                     variant="subtle"
                     borderRadius={"8px"}
+                    px="28px"
                     onClick={() => downloadTableList(printRef)}
                   >
                     {downloadTable.icon} {t("download_table_list")}
