@@ -7,14 +7,19 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+const baseUrl = dev
+    ? process.env.NEXT_PUBLIC_URL_DEV || `http://localhost:${port}`
+    : process.env.NEXT_PUBLIC_URL_RELEASE;
+
 app.prepare().then(() => {
     createServer((req, res) => {
         const parsedUrl = parse(req.url, true)
         handle(req, res, parsedUrl)
     }).listen(port)
 
-    console.log(
-        `> Server listening at http://localhost:${port} as ${dev ? 'development' : process.env.NODE_ENV
-        }`
-    )
+    if (dev) {
+        console.log(`> Server running at ${baseUrl} (development)`);
+    } else {
+        console.log(`> Server started (${process.env.NODE_ENV}) at ${baseUrl}`);
+    }
 })
