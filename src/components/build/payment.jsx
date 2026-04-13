@@ -38,6 +38,10 @@ export const Payment = () => {
           <Label text="payment_method" />
         </Field.Label>
 
+        <Text gap="8px" fontSize={"12px"} color={"#6B7280"}>
+          {t("payment_method_text")}
+        </Text>
+
         <RadioGroup.Root value={pay} onValueChange={(e) => setPay(e.value)}>
           <HStack gap={{ base: "10px", md: "16px" }}>
             {paymentMethods.map(({ value, src }) => (

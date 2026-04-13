@@ -100,7 +100,7 @@ export const totalSteps = 4;
 
 export const contentMap = {
   "/build/templates": {
-    title: "template_title",
+    title: "plan_title_two",
     text: "template_text",
   },
   "/build/details": {

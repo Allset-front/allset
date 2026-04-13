@@ -69,6 +69,10 @@ export const Story = ({ name, value, onChange, hide, required, languages }) => {
           )}
         </Field.Label>
 
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("story_text")}
+        </Text>
+
         {checked && (
           <TextArea
             languages={languages}

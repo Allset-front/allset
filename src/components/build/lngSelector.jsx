@@ -39,11 +39,14 @@ export const LngSelector = ({ name, value, onChange, required }) => {
       p={{ base: "16px", md: "24px" }}
       gap="16px"
     >
-      <Field.Root required={required}>
+      <Field.Root required={required} gap={"16px"}>
         <Field.Label>
           <Field.RequiredIndicator fontSize="18px" />
           <Label text="select_languages" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("select_languages_text")}
+        </Text>
       </Field.Root>
 
       <Flex

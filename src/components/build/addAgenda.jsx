@@ -114,11 +114,13 @@ import {
   Image,
   Portal,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { add } from "@/assets/svgs";
 import { getFlagCode } from "@/utils/helpers";
 import { generateAgendaKey } from "@/utils/formatters";
 import { error } from "../ui/alerts";
+import { Tooltip } from "../ui/tooltip";
 
 export const AddAgenda = ({ setData, languages }) => {
   const t = useTranslations();
@@ -159,19 +161,34 @@ export const AddAgenda = ({ setData, languages }) => {
   return (
     <Dialog.Root placement={"center"}>
       <Dialog.Trigger asChild>
-        <Button variant="ghost" width={"fit-content"} color={"#004143"}>
-          {t("add_variant")}
-          <Icon>{add.icon}</Icon>
-        </Button>
+        <Tooltip
+          ids={{ trigger: "add agenda" }}
+          positioning={{ placement: "top" }}
+          content={t("add_agenda_text")}
+        >
+          <Button variant="ghost" width={"fit-content"} color={"#004143"}>
+            {t("add_variant")}
+            <Icon>{add.icon}</Icon>
+          </Button>
+        </Tooltip>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title fontSize="16px" fontWeight="500" lineHeight="18px">
-                {t("add_agenda")}
-              </Dialog.Title>
+              <Stack>
+                <Dialog.Title
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                >
+                  {t("add_variant")}
+                </Dialog.Title>
+                <Text textStyle="xs" color={"#6B7280"}>
+                  {t("add_agenda")}
+                </Text>
+              </Stack>
             </Dialog.Header>
             <Dialog.Body as={Stack} gap="16px" m="16px 0">
               <For each={languages}>
@@ -179,7 +196,6 @@ export const AddAgenda = ({ setData, languages }) => {
                   <InputGroup
                     key={el}
                     startElement={
-                  
                       <Icon boxSize="24px" borderRadius="100%">
                         {getFlagCode(el)?.icon}
                       </Icon>

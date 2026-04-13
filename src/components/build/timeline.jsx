@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { Checkbox, Field, Flex, Icon, Stack } from "@chakra-ui/react";
+import { Checkbox, Field, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { Label } from "@/components/build/typography/label";
 import { Switcher } from "@/components/build/switcher";
 import { checked } from "../../assets/svgs";
@@ -74,6 +74,9 @@ export const Timeline = ({
             <Switcher checked={disabled} onChange={handleSwitchChange} />
           )}
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("agenda_text")}
+        </Text>
       </Field.Root>
 
       {disabled && (

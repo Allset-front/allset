@@ -115,7 +115,7 @@ export const Card = ({ el }) => {
               fontSize={"12px"}
               color={"#6B7280"}
             >
-              {formatPrice(pricing?.basePrice)}
+              {formatPrice(pricing?.basePrice, t)}
             </Text>
           )}
         </Stack>
@@ -130,7 +130,7 @@ export const Card = ({ el }) => {
           textAlign="center"
           fontWeight={isSelected ? 700 : 400}
         >
-          {formatPrice(pricing?.finalPrice)}
+          {formatPrice(pricing?.finalPrice, t)}
         </Text>
       </Flex>
       <SubText

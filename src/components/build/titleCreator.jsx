@@ -66,6 +66,9 @@ export const TitleCreator = ({
           <Field.RequiredIndicator fontSize="18px" />
           <Label text="invitation_title" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("invitation_text")}
+        </Text>
         <Input
           languages={languages}
           name={name}

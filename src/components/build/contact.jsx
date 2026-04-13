@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Field, Flex, HStack, Stack } from "@chakra-ui/react";
+import { Field, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { Label } from "@/components/build/typography/label";
 import { Switcher } from "@/components/build/switcher";
 import { InputSimple } from "../ui/inputSimple";
@@ -41,6 +41,10 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
             <Switcher checked={checked} onChange={handleSwitchChange} />
           )}
         </Field.Label>
+        
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("contact_text")}
+        </Text>
 
         {checked && (
           <Flex

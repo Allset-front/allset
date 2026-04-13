@@ -25,11 +25,14 @@ export const Photos = ({ name, onChange, required }) => {
       p={{ base: "16px", md: "24px" }}
       gap="16px"
     >
-      <Field.Root required={required}>
+      <Field.Root required={required} gap={"16px"}>
         <Field.Label>
           <Field.RequiredIndicator />
           <Label text="photos_main" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("photos_main_text")}
+        </Text>
       </Field.Root>
       <FileUpload.Root
         accept="image/*"

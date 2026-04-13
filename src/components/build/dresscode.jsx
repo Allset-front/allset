@@ -58,6 +58,10 @@ export const Dresscode = ({
           )}
         </Field.Label>
 
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("dresscode_text")}
+        </Text>
+
         {checked && (
           <>
             <Flex gap={"16px"} flexWrap={"wrap"}>

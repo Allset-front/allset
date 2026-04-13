@@ -87,6 +87,10 @@ export const Promocode = ({ code }) => {
           </Field.Label>
         </Flex>
 
+        <Text gap="8px" fontSize={"12px"} color={"#6B7280"}>
+          {t("promocode_text")}
+        </Text>
+
         <Flex w="100%" gap="16px">
           <InputGroup
             endElement={
@@ -149,7 +153,7 @@ export const Promocode = ({ code }) => {
                 lineHeight={"20px"}
                 justifyContent={"flex-end"}
               >
-                {formatPrice(data?.basePrice)}
+                {formatPrice(data?.basePrice,t)}
               </DataList.ItemValue>
             </DataList.Item>
             <DataList.Item>
@@ -166,7 +170,7 @@ export const Promocode = ({ code }) => {
                 lineHeight={"20px"}
                 justifyContent={"flex-end"}
               >
-                -{formatPrice(data?.discountAmount)}
+                -{formatPrice(data?.discountAmount,t)}
               </DataList.ItemValue>
             </DataList.Item>
             <Separator />
@@ -184,7 +188,7 @@ export const Promocode = ({ code }) => {
                 lineHeight={"20px"}
                 justifyContent={"flex-end"}
               >
-                {formatPrice(data?.finalPrice)}
+                {formatPrice(data?.finalPrice,t)}
               </DataList.ItemValue>
             </DataList.Item>
           </DataList.Root>

@@ -45,13 +45,13 @@ export function formatDate(date, format = "DD-MM-YYYY") {
   }
 }
 
-export function formatPrice(price) {
+export function formatPrice(price, t) {
   const num = Number(price);
   if (isNaN(num)) return price;
 
   const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-  return `${formatted} AMD`;
+  return `${formatted} ${t("currency")}`;
 }
 
 export const generateAgendaKey = (text) => {
