@@ -116,11 +116,11 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Tooltip } from "../ui/tooltip";
 import { add } from "@/assets/svgs";
 import { getFlagCode } from "@/utils/helpers";
 import { generateAgendaKey } from "@/utils/formatters";
 import { error } from "../ui/alerts";
-import { Tooltip } from "../ui/tooltip";
 
 export const AddAgenda = ({ setData, languages }) => {
   const t = useTranslations();
@@ -160,18 +160,18 @@ export const AddAgenda = ({ setData, languages }) => {
 
   return (
     <Dialog.Root placement={"center"}>
-      <Dialog.Trigger asChild>
-        <Tooltip
-          ids={{ trigger: "add agenda" }}
-          positioning={{ placement: "top" }}
-          content={t("add_agenda_text")}
-        >
+      <Tooltip
+        ids={{ trigger: "add agenda" }}
+        positioning={{ placement: "top" }}
+        content={t("add_agenda_text")}
+      >
+        <Dialog.Trigger asChild>
           <Button variant="ghost" width={"fit-content"} color={"#004143"}>
             {t("add_variant")}
             <Icon>{add.icon}</Icon>
           </Button>
-        </Tooltip>
-      </Dialog.Trigger>
+        </Dialog.Trigger>
+      </Tooltip>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>

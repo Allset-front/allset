@@ -1,25 +1,18 @@
 "use client";
 
-import React from "react";
-// import { usePathname } from "@/i18n/routing";
+import React, { useEffect } from "react";
+import { usePathname } from "@/i18n/routing";
 import { AnimatePresence, motion } from "framer-motion";
-// import { scrollToTopWithDuration } from "@/utils/helpers";
 import { Box } from "@chakra-ui/react";
 
 const MotionBox = motion.create(Box);
 
 export const Animate = ({ children }) => {
-  // const pathname = usePathname();
+  const pathname = usePathname();
 
-  // useLayoutEffect(() => {
-  //   const isScrollable =
-  //     document.documentElement.scrollHeight >
-  //     document.documentElement.clientHeight;
-
-  //   if (isScrollable) {
-  //     scrollToTopWithDuration(1000);
-  //   }
-  // }, [pathname]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
 
   return (
     <AnimatePresence mode="wait">

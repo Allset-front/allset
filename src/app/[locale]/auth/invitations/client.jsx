@@ -6,6 +6,7 @@ import { useQueryState } from "nuqs";
 import { useGetAuthTanstack } from "@/hooks/useTanstack";
 import { Flex, For, Stack, Tabs } from "@chakra-ui/react";
 import { invitationTabs } from "@/utils/constants";
+import { Animate } from "@/components/ui/animate";
 
 const Active = dynamic(() => import("./active"));
 const Drafts = dynamic(() => import("./drafts"));
@@ -22,56 +23,58 @@ export const InvitationsClient = () => {
   const { isLoading, data } = useGetAuthTanstack(`invitations/${tab}`);
 
   return (
-    <Tabs.Root
-      defaultValue="active"
-      variant="enclosed"
-      value={tab}
-      onValueChange={(e) => setTab(e.value)}
-    >
-      <Flex>
-        <For each={invitationTabs}>
-          {({ id, name }) => (
-            <Tabs.List
-              key={id}
-              bg="#FFFFFF"
-              w="100%"
-              p={{ base: "1px", sm: "8px" }}
-              borderRadius="8px"
-            >
-              <Tabs.Trigger
-                value={name}
+    <Animate>
+      <Tabs.Root
+        defaultValue="active"
+        variant="enclosed"
+        value={tab}
+        onValueChange={(e) => setTab(e.value)}
+      >
+        <Flex>
+          <For each={invitationTabs}>
+            {({ id, name }) => (
+              <Tabs.List
+                key={id}
+                bg="#FFFFFF"
                 w="100%"
-                bg="#F9FAFB"
-                borderRadius="12px"
-                color="#4B5563"
-                fontWeight="400"
-                lineHeight="24px"
-                _selected={{
-                  bg: "#0041431A",
-                  color: "#004143",
-                  fontWeight: "500",
-                }}
+                p={{ base: "1px", sm: "8px" }}
+                borderRadius="8px"
               >
-                {t(name)}
-              </Tabs.Trigger>
-            </Tabs.List>
-          )}
-        </For>
-      </Flex>
+                <Tabs.Trigger
+                  value={name}
+                  w="100%"
+                  bg="#F9FAFB"
+                  borderRadius="12px"
+                  color="#4B5563"
+                  fontWeight="400"
+                  lineHeight="24px"
+                  _selected={{
+                    bg: "#0041431A",
+                    color: "#004143",
+                    fontWeight: "500",
+                  }}
+                >
+                  {t(name)}
+                </Tabs.Trigger>
+              </Tabs.List>
+            )}
+          </For>
+        </Flex>
 
-      <Stack minH="100vh">
-        <Tabs.Content value="active">
-          <Active isLoading={isLoading} data={data} />
-        </Tabs.Content>
+        <Stack minH="100vh">
+          <Tabs.Content value="active">
+            <Active isLoading={isLoading} data={data} />
+          </Tabs.Content>
 
-        <Tabs.Content value="drafts">
-          <Drafts isLoading={isLoading} data={data} />
-        </Tabs.Content>
+          <Tabs.Content value="drafts">
+            <Drafts isLoading={isLoading} data={data} />
+          </Tabs.Content>
 
-        <Tabs.Content value="expired">
-          <Expired isLoading={isLoading} data={data} />
-        </Tabs.Content>
-      </Stack>
-    </Tabs.Root>
+          <Tabs.Content value="expired">
+            <Expired isLoading={isLoading} data={data} />
+          </Tabs.Content>
+        </Stack>
+      </Tabs.Root>
+    </Animate>
   );
 };

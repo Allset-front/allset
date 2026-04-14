@@ -20,12 +20,14 @@ export const Navigation = ({ direction }) => {
               key={path}
               href={`/${path}`}
               as={Link}
-              borderBottom={isActive ? "2px solid #4B5563" : "none"}
+              borderBottom={"2px solid"}
+              borderColor={isActive ? "#4B5563" : "transparent"}
               color={isActive ? "#004143" : "#4B5563"}
               fontSize={"16px"}
               fontWeight={isActive ? "500" : "300"}
               borderRadius="0"
               w="fit-content"
+              outline={"none"}
             >
               {t(name)}
             </ChakraLink>
