@@ -22,7 +22,6 @@ export const Timeline = ({
 }) => {
   const t = useTranslations();
   const language = useLocale();
-  // console.log(data);
 
   const [disabled, setDisabled] = useState(true);
 

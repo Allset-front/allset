@@ -29,7 +29,6 @@ export const Dresscode = ({
   const language = useLocale();
 
   const { data } = useGetTanstack("color-palettes");
-  // console.log(data);
 
   const [checked, setChecked] = useState(true);
   const [selected, setSelected] = useState(null);

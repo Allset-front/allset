@@ -21,7 +21,7 @@ import { Expire } from "@/components/build/expire";
 import { error, success } from "@/components/ui/alerts";
 import { Venue } from "@/components/build/venue";
 import { Rsvp } from "@/components/build/rsvp";
-import { queryClient } from "@/providers/queryProvider";
+// import { queryClient } from "@/providers/queryProvider";
 
 export const DetailsClient = () => {
   const router = useRouter();
@@ -33,7 +33,6 @@ export const DetailsClient = () => {
     palette: parseAsString,
   });
 
-  // const { data } = useGetTanstack(`templates`); // V1
   const { data } = useGetTanstack(`templates/${template}`); // V2
   const { mutate, isPending } = useMutateAuthTanstack("invitations", "post", {
     onSuccess: () => {
@@ -49,8 +48,6 @@ export const DetailsClient = () => {
     "post",
     {
       onSuccess: (res) => {
-        console.log(res);
-
         const draftId = res?.id;
         if (draftId) {
           setForm((prev) => {
@@ -64,25 +61,6 @@ export const DetailsClient = () => {
       onError: (err) => error(err?.response?.data?.error || "Draft error!"),
     },
   );
-
-  // clear drafts
-  // const { mutate: mutateDelete } = useMutateAuthTanstack(
-  //   "invitations/drafts",
-  //   "delete",
-  //   {
-  //     onSuccess: () => {
-  //       success("Drafts deleted.");
-  //     },
-  //   },
-  // );
-
-  // useEffect(() => {
-  //   mutateDelete();
-  // }, []);
-  //
-
-  // const defaults = data?.find((item) => item.id === template)?.defaults || {}; // V1
-  // console.log(data);
 
   const [form, setForm] = useState({
     ...detailsForm,
@@ -190,20 +168,6 @@ export const DetailsClient = () => {
       lastSavedFormRef.current = currentDataString;
     }
   };
-
-  // const handleSmartBlur = () => {
-  //   if (!template || !palette) return;
-
-  //   // optional: wait until template data loaded
-  //   if (!data) return;
-
-  //   const currentDataString = JSON.stringify(form);
-
-  //   if (lastSavedFormRef.current !== currentDataString) {
-  //     console.log("SENDING DRAFT:", form);
-  //     mutateDraft(form);
-  //   }
-  // };
 
   return (
     <Box pt={{ base: "32px", md: "48px" }} pb="22px">
@@ -357,6 +321,36 @@ export const DetailsClient = () => {
     </Box>
   );
 };
+
+// const handleSmartBlur = () => {
+//   if (!template || !palette) return;
+
+//   // optional: wait until template data loaded
+//   if (!data) return;
+
+//   const currentDataString = JSON.stringify(form);
+
+//   if (lastSavedFormRef.current !== currentDataString) {
+//     console.log("SENDING DRAFT:", form);
+//     mutateDraft(form);
+//   }
+// };
+
+// clear drafts
+// const { mutate: mutateDelete } = useMutateAuthTanstack(
+//   "invitations/drafts",
+//   "delete",
+//   {
+//     onSuccess: () => {
+//       success("Drafts deleted.");
+//     },
+//   },
+// );
+
+// useEffect(() => {
+//   mutateDelete();
+// }, []);
+//
 
 // for timeline updates (array) V1
 // const handleTimelineChange = (newTimeline) => {
