@@ -18,6 +18,7 @@ import {
 import { downloadTable, table } from "@/assets/svgs";
 import { downloadTableList } from "@/services/download";
 import { TableCard } from "./tableCard";
+import { isEmptyObject } from "@/utils/checkers";
 
 export const TableList = () => {
   const t = useTranslations();
@@ -33,6 +34,10 @@ export const TableList = () => {
 
   if (isFetching) {
     return <Skeleton w="103px" h="44px" />;
+  }
+  
+  if (isEmptyObject(data?.tables)) {
+    return;
   }
 
   return (

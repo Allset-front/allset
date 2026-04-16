@@ -9,7 +9,9 @@ import { joinFilters } from "@/utils/formatters";
 import { IconButton, Skeleton } from "@chakra-ui/react";
 import { downloadGuest } from "@/assets/svgs";
 import { queryClient } from "@/providers/queryProvider";
+import { isEmptyArray } from "@/utils/checkers";
 import { downloadGuestList } from "@/services/download";
+import { useGetAuthTanstack } from "@/hooks/useTanstack";
 
 export const Download = () => {
   const t = useTranslations();
@@ -22,16 +24,20 @@ export const Download = () => {
     queryKey: [`confirmations/invitation/${id}/tables`],
   });
 
-  const handleDownload = () => {
-    const data = queryClient.getQueryData([
-      `confirmations/invitation/${id}?filterId=${joinFilters(filters)}`,
-    ]);
+  const { data: guests } = useGetAuthTanstack(
+    `confirmations/invitation/${id}?filterId=${joinFilters(filters)}`,
+  );
 
-    downloadGuestList(data, t);
+  const handleDownload = () => {
+    downloadGuestList(guests, t);
   };
 
   if (isFetching) {
     return <Skeleton w="177px" h="44px" />;
+  }
+
+  if (isEmptyArray(guests)) {
+    return;
   }
 
   return (

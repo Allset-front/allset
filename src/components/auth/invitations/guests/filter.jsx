@@ -18,6 +18,9 @@ import {
 } from "@chakra-ui/react";
 import { checked, filter } from "@/assets/svgs";
 import { Tooltip } from "@/components/ui/tooltip";
+import { joinFilters } from "@/utils/formatters";
+import { useParams } from "next/navigation";
+import { isEmptyArray } from "@/utils/checkers";
 
 export const Filter = () => {
   const t = useTranslations();
@@ -29,7 +32,11 @@ export const Filter = () => {
   });
   const [tempFilters, setTempFilters] = useState([]);
 
+  const { id } = useParams();
   const { data } = useGetAuthTanstack("confirmations/filters");
+  const { data: guests } = useGetAuthTanstack(
+    `confirmations/invitation/${id}?filterId=${joinFilters(filters)}`,
+  );
 
   useEffect(() => {
     if (Array.isArray(filters)) {
@@ -54,6 +61,10 @@ export const Filter = () => {
     setFilters(tempFilters);
     if (closeButtonRef.current) closeButtonRef.current.click();
   };
+
+  if (isEmptyArray(guests)) {
+    return;
+  }
 
   return (
     <Dialog.Root placement="center" motionPreset="slide-in-bottom">
