@@ -34,9 +34,7 @@ export const Filter = () => {
 
   const { id } = useParams();
   const { data } = useGetAuthTanstack("confirmations/filters");
-  const { data: guests } = useGetAuthTanstack(
-    `confirmations/invitation/${id}?filterId=${joinFilters(filters)}`,
-  );
+  const { data: guests } = useGetAuthTanstack(`confirmations/invitation/${id}`);
 
   useEffect(() => {
     if (Array.isArray(filters)) {
