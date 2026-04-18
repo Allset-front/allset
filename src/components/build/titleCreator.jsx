@@ -55,12 +55,20 @@ export const TitleCreator = ({
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px" gap={"16px"}>
+    <Stack
+      borderRadius={"8px"}
+      bg="white"
+      p={{ base: "16px", md: "24px" }}
+      gap={"16px"}
+    >
       <Field.Root required={required} gap={"16px"}>
         <Field.Label>
           <Field.RequiredIndicator fontSize="18px" />
           <Label text="invitation_title" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("invitation_text")}
+        </Text>
         <Input
           languages={languages}
           name={name}

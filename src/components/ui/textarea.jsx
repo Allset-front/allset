@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Textarea, Image, Box } from "@chakra-ui/react";
+import { Textarea, Image, Box, Icon } from "@chakra-ui/react";
 import { getFlagCode } from "@/utils/helpers";
 
 export const TextArea = ({
@@ -14,17 +14,16 @@ export const TextArea = ({
 }) => {
   return languages?.map((lng) => (
     <Box key={lng} position="relative" w="100%">
-      <Image
-        src={`https://flagcdn.com/${getFlagCode(lng)}.svg`}
+      <Icon
         boxSize="24px"
-        borderRadius={"50%"}
-        alt={lng}
-        //
+        borderRadius="100%"
         position="absolute"
         top="15px"
         left="10px"
         zIndex={1}
-      />
+      >
+        {getFlagCode(lng)?.icon}
+      </Icon>
       <Textarea
         name={`${name}.${lng}`}
         value={value?.[lng] || ""}

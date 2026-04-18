@@ -17,7 +17,7 @@ export const AboutChoose = () => {
       bgSize={"297px"}
       backgroundColor="#f6f6f7"
     >
-      <Container maxW="1360px" px={0}>
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Flex w="100%" justify={"space-between"} gap="110px">
           <Stack flex="1" gap="24px">
             <Title as="h1" text="plan_title_two" />

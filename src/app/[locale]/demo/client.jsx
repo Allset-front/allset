@@ -11,19 +11,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { subscribe } from "@/services/email";
-import { success, warning } from "@/components/ui/alerts";
+import { success, info, warning } from "@/components/ui/alerts";
 import soon from "@/assets/imgs/soon.png";
 import soonMobile from "@/assets/imgs/soonMobile.png";
 
-export const SoonClient = () => {
+export const DemoClient = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if (!email) return info("Please enter your email address.");
-    // if (email && !isValidEmail(email)) return warning("Invalid email.");
 
     setLoading(true);
 
@@ -40,21 +37,11 @@ export const SoonClient = () => {
     } finally {
       setLoading(false);
     }
-
-    // const { error } = await supabase.from("newslater").insert([{ email }]);
-
-    // if (error) {
-    //   warning(error.message || "Something went wrong. Try again.");
-    // } else {
-    //   success(`Thank you! You will be notified.`);
-    //   setLoading(false);
-    //   setEmail("");
-    // }
   };
 
   return (
     <Box
-      bgImage={{ base: `url(${soonMobile})`, md: `url(${soon})` }}
+      bgImage={{ base: `url(${soonMobile.src})`, md: `url(${soon.src})` }}
       bgSize="cover"
       bgPosition="center center"
       bgRepeat="no-repeat"

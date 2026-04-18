@@ -5,9 +5,9 @@ import {
   Field,
   Flex,
   Icon,
-  Image,
   Stack,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/build/typography/label";
@@ -16,6 +16,8 @@ import { checked, slash } from "../../assets/svgs";
 
 export const LngSelector = ({ name, value, onChange, required }) => {
   const t = useTranslations();
+
+  const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   const toggleLanguage = (code) => {
     const updated = value.includes(code)
@@ -31,15 +33,27 @@ export const LngSelector = ({ name, value, onChange, required }) => {
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px" gap="16px">
-      <Field.Root required={required}>
+    <Stack
+      borderRadius={"8px"}
+      bg="white"
+      p={{ base: "16px", md: "24px" }}
+      gap="16px"
+    >
+      <Field.Root required={required} gap={"16px"}>
         <Field.Label>
           <Field.RequiredIndicator fontSize="18px" />
           <Label text="select_languages" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("select_languages_text")}
+        </Text>
       </Field.Root>
 
-      <Flex w="100%" justify={"space-between"}>
+      <Flex
+        w="100%"
+        justify={"space-between"}
+        flexDirection={{ base: "column", md: "row" }}
+      >
         {languages.map(({ code, flag }, index) => (
           <Checkbox.Root
             key={code}
@@ -47,15 +61,15 @@ export const LngSelector = ({ name, value, onChange, required }) => {
             onCheckedChange={() => toggleLanguage(code)}
             cursor={"pointer"}
             gap="42px"
+            w={{ base: "100%", md: "fit-content" }}
+            justifyContent={{ base: "space-between", md: "unset" }}
+            p={{ base: "16px", md: 0 }}
           >
             <Checkbox.HiddenInput />
             <Checkbox.Label as={Flex} gap={"18px"} alignItems={"center"}>
-              <Image
-                src={`https://flagcdn.com/${flag}.svg`}
-                boxSize="24px"
-                borderRadius="50%"
-                alt={t(code)}
-              />
+              <Icon boxSize="24px" borderRadius="100%">
+                {flag.icon}
+              </Icon>
               <Text fontSize={"16px"} fontWeight={"300"} lineHeight={"24px"}>
                 {t(code)}
               </Text>
@@ -69,7 +83,9 @@ export const LngSelector = ({ name, value, onChange, required }) => {
               {value.includes(code) && <Icon>{checked.icon}</Icon>}
             </Checkbox.Control>
 
-            {index < languages?.length - 1 && <Icon>{slash.icon}</Icon>}
+            {!isMobile && index < languages?.length - 1 && (
+              <Icon>{slash.icon}</Icon>
+            )}
           </Checkbox.Root>
         ))}
       </Flex>

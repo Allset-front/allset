@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Field,
-  Flex,
-  HStack,
-  Icon,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Field, Flex, HStack, Icon, Stack, Text } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Label } from "@/components/build/typography/label";
 import { copied, copy } from "../../assets/svgs";
@@ -36,7 +29,7 @@ export const TitleDemo = () => {
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px">
+    <Stack borderRadius={"8px"} bg="white" p={{ base: "16px", md: "24px" }}>
       <Field.Root gap="12px">
         <Field.Label gap="16px">
           <Label text="invitation_url" />

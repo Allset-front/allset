@@ -1,18 +1,21 @@
 "use client";
 
 import React from "react";
-import { back } from "@/assets/svgs";
-import { useRouter } from "@/i18n/routing";
-import { Button, Icon, Stack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useQueryState } from "nuqs";
+import { parseAsString, useQueryStates } from "nuqs";
+import { useRouter } from "@/i18n/routing";
+import { back } from "@/assets/svgs";
+import { Button, Icon, Stack } from "@chakra-ui/react";
 import { Tooltip } from "../ui/tooltip";
 
 export const Pay = () => {
   const t = useTranslations();
   const router = useRouter();
-  const [accept] = useQueryState("terms_accepted");
-  const [pay] = useQueryState("payment_method");
+
+  const [{ accept, payment }] = useQueryStates({
+    accept: parseAsString,
+    payment: parseAsString,
+  });
 
   return (
     <Stack gap="16px">
@@ -20,7 +23,7 @@ export const Pay = () => {
         // ids={{ trigger: id }}
         positioning={{ placement: "top" }}
         content={
-          !pay
+          !payment
             ? "Choose paymant method"
             : !accept
               ? "Please agree terms and policy"
@@ -36,7 +39,7 @@ export const Pay = () => {
           border="1px solid"
           boxShadow="xl"
           borderColor="#4B5563"
-          disabled={!accept || !pay}
+          disabled={!accept || !payment}
           _hover={{ bg: "white", color: "#004143" }}
         >
           {t("pay")}

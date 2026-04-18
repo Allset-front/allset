@@ -9,13 +9,10 @@ export const Head = ({ text }) => {
   const t = useTranslations();
 
   return (
-    <Flex
-      justify={"space-between"}
-      pb={"21px"}
-    >
+    <Flex align={"center"} justify={"space-between"} pb={"16px"}>
       <Heading
         as="h2"
-        fontSize="28px"
+        fontSize={{ base: "20px", md: "28px" }}
         fontWeight="500"
         color={"#4B5563"}
         w="100%"
@@ -29,7 +26,6 @@ export const Head = ({ text }) => {
       >
         {t(text)}
       </Heading>
-      {/* Need hide||show logic based on pathname */}
       <Actions />
     </Flex>
   );

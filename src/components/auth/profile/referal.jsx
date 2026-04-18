@@ -1,16 +1,20 @@
 "use client";
 
 import React from "react";
+import { useLocale, useTranslations } from "next-intl";
 import bg from "@/assets/imgs/referal_bg.png";
-import { Box, Button, Heading, Icon, Stack, Text } from "@chakra-ui/react";
+import { Button, Heading, Icon, Stack, Text } from "@chakra-ui/react";
+import { distribute } from "@/services/distribution";
 import { share } from "@/assets/svgs";
 
-export const Referal = () => {
+export const Referal = ({ code }) => {
+  const t = useTranslations();
+  const language = useLocale();
+
   return (
     <Stack
       w="100%"
-      h="154px"
-      //   bgImage={{ base: `url(${bg.src})` }}
+      minH="154px"
       bgImage={{
         base: `
       url(${bg.src}),
@@ -24,30 +28,38 @@ export const Referal = () => {
       bgRepeat="no-repeat"
       bgPos={"right"}
       borderRadius={"20px"}
-      //   bg={"white"}
-      p="16px 24px"
-      justifyContent={"space-between"}
+      p={{ base: "26px 35px", md: "16px 24px" }}
+      gap={{ base: "15px", md: "11px" }}
     >
       <Heading size="lg" color={"white"}>
-        Referal code
+        {t("referral")}
       </Heading>
 
-      <Text fontSize={"14px"} color={"white"} w="50%">
-        Invite a friend with a 20% off promo code and get 20% off your next
-        invitation.
+      <Text
+        fontSize={"14px"}
+        color={"white"}
+        w={{ base: "90%", md: "70%" }}
+        // lineClamp={{ base: 3, xl: 2 }}
+      >
+        {t("referral_text")}
       </Text>
 
       <Button
         gap={"15px"}
         fontWeight="500"
         fontSize={"12px"}
-        bg="#004143"
+        bg="#375057"
         w="163px"
         h="40px"
         borderRadius={"20px"}
+        transition="all 0.3s ease"
+        onClick={() => distribute({ language, code })}
+        _hover={{
+          bg: "#004143",
+        }}
       >
         <Icon>{share.icon}</Icon>
-        Share
+        {t("copy")}
       </Button>
     </Stack>
   );

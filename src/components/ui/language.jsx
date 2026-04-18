@@ -10,18 +10,18 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRouter, usePathname } from "@/i18n/routing";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { languages } from "../../utils/constants";
 import { useTranslations, useLocale } from "next-intl";
 import { down } from "../../assets/svgs";
 import cookies from "js-cookie";
 
-export const Language = ({ bg }) => {
+export const Language = ({ bg, noMenu }) => {
   const t = useTranslations();
-  const pathname = usePathname();
-  const params = useParams();
   const language = useLocale();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -32,9 +32,40 @@ export const Language = ({ bg }) => {
     cookies.set("NEXT_LOCALE", code);
 
     startTransition(() => {
-      router.replace({ pathname, params }, { locale: code });
+      router.replace(
+        {
+          pathname,
+          query: Object.fromEntries(searchParams.entries()),
+        },
+        { locale: code },
+      );
     });
   };
+
+  if (noMenu) {
+    return (
+      <Flex gap="20px">
+        <For each={languages}>
+          {({ code, flag }) => {
+            return (
+              <Flex
+                key={code}
+                align="center"
+                gap="8px"
+                cursor="pointer"
+                onClick={() => handleChangeLng(code)}
+              >
+                <Icon boxSize="24px" borderRadius="100%">
+                  {flag.icon}
+                </Icon>
+                {t(code)}
+              </Flex>
+            );
+          }}
+        </For>
+      </Flex>
+    );
+  }
 
   return (
     <Menu.Root>
@@ -44,12 +75,9 @@ export const Language = ({ bg }) => {
             <Spinner />
           ) : (
             <>
-              <Image
-                src={`https://flagcdn.com/${selected?.flag}.svg`}
-                boxSize="24px"
-                borderRadius={"100%"}
-                alt={selected?.name}
-              />
+              <Icon boxSize="24px" borderRadius="100%">
+                {selected?.flag.icon}
+              </Icon>
               <Icon size={"lg"}>{down.icon}</Icon>
             </>
           )}
@@ -70,12 +98,9 @@ export const Language = ({ bg }) => {
                   px="12px"
                   py="8px"
                 >
-                  <Image
-                    src={`https://flagcdn.com/${flag}.svg`}
-                    boxSize="24px"
-                    borderRadius={"4px"}
-                    alt={t(code)}
-                  />
+                  <Icon boxSize="24px" borderRadius="100%">
+                    {flag.icon}
+                  </Icon>
                   {t(code)}
                 </Menu.Item>
               )}

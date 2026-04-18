@@ -10,10 +10,10 @@ export const Description = ({ text, width, textAlign }) => {
   return (
     <Text
       width={width ?? "fit-content"}
-      fontSize={"16px"}
+      fontSize={{ base: "14px", lg: "16px" }}
       lineHeight={"26px"}
       color={"#4B5563"}
-      fontWeight={400}
+      fontWeight={300}
       textAlign={textAlign ?? "center"}
     >
       {t(text)}

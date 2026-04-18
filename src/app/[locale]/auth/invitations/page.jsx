@@ -1,72 +1,16 @@
-"use client";
+import { getLocale, getTranslations } from "next-intl/server";
+import { meta } from "@/lib/meta";
+import { InvitationsClient } from "./client";
 
-import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
-import { useQueryState } from "nuqs";
-import { useGetAuthTanstack } from "@/hooks/useTanstack";
-import { Flex, For, Stack, Tabs } from "@chakra-ui/react";
-import { invitationTabs } from "@/utils/constants";
+export async function generateMetadata() {
+  const t = await getTranslations();
+  const locale = await getLocale();
+  const title = t("invitations");
+  const description = t("");
 
-const Active = dynamic(() => import("./active"));
-const Drafts = dynamic(() => import("./drafts"));
-const Expired = dynamic(() => import("./expired"));
+  return meta({ title, description, locale });
+}
 
-export default function Invitations() {
-  const t = useTranslations();
-
-  const [tab, setTab] = useQueryState("tab", {
-    defaultValue: "active",
-    history: "push",
-  });
-
-  const { isLoading, data } = useGetAuthTanstack(`invitations/${tab}`);
-
-  return (
-    <Tabs.Root
-      defaultValue="active"
-      variant="enclosed"
-      value={tab}
-      onValueChange={(e) => setTab(e.value)}
-    >
-      <Flex>
-        <For each={invitationTabs}>
-          {({ id, name }) => (
-            <Tabs.List
-              key={id}
-              bg="#FFFFFF"
-              w="100%"
-              p="8px"
-              borderRadius="8px"
-            >
-              <Tabs.Trigger
-                value={name}
-                w="100%"
-                bg="#F9FAFB"
-                borderRadius="12px"
-                _selected={{
-                  bg: "#0041431A",
-                }}
-              >
-                {t(name)}
-              </Tabs.Trigger>
-            </Tabs.List>
-          )}
-        </For>
-      </Flex>
-
-      <Stack h="100vh">
-        <Tabs.Content value="active">
-          <Active isLoading={isLoading} data={data} />
-        </Tabs.Content>
-
-        <Tabs.Content value="drafts">
-          <Drafts isLoading={isLoading} data={data} />
-        </Tabs.Content>
-
-        <Tabs.Content value="expired">
-          <Expired isLoading={isLoading} data={data} />
-        </Tabs.Content>
-      </Stack>
-    </Tabs.Root>
-  );
+export default async function Invitations() {
+  return <InvitationsClient />;
 }

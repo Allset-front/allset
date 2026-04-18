@@ -6,26 +6,32 @@ export const prefixes = {
   'ru': '/ru'
 }
 
+import { hyFlag, enFlag, ruFlag } from '../assets/svgs';
 export const languages = [
-  {
-    code: "hy",
-    flag: "am",
-  },
-  {
-    code: "en",
-    flag: "gb",
-  },
-  {
-    code: "ru",
-    flag: "ru",
-  },
-]
+  { code: "hy", flag: hyFlag },
+  { code: "en", flag: enFlag },
+  { code: "ru", flag: ruFlag },
+];
+// export const languages = [
+//   {
+//     code: "hy",
+//     flag: "am",
+//   },
+//   {
+//     code: "en",
+//     flag: "gb",
+//   },
+//   {
+//     code: "ru",
+//     flag: "ru",
+//   },
+// ]
 
-export const localesMap = {
-  hy: "am",
-  en: "gb",
-  ru: "ru",
-}
+// export const localesMap = {
+//   hy: "am",
+//   en: "gb",
+//   ru: "ru",
+// }
 
 export const days = (difference) => Math.floor(difference / (1000 * 60 * 60 * 24));
 export const hours = (difference) => Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -65,7 +71,7 @@ export const mainPages = [
 
 export const socialPages = [
   { name: "privacy_policy", path: "policies/privacy-policy" },
-  { name: "terms_of_service", path: "policies/terms-of-service" },
+  { name: "terms_conditions", path: "policies/terms-conditions" },
   // { name: "guides", path: "guides" },
   // { name: "blog", path: "blog" },
 ]
@@ -94,7 +100,7 @@ export const totalSteps = 4;
 
 export const contentMap = {
   "/build/templates": {
-    title: "template_title",
+    title: "plan_title_two",
     text: "template_text",
   },
   "/build/details": {
@@ -229,33 +235,33 @@ export const invitationTabs = [
   },
 ]
 
-import { fb, insta, twitter, youtube, tiktok, pinterest } from "../assets/svgs";
+import { fb, insta } from "../assets/svgs";
 
 export const social = [
   {
-    href: "https://",
+    href: "https://www.facebook.com/profile.php?id=61550794792772",
     icon: fb
   },
   {
-    href: "https://",
+    href: "https://www.instagram.com/allset_event/",
     icon: insta
   },
-  {
-    href: "https://",
-    icon: twitter
-  },
-  {
-    href: "https://",
-    icon: youtube
-  },
-  {
-    href: "https://",
-    icon: tiktok
-  },
-  {
-    href: "https://",
-    icon: pinterest
-  },
+  // {
+  //   href: "https://",
+  //   icon: twitter
+  // },
+  // {
+  //   href: "https://",
+  //   icon: youtube
+  // },
+  // {
+  //   href: "https://",
+  //   icon: tiktok
+  // },
+  // {
+  //   href: "https://",
+  //   icon: pinterest
+  // },
 ]
 
 import { create, manage, check } from '../assets/svgs';
@@ -350,63 +356,19 @@ export const instruction = [
   }
 ]
 
-export const feedback = [
-  {
-    id: 1,
-    name: "Անի Հակոբյան",
-    invitations: 2,
-    stars: 4,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 2,
-    name: "Luiza Abrahamyan",
-    invitations: 2,
-    stars: 5,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 3,
-    name: "Anna Ayvazyan",
-    invitations: 8,
-    stars: 4,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
-  {
-    id: 4,
-    name: "Alina Avagyan",
-    invitations: 1,
-    stars: 5,
-    feedback:
-      "Մեր փորձը անհավանական էր։ Հիմնարկը շատ արագ և պարզ էր — մենք ստացանք մեր գեղեցիկ թվային հրավիրատոմսը ընդամենը մի քանի ժամում։ Մեր բոլոր հյուրերը դա շատ սիրեցին։",
-  },
+export const guestsTableHeader = [
+  "guest_name",
+  "accompanying_name",
+  "status",
+  "note",
+  "group_count",
+  "guest_group",
+  "table_number",
+  ""
 ];
 
-export const faqs = [
-  {
-    value: "1",
-    title: "faqs_one_title",
-    text: "faqs_one_text",
-  },
-  {
-    value: "2",
-    title: "faqs_two_title",
-    text: "faqs_two_text",
-  },
-  {
-    value: "3",
-    title: "faqs_three_title",
-    text: "faqs_three_text",
-  },
-  {
-    value: "4",
-    title: "faqs_four_title",
-    text: "faqs_four_text",
-  },
-]
+export const guestEditOptions = ["GROOM", "BRIDE"];
+
 
 // export const translitMap = {
 //   // Armenian letters

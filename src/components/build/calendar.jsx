@@ -3,7 +3,6 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import {
-  Box,
   Dialog,
   Icon,
   Input,
@@ -18,8 +17,6 @@ import { calendarLocales, currentYear, today } from "../../utils/constants";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 export const Calendar = ({ name, value, onChange, required }) => {
-  console.log(value);
-
   const ref = useRef();
 
   const t = useTranslations();

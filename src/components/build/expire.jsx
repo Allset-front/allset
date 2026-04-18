@@ -9,7 +9,7 @@ export const Expire = () => {
 
   return (
     <Flex
-      p={"17px"}
+      p={"16px"}
       gap={"12px"}
       bg={"#FFFBEB"}
       border={"1px solid"}

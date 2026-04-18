@@ -29,7 +29,6 @@ export const Dresscode = ({
   const language = useLocale();
 
   const { data } = useGetTanstack("color-palettes");
-  // console.log(data);
 
   const [checked, setChecked] = useState(true);
   const [selected, setSelected] = useState(null);
@@ -45,7 +44,7 @@ export const Dresscode = ({
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px">
+    <Stack borderRadius={"8px"} bg="white" p={{ base: "16px", md: "24px" }}>
       <Field.Root required={required} gap={"16px"}>
         <Field.Label as={Flex} w="100%" justify={"space-between"}>
           {/* <HStack> */}
@@ -57,6 +56,10 @@ export const Dresscode = ({
             <Switcher checked={checked} onChange={handleSwitchChange} />
           )}
         </Field.Label>
+
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("dresscode_text")}
+        </Text>
 
         {checked && (
           <>
@@ -81,7 +84,7 @@ export const Dresscode = ({
                       cursor: "pointer",
                     }}
                     tabIndex={0}
-                    w="222px"
+                    w={{ base: "100%", md: "222px" }}
                     onClick={() => setSelected(item.id)}
                   >
                     <HStack gap={"8px"} pb="12px">

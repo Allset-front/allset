@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
-import { InputGroup, Input as ChakraInput, Image } from "@chakra-ui/react";
+import {
+  InputGroup,
+  Input as ChakraInput,
+  Icon,
+} from "@chakra-ui/react";
 import { getFlagCode } from "@/utils/helpers";
 
 export const Input = ({ languages, name, value, onChange, placeholder }) => {
@@ -9,12 +13,9 @@ export const Input = ({ languages, name, value, onChange, placeholder }) => {
     <InputGroup
       key={lng}
       startElement={
-        <Image
-          src={`https://flagcdn.com/${getFlagCode(lng)}.svg`}
-          boxSize="24px"
-          borderRadius={"50%"}
-          alt={lng}
-        />
+        <Icon boxSize="24px" borderRadius="100%">
+          {getFlagCode(lng)?.icon}
+        </Icon>
       }
     >
       <ChakraInput

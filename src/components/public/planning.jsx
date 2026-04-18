@@ -10,35 +10,55 @@ import { Description } from "./typography/description";
 import { PlanningSlide } from "./planning_slide";
 import bg from "@/assets/imgs/planning_bg.png";
 
+// TODO: 2 Containers to fix PC UI swiper issue!
 export const Planning = () => {
   const t = useTranslations();
   const router = useRouter();
-
+  
   return (
-    <Stack p="96px 0 100px 0" bg="#f6f6f7">
-      <Container maxW="1360px" px={0}>
+    <Stack p={{ base: "16px 0 100px 0", md: "80px 0 100px 0" }} bg="#f6f6f7">
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Stack
           gap="100px"
           bgImage={`url(${bg.src})`}
-          bgPos={"right 250px"}
+          bgPos={{ base: "right 396px", md: "right 255px" }}
           bgRepeat={"no-repeat"}
-          bgSize={"225px"}
+          bgSize={{ base: "97px", md: "225px" }}
         >
-          <Flex w="100%" justify={"space-between"} gap="118px">
-            <Stack flex="1" gap="24px">
+          <Flex
+            w="100%"
+            align={"center"}
+            // justify={{ base: "unset", md: "space-between" }}
+            flexDirection={{ base: "column", md: "row" }}
+            gap={{ base: "16px", md: "118px" }}
+          >
+            <Stack
+              flex="1"
+              gap={{ base: "16px", md: "24px" }}
+              alignItems={{ base: "center", md: "unset" }}
+            >
               <Title
                 as="h1"
-                fontSize="42px"
+                fontSize={{ base: "26px", md: "42px" }}
                 text="plan_title"
                 color="#004143"
+                textAlign={{ base: "center", md: "unset" }}
               />
               <SubTitle text="plan_subtitle" textAlign="right" />
             </Stack>
 
-            <Stack w="537px" gap="32px">
-              <Description text="plan_desc" textAlign="start" />
+            <Stack
+              w={{ base: "100%", xl: "537px" }}
+              flex={{ base: 1, xl: "unset" }}
+              alignItems={{ base: "center", md: "unset" }}
+              gap="32px"
+            >
+              <Description
+                text="plan_desc"
+                textAlign={{ base: "center", md: "start" }}
+              />
               <Button
-                w="243px"
+                w={{ base: "100%", sm: "243px" }}
                 h="52px"
                 bg={"#004143"}
                 color="white"
@@ -62,19 +82,27 @@ export const Planning = () => {
 
           <Stack gap="27px" pt={"30px"}>
             <Stack gap="16px" align={"center"}>
-              <Title text="plan_title_two" />
+              <Title text="plan_title_two" textAlign={"center"} />
               <Description text="plan_desc_two" />
             </Stack>
 
             <PlanningSlide />
           </Stack>
 
-          <Flex w="100%" justify={"space-between"} gap="74px">
-            <Title text="plan_title_three" />
+          <Flex
+            w="100%"
+            align={"center"}
+            flexDirection={{ base: "column", md: "row" }}
+            gap={{ base: "24px", md: "74px" }}
+          >
+            <Title
+              text="plan_title_three"
+              textAlign={{ base: "center", md: "unset" }}
+            />
             <Description
               text="plan_desc_three"
-              width={"690px"}
-              textAlign={"start"}
+              width={{ base: "fit-content", md: "690px" }}
+              textAlign={{ base: "center", md: "start" }}
             />
           </Flex>
         </Stack>

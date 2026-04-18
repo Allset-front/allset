@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { checked } from "@/assets/svgs";
 import { Checkbox, Icon } from "@chakra-ui/react";
-import { cookie } from "@/api/cookie";
+import { cookie } from "@/lib/browser/cookie";
 
 export const Opt = () => {
   const [accept, setAccept] = useState(cookie.get("opt") === "true");
@@ -19,7 +19,7 @@ export const Opt = () => {
       checked={accept}
       onCheckedChange={handleChange}
       alignItems="start"
-      pl="27px"
+      justifyContent="center"
     >
       <Checkbox.HiddenInput />
       <Checkbox.Control

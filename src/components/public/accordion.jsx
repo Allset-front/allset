@@ -1,17 +1,16 @@
 "use client";
 
 import React from "react";
-import { useTranslations } from "next-intl";
-import { useNuqs } from "@/hooks/useNuqs";
+import { useLocale } from "next-intl";
+import { useQueryState } from "nuqs";
 import { Accordion as Acc, For, Span, Image } from "@chakra-ui/react";
-import { faqs } from "@/utils/constants";
 import plus from "@/assets/imgs/plus.png";
 import minus from "@/assets/imgs/minus.png";
 
-export const Accordion = () => {
-  const t = useTranslations();
+export const Accordion = ({ faqs }) => {
+  const language = useLocale();
 
-  const [question, setQuestion] = useNuqs("question");
+  const [question, setQuestion] = useQueryState("question");
 
   const handleChange = (e) => {
     const next = e.value?.[0];
@@ -23,15 +22,19 @@ export const Accordion = () => {
   };
 
   return (
-    <Acc.Root collapsible value={[question]} onValueChange={(e) => handleChange(e)}>
+    <Acc.Root
+      collapsible
+      value={[question]}
+      onValueChange={(e) => handleChange(e)}
+    >
       <For each={faqs}>
-        {({ value, title, text }) => {
-          const isOpen = question == value;
+        {(faq, index) => {
+          const isOpen = question === index.toString();
 
           return (
             <Acc.Item
-              key={value}
-              value={value}
+              key={index}
+              value={index.toString()}
               background="#FFFFFF"
               borderRadius="3px"
               marginBottom="16px"
@@ -41,17 +44,16 @@ export const Accordion = () => {
               <Acc.ItemTrigger cursor="pointer">
                 <Span
                   flex="1"
-                  fontSize={"18px"}
+                  fontSize={{ base: "16px", md: "18px" }}
                   fontWeight={500}
                   color={"#4B5563"}
                 >
-                  {t(title)}
+                  {faq.question[language]}
                 </Span>
 
                 <Acc.ItemIndicator>
                   <Image
-                    w="26px"
-                    h="26px"
+                    boxSize="26px"
                     src={isOpen ? minus.src : plus.src}
                     alt="toggle icon"
                   />
@@ -60,11 +62,11 @@ export const Accordion = () => {
 
               <Acc.ItemContent>
                 <Acc.ItemBody
-                  fontSize={"14px"}
+                  fontSize={{ base: "12px", md: "14px" }}
                   fontWeight={300}
                   color={"#4B5563"}
                 >
-                  {t(text)}
+                  {faq.answer[language]}
                 </Acc.ItemBody>
               </Acc.ItemContent>
             </Acc.Item>

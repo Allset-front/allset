@@ -1,6 +1,14 @@
-/* default */
+:root {
+  --font-main: var(--font-montserrat);
+}
+
+html,
 body {
-  font-family: "Montserrat";
+  font-family: var(--font-main), sans-serif !important;
+}
+
+[class*="chakra"] {
+  font-family: var(--font-montserrat), sans-serif !important;
 }
 
 html::-webkit-scrollbar,
@@ -56,6 +64,12 @@ select:-webkit-autofill:focus {
 .swiper-pagination {
   position: relative !important;
   padding-top: 64px !important;
+}
+
+@media (max-width: 768px) {
+  .swiper-pagination {
+    padding-top: 20px !important;
+  }
 }
 
 .swiper-pagination-bullet {

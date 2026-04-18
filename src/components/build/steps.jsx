@@ -15,18 +15,22 @@ export const Steps = () => {
   if (!show) return null;
 
   return (
-    <Flex align="center" gap="28px">
-      <Flex align="center" gap="8px">
+    <Flex
+      align="center"
+      gap={{ base: "12px", md: "28px" }}
+      justifyContent={"space-between"}
+    >
+      <Flex align="center" gap={{ base: "4px", md: "8px" }}>
         {Array.from({ length: totalSteps }).map((_, index) => {
           const current = index + 1;
           const isCompleted = current < step;
           const isActive = current === step;
 
           return (
-            <Flex key={current} align="center" gap="8px">
+            <Flex key={current} align="center" gap={{ base: "4px", md: "8px" }}>
               <Circle
                 size="28px"
-                fontSize={"12px"}
+                fontSize={{ base: "10px", md: "12px" }}
                 fontWeight="600"
                 bg={
                   isCompleted ? "transparent" : isActive ? "#004143" : "#F5F5F5"
@@ -44,7 +48,11 @@ export const Steps = () => {
         })}
       </Flex>
 
-      <Text color={"#4B5563"} fontWeight={"400"} fontSize={"14px"}>
+      <Text
+        color={"#4B5563"}
+        fontWeight={"400"}
+        fontSize={{ base: "12px", md: "14px" }}
+      >
         {t("step")} {step} of {totalSteps}
       </Text>
     </Flex>

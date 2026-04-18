@@ -14,23 +14,41 @@ export const Features = () => {
   return (
     <Stack
       bgImage={`url(${bg.src})`}
-      bgPos={"right 81px"}
+      bgPos={{base:"right 14px",lg:"right 81px"}}
       bgRepeat={"no-repeat"}
-      bgSize={"162px"}
-      py="100px"
+      bgSize={{base:"109px",md:"162px"}}
+      py={{ base: "80px", md: "100px" }}
       backgroundColor="#f6f6f7"
     >
-      <Container maxW="1360px" px={0}>
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Stack gap="8px">
-          <Title text="features" />
-          <SubTitle text="features_description" />
+          <Title text="features" textAlign={{ base: "center", md: "unset" }} />
+          <SubTitle
+            text="features_description"
+            textAlign={{ base: "center", md: "unset" }}
+          />
         </Stack>
-        <Flex gap="120px" pt={"42px"}>
+        <Flex
+          gap={{ base: "32px", xl: "120px" }}
+          pt={{ base: "32px", md: "42px" }}
+          flexDirection={{ base: "column", md: "row" }}
+        >
           <For each={features}>
             {({ id, title, description }) => (
-              <Flex key={id} as="ul" gap="12px" flexDirection={"column"}>
+              <Flex
+                key={id}
+                as="ul"
+                gap="12px"
+                flexDirection={"column"}
+                align={{ base: "center", md: "unset" }}
+                textAlign={{ base: "center", md: "unset" }}
+              >
                 <li>
-                  <Text fontWeight={500} fontSize={"22px"} color={"#161E24"}>
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "20px", md: "22px" }}
+                    color={"#161E24"}
+                  >
                     {t(title)}
                   </Text>
                 </li>

@@ -9,7 +9,7 @@ import { Description } from "./typography/description";
 export const About = () => {
   return (
     <Stack py="80px" bg="#f6f6f7">
-      <Container maxW="1360px" px={0}>
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
         <Flex w="100%" justify={"space-between"} gap="110px">
           <Stack flex="1" gap="24px">
             <Title as="h1" fontSize="42px" text="about" color="#004143" />

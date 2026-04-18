@@ -8,7 +8,13 @@ export const Title = ({ text }) => {
   const t = useTranslations();
 
   return (
-    <Heading as="h1" fontWeight={"700"} size="3xl" letterSpacing={"0"}>
+    <Heading
+      as="h1"
+      fontWeight={"700"}
+      fontSize={{ base: "26px", md: "28px" }}
+      letterSpacing={"0"}
+      textAlign="center"
+    >
       {t(text)}
     </Heading>
   );

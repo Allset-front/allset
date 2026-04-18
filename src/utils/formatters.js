@@ -45,13 +45,13 @@ export function formatDate(date, format = "DD-MM-YYYY") {
   }
 }
 
-export function formatPrice(price) {
+export function formatPrice(price, t) {
   const num = Number(price);
   if (isNaN(num)) return price;
 
   const formatted = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-  return `${formatted} AMD`;
+  return `${formatted} ${t("currency")}`;
 }
 
 export const generateAgendaKey = (text) => {
@@ -71,3 +71,35 @@ export const formatDDMMYYYY = (date) => {
 
   return `${day}.${month}.${year}`;
 }
+
+// V1
+// export const joinFilters = (filters) => filters?.join(",");
+
+// V2
+export const joinFilters = (filters) => {
+  if (!filters) return "";
+
+  if (Array.isArray(filters)) {
+    return filters.join(",");
+  }
+
+  return filters; // already a string from query
+};
+
+import { escapeRegex } from "./regex";
+
+export const highlightText = (text, query) => {
+  if (!query) return text;
+
+  const regex = new RegExp(`(${escapeRegex(query)})`, "gi");
+
+  return text.split(regex).map((part, i) =>
+    regex.test(part) ? (
+      <span key={i} style={{ background: "#81e6d9"}}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+};

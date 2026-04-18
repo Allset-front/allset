@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import { useGetTanstack } from "@/hooks/useTanstack";
 import { Box } from "@chakra-ui/react";
 import { Animate } from "@/components/ui/animate";
 import { Planning } from "@/components/public/planning";
 import { Choose } from "@/components/public/choose";
-import { Special } from "@/components/public/special";
+import { isNotEmptyObject } from "@/utils/checkers";
+import { Promo } from "@/components/public/promo";
 import { Instruction } from "@/components/public/instruction";
 import { Faqs } from "@/components/public/faqs";
 import { Story } from "@/components/public/story";
@@ -14,6 +16,8 @@ import { Available } from "@/components/public/available";
 import { Features } from "@/components/public/features";
 
 export const HomeClient = () => {
+  const { data } = useGetTanstack("home");
+
   return (
     <Box bg="#f6f6f7">
       <Animate>
@@ -22,17 +26,19 @@ export const HomeClient = () => {
       <Animate>
         <Choose />
       </Animate>
-      <Animate>
-        <Special />
-      </Animate>
+      {isNotEmptyObject(data?.promoBanner) && (
+        <Animate>
+          <Promo promo={data?.promoBanner} />
+        </Animate>
+      )}
       <Animate>
         <Instruction />
       </Animate>
       <Animate>
-        <Feedback />
+        <Feedback feedbacks={data?.feedbacks} />
       </Animate>
       <Animate>
-        <Faqs />
+        <Faqs faqs={data?.faq} />
       </Animate>
       <Animate>
         <Story />

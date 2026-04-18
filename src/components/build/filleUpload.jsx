@@ -39,6 +39,7 @@ export const FileUploadList = ({ onFileSelect }) => {
       as={Flex}
       flexDirection="row"
       gap="16px"
+      flexWrap="wrap"
     >
       {files.map((file) => (
         <FileUpload.Item

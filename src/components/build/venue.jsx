@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Field, Stack } from "@chakra-ui/react";
+import { Field, Stack, Text } from "@chakra-ui/react";
 import { Label } from "./typography/label";
 import { InputSimple } from "../ui/inputSimple";
 import { InputUrl } from "../ui/inputUrl";
@@ -23,12 +23,15 @@ export const Venue = ({ name, value, onChange, required }) => {
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px">
+    <Stack borderRadius={"8px"} bg="white" p={{ base: "16px", md: "24px" }}>
       <Field.Root required={required} gap={"16px"}>
         <Field.Label>
           <Field.RequiredIndicator fontSize="18px" />
           <Label text="venue" />
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("venue_text")}
+        </Text>
         <InputSimple
           name="location"
           value={value?.location ?? ""}

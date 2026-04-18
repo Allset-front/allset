@@ -24,12 +24,36 @@ It is built as a Next.js App Router application with SSR (Server-Side Rendering)
 
 ### Install Dependencies
 
-npm install || yarn install || pnpm install
+```bash
+npm i
+# or
+yarn i
+# or
+pnpm i
+# or
+bun i
+```
 
 ### Local Run
 
-npm run dev || yarn dev || pnpm dev
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
 ### Build
 
-npm run build || yarn build || pnpm build
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm duild
+# or
+bun build
+```

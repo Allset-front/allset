@@ -3,6 +3,7 @@
 import React from "react";
 import { Flex, For, Skeleton } from "@chakra-ui/react";
 import { Empty } from "@/components/auth/invitations/empty";
+import { Card } from "@/components/auth/invitations/card";
 import { isNotEmptyArray } from "@/utils/checkers";
 
 export default function Drafts({ isLoading, data }) {
@@ -11,10 +12,14 @@ export default function Drafts({ isLoading, data }) {
   }
 
   return isNotEmptyArray(data) ? (
-    <Flex justify={"space-between"} gap="44px" flexWrap={"wrap"}>
-      <For each={data}>{(el, index) => <></>}</For>
+    <Flex
+      gap={{ base: "22px", md: "44px" }}
+      flexWrap={"wrap"}
+      justify={{ base: "center", md: "unset" }}
+    >
+      <For each={data}>{(el, index) => <Card key={index} el={el} />}</For>
     </Flex>
   ) : (
-    <Empty />
+    <Empty type="drafts" />
   );
 }

@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Button, Field, Flex, HStack, Icon, Stack } from "@chakra-ui/react";
+import { Field, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { Label } from "@/components/build/typography/label";
-import { xls } from "../../assets/svgs";
+// import { xls } from "../../assets/svgs";
 import { Switcher } from "@/components/build/switcher";
 import { TextArea } from "../ui/textarea";
 
@@ -32,18 +32,21 @@ export const TextAreaField = ({
   };
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px">
+    <Stack borderRadius={"8px"} bg="white" p={{ base: "16px", md: "24px" }}>
       <Field.Root required={required} gap={"16px"}>
         <Field.Label as={Flex} w="100%" justify={"space-between"}>
           <HStack>
             <Field.RequiredIndicator fontSize="18px" />
-            <Label text={t(text)} />
+            <Label text={text} />
           </HStack>
 
           {!required && (
             <Switcher checked={checked} onChange={handleSwitchChange} />
           )}
         </Field.Label>
+        <Text textStyle="xs" color={"#6B7280"}>
+          {t("description_text")}
+        </Text>
         <TextArea
           languages={languages}
           name={name}

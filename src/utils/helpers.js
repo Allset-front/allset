@@ -19,11 +19,14 @@ export const scrollToTopWithDuration = (duration) => {
   requestAnimationFrame(scrollStep);
 }
 
-import { localesMap } from "./constants";
+import { languages } from "./constants";
+// export const getFlagCode = (lang) => {
+//   return localesMap[lang];
+// };
 export const getFlagCode = (lang) => {
-  return localesMap[lang];
+  const found = languages.find((l) => l.code === lang);
+  return found?.flag || null;
 };
-
 
 import { steps } from "./constants";
 export const getStepInfo = (pathname) => {
@@ -114,12 +117,12 @@ export function getTimeUntil(fullDate) {
 //
 import profile_bg from "@/assets/imgs/profile_bg.png";
 import invitations_bg from "@/assets/imgs/invitations_bg.png";
-import { transliterate } from "./formatters";
+// import { transliterate } from "./formatters";
 
 export function getAuthBg(pathname) {
   if (pathname?.includes("profile")) {
     return `url(${profile_bg.src})`
-  } else if ((pathname?.includes("invitations"))) {
+  } else if ((pathname?.includes("invitations") && !pathname?.includes("guests"))) {
     return `url(${invitations_bg.src})`
   }
 }
@@ -127,7 +130,7 @@ export function getAuthBg(pathname) {
 export function getAuthBgSize(pathname) {
   if (pathname?.includes("profile")) {
     return "contain"
-  } else if ((pathname?.includes("invitations"))) {
+  } else if ((pathname?.includes("invitations") && !pathname?.includes("guests"))) {
     return "cover"
   }
 }
@@ -135,16 +138,69 @@ export function getAuthBgSize(pathname) {
 export function getAuthBgPos(pathname) {
   if (pathname?.includes("profile")) {
     return "right"
-  } else if ((pathname?.includes("invitations"))) {
+  } else if ((pathname?.includes("invitations") && !pathname?.includes("guests"))) {
     return "center"
   }
 }
 
-
 export function getAuthTitle(pathname) {
   if (pathname?.includes("profile")) {
     return "profile"
-  } else {
+  } else if ((pathname?.includes("invitations") && !pathname?.includes("guests"))) {
     return "invitations"
-  }
+  } else return "guests"
 }
+
+export const getMaxDiscountPromocode = (codes = []) => {
+  if (!codes.length) return null;
+
+  return codes.reduce((max, item) =>
+    item.discountValue > max.discountValue ? item : max
+  );
+};
+
+export const getInitialForm = (id) => ({
+  invitationId: id,
+  mainGuest: "",
+  secondaryGuests: [""],
+  guestSide: "",
+  status: "CONFIRMED",
+  createdBy: "INVITATION_OWNER",
+});
+
+export const filterGuestsByName = (data = [], name = "") => {
+  if (!name) return data;
+
+  const nameLower = name.toLowerCase().trim();
+
+  return data.filter((item) => {
+    const mainMatch =
+      item.mainGuest &&
+      item.mainGuest.toLowerCase().includes(nameLower);
+
+    const secondaryMatch =
+      item.secondaryGuests &&
+      item.secondaryGuests.some((guest) =>
+        guest && guest.toLowerCase().includes(nameLower),
+      );
+
+    return mainMatch || secondaryMatch;
+  });
+};
+
+export const filterInvitations = (data = [], name = "") => {
+  if (!name) return data;
+
+  const query = name.toLowerCase().trim();
+
+  return data.filter((item) => {
+    const titles = item?.title;
+
+    const match =
+      (titles?.en?.toLowerCase().includes(query) ?? false) ||
+      (titles?.hy?.toLowerCase().includes(query) ?? false) ||
+      (titles?.ru?.toLowerCase().includes(query) ?? false);
+
+    return match;
+  });
+};

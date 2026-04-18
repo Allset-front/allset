@@ -10,20 +10,24 @@ export const BottomPart = () => {
     <Box
       w="100%"
       boxShadow="sm"
-      pt="32px"
-      pb="32px"
       bg="white"
-      // for fixed bottom part
-      // position="fixed"
-      // bottom="0"
-      // left="0"
-      // width="100%"
-      // zIndex="10"
+      py={{ base: "24px", md: "32px" }}
+      position={"sticky"}
+      bottom={"0"}
+      left={"0"}
+      zIndex={10}
     >
-      <Container maxW="1360px" px={0}>
-        <Flex justify="space-between">
+      <Container maxW="1440px" px={{ base: "24px", md: "40px" }}>
+        <Flex
+          gap="24px"
+          justify="space-between"
+          flexDirection={{ base: "column-reverse", md: "row" }}
+        >
           <Steps />
-          <Flex gap={"8px"}>
+          <Flex
+            gap={{ base: "16px", md: "8px" }}
+            flexDirection={{ base: "column-reverse", md: "row" }}
+          >
             <GoBack />
             <Continue />
           </Flex>

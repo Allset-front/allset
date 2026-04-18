@@ -11,7 +11,12 @@ export const ConfirmDate = () => {
   const t = useTranslations();
 
   return (
-    <Stack borderRadius={"8px"} bg="white" p="24px" gap="16px">
+    <Stack
+      borderRadius={"8px"}
+      bg="white"
+      p={{ base: "16px", md: "24px" }}
+      gap="16px"
+    >
       <Field.Root gap="16px">
         <Field.Label gap="16px">
           <Label text="date_preview" />
