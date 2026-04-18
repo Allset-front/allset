@@ -9,6 +9,7 @@ import { isContinueDisabled } from "../../utils/checkers";
 import { Button } from "@chakra-ui/react";
 import { next } from "@/assets/svgs";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
 
 export const Continue = () => {
   const [{ template, palette, accept }] = useQueryStates({
@@ -16,6 +17,8 @@ export const Continue = () => {
     palette: parseAsString,
     accept: parseAsString,
   });
+  const [shouldNavigate, setShouldNavigate] = useState(false);
+
   // console.log(template);
   // console.log(palette);
   // console.log(palette);
@@ -40,17 +43,25 @@ export const Continue = () => {
     palette,
   });
 
+  // V2 with side effects
   const handleClick = async () => {
     try {
       if (!isAuthenticated) {
+        setShouldNavigate(true);
         await loginWithPopup();
+        return;
       }
-
-      router.push(`${path}${search}`);
     } catch (err) {
-      return;
+      setShouldNavigate(false);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated && shouldNavigate) {
+      router.push(`${path}${search}`);
+      setShouldNavigate(false);
+    }
+  }, [isAuthenticated, shouldNavigate]);
 
   return isCustomisationsPage ? (
     <Button
@@ -165,3 +176,16 @@ export const Continue = () => {
     </Button>
   );
 };
+
+// V1 without side effects
+// const handleClick = async () => {
+//   try {
+//     if (!isAuthenticated) {
+//       await loginWithPopup();
+//     }
+
+//     router.push(`${path}${search}`);
+//   } catch (err) {
+//     return;
+//   }
+// };
