@@ -48,10 +48,11 @@ export const Card = ({ el }) => {
       palette: colorPaletteId,
       id: id,
     });
-    // queryClient.invalidateQueries({
-    //   queryKey: [`templates/${templateId}`],
-    //   refetchType: "all",
-    // });
+    queryClient.invalidateQueries({
+      queryKey: [`invitations/${id}`],
+      refetchType: "all",
+    });
+    // queryClient.removeQueries({ queryKey: [`invitations/${id}`] });
     router.push(
       `/build/details?template=${templateId}&palette=${colorPaletteId}&id=${id}`,
     );
