@@ -1,14 +1,16 @@
 "use client";
 
-import { useAuth0 } from "@auth0/auth0-react";
-import { parseAsString, useQueryStates } from "nuqs";
 import { useRef, useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "@/i18n/routing";
+import { parseAsString, useQueryStates } from "nuqs";
 import {
   useGetAuthTanstack,
   useGetTanstack,
   useMutateAuthTanstack,
 } from "@/hooks/useTanstack";
+import { queryClient } from "@/providers/queryProvider";
+import { buildPayload, pickInvitationFields } from "@/utils/formatters";
 import { detailsForm } from "@/utils/constants";
 import { Box, Stack } from "@chakra-ui/react";
 import { Animate } from "@/components/ui/animate";
@@ -23,10 +25,171 @@ import { Story } from "@/components/build/story";
 import { TextAreaField } from "@/components/build/textareaField";
 import { Photos } from "@/components/build/photos";
 import { Expire } from "@/components/build/expire";
-import { error, success } from "@/components/ui/alerts";
 import { Venue } from "@/components/build/venue";
 import { Rsvp } from "@/components/build/rsvp";
-import { queryClient } from "@/providers/queryProvider";
+import { error } from "@/components/ui/alerts";
+
+// export const DetailsClient = () => {
+//   const router = useRouter();
+//   const hiddenFieldsRef = useRef({});
+//   const lastSavedFormRef = useRef(null);
+
+//   const { isAuthenticated, isLoading } = useAuth0();
+//   const [{ template, palette, id }] = useQueryStates({
+//     template: parseAsString,
+//     palette: parseAsString,
+//     id: parseAsString,
+//   });
+
+//   if (!isLoading && !isAuthenticated) {
+//     return router.push(
+//       `/build/customisations?template=${template}${palette ? `&palette=${palette}` : ""}`,
+//     );
+//   }
+
+//   // const { data } = useGetTanstack(`templates/${template}`); // V2
+//   const { data } = useGetTanstack(`templates/${template}`, !id); // V3
+//   const { data: invitationData } = useGetAuthTanstack(
+//     `invitations/${id}`,
+//     !!id,
+//   );
+
+//   const { mutate } = useMutateAuthTanstack("invitations/draft", "post", {
+//     onSuccess: (res) => {
+//       const draftId = res?.id;
+//       if (draftId) {
+//         setForm((prev) => {
+//           if (prev.id === draftId) return prev;
+//           const updated = { ...prev, id: draftId };
+//           lastSavedFormRef.current = JSON.stringify(updated);
+//           return updated;
+//         });
+//       }
+//       queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
+//     },
+//     onError: (err) => error(err?.response?.data?.error || "Draft error!"),
+//   });
+
+//   const [form, setForm] = useState({
+//     ...detailsForm,
+//     templateId: template,
+//     colorPaletteId: palette,
+//   });
+
+//   const [agenda, setAgenda] = useState(
+//     data?.defaults?.agendaTitles ??
+//       invitationData?.template?.defaults?.agendaTitles,
+//   );
+
+//   useEffect(() => {
+//     if (!invitationData) return;
+//     setForm(invitationData);
+//   }, [invitationData]);
+
+//   useEffect(() => {
+//     if (!data) return;
+
+//     setForm((prev) => {
+//       const updates = { ...prev };
+
+//       if (data?.defaults?.ourStoryText) {
+//         updates.ourStory = { ...prev.ourStory, text: data.ourStoryText };
+//       }
+//       if (data?.defaults?.description) {
+//         updates.description = data.description;
+//       }
+//       if (data?.defaults?.dressCodeDescription) {
+//         updates.dressCode = {
+//           ...prev.dressCode,
+//           description: data.dressCodeDescription,
+//         };
+//       }
+//       return updates;
+//     });
+//   }, [data]);
+
+//   const handleHide = (key, hidden) => {
+//     setForm((prev) => {
+//       const updated = { ...prev };
+//       if (hidden) {
+//         hiddenFieldsRef.current[key] = updated[key];
+//         delete updated[key];
+//       } else {
+//         updated[key] = hiddenFieldsRef.current[key] || "";
+//         delete hiddenFieldsRef.current[key];
+//       }
+//       return updated;
+//     });
+//   };
+
+//   // single language V2
+//   const handleChange = (e) => {
+//     const updated = {
+//       ...form,
+//       [e.target.name]: e.target.value,
+//     };
+
+//     setForm(updated);
+//   };
+
+//   // mixed with handleChange V2
+//   const handleLngChange = (field, lang, value, nestedKey) => {
+//     setForm((prev) => {
+//       let updated;
+
+//       if (!nestedKey) {
+//         updated = {
+//           ...prev,
+//           [field]: {
+//             ...(prev[field] || { hy: "", ru: "", en: "" }),
+//             [lang]: value,
+//           },
+//         };
+//       } else {
+//         updated = {
+//           ...prev,
+//           [field]: {
+//             ...(prev[field] || {}),
+//             [nestedKey]: {
+//               ...(prev[field]?.[nestedKey] || { hy: "", ru: "", en: "" }),
+//               [lang]: value,
+//             },
+//           },
+//         };
+//       }
+
+//       return updated;
+//     });
+//   };
+
+//   // for timeline updates (array) V2
+//   const handleTimelineChange = (newTimeline) => {
+//     setForm((prev) => {
+//       const updated = {
+//         ...prev,
+//         timeline: newTimeline,
+//       };
+
+//       return updated;
+//     });
+//   };
+
+//   const submit = async (e) => {
+//     e.preventDefault();
+//     // mutate(form);
+//     router.push(`preview`);
+//   };
+
+//   const handleSmartBlur = () => {
+//     if (form.status === "ACTIVE") return;
+
+//     const currentDataString = JSON.stringify(form);
+
+//     if (lastSavedFormRef.current !== currentDataString) {
+//       mutate(form);
+//       lastSavedFormRef.current = currentDataString;
+//     }
+//   };
 
 export const DetailsClient = () => {
   const router = useRouter();
@@ -46,111 +209,51 @@ export const DetailsClient = () => {
     );
   }
 
-  // const { data } = useGetTanstack(`templates/${template}`); // V2
-  const { data } = useGetTanstack(`templates/${template}`, !id); // V3
+  const { data } = useGetTanstack(`templates/${template}`, !id);
   const { data: invitationData } = useGetAuthTanstack(
     `invitations/${id}`,
     !!id,
   );
-  console.log(data);
-  console.log(invitationData);
 
-  const { mutate } = useMutateAuthTanstack("invitations", "post", {
-    onSuccess: () => {
-      const isDraft = invitationData?.status === "DRAFT";
-
-      if (id) {
-        queryClient.invalidateQueries({
-          queryKey: [`invitations/active`],
-          refetchType: "all",
+  const { mutate } = useMutateAuthTanstack("invitations/draft", "post", {
+    onSuccess: (res) => {
+      const draftId = res?.id;
+      if (draftId) {
+        setForm((prev) => {
+          if (prev.id === draftId) return prev;
+          const updated = { ...prev, id: draftId };
+          lastSavedFormRef.current = JSON.stringify(updated);
+          return updated;
         });
-
-        if (isDraft) {
-          queryClient.invalidateQueries({
-            queryKey: [`invitations/drafts`],
-            refetchType: "all",
-          });
-        }
       }
-
-      const message =
-        id && !isDraft
-          ? "Basic Wedding Information Edited Successfully."
-          : "Basic Wedding Information Completed.";
-
-      success(message);
-      router.push(id && !isDraft ? `/auth/invitations` : `preview`);
-
-      // const status = invitationData?.status;
-
-      // if (id) {
-      //   if (status === "ACTIVE") {
-      //     queryClient.invalidateQueries({
-      //       queryKey: [`invitations/active`],
-      //       refetchType: "all",
-      //     });
-      //     success("Basic Wedding Information Edited Successfully.");
-      //     router.push(`/auth/invitations`);
-      //   } else {
-      //     alert("Draft case");
-      //     queryClient.invalidateQueries({
-      //       queryKey: [`invitations/active`],
-      //       refetchType: "all",
-      //     });
-      //     queryClient.invalidateQueries({
-      //       queryKey: [`invitations/drafts`],
-      //       refetchType: "all",
-      //     });
-      //     success("Basic Wedding Information Completed.");
-      //     // // setForm(detailsForm);
-      //     router.push(`preview`);
-      //   }
-      // } else {
-      //   success("Basic Wedding Information Completed.");
-      //   // // setForm(detailsForm);
-      //   router.push(`preview`);
-      // }
+      queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
     },
-    onError: (err) =>
-      error(err?.response?.data?.error || "Personal info editing error!"),
+    onError: (err) => error(err?.response?.data?.error || "Draft error!"),
   });
-  const { mutate: mutateDraft } = useMutateAuthTanstack(
-    "invitations/draft",
-    "post",
-    {
-      onSuccess: (res) => {
-        const draftId = res?.id;
-        if (draftId) {
-          setForm((prev) => {
-            if (prev.id === draftId) return prev;
-            const updated = { ...prev, id: draftId };
-            lastSavedFormRef.current = JSON.stringify(updated);
-            return updated;
-          });
-        }
-        queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
-      },
-      onError: (err) => error(err?.response?.data?.error || "Draft error!"),
-    },
-  );
 
   const [form, setForm] = useState({
     ...detailsForm,
     templateId: template,
     colorPaletteId: palette,
   });
-  // console.log("data", data);
-  // console.log("form", form);
-  // console.log(invitationData);
 
-  const [agenda, setAgenda] = useState(
-    data?.defaults?.agendaTitles ??
-      invitationData?.template?.defaults?.agendaTitles,
-  );
+  // const [agenda, setAgenda] = useState(
+  //   data?.defaults?.agendaTitles ??
+  //     invitationData?.template?.defaults?.agendaTitles,
+  // );
+
+  const [agenda, setAgenda] = useState([]);
+
+  useEffect(() => {
+    const titles =
+      data?.defaults?.agendaTitles ??
+      invitationData?.template?.defaults?.agendaTitles;
+    if (titles) setAgenda(titles);
+  }, [data, invitationData]);
 
   useEffect(() => {
     if (!invitationData) return;
-    setForm(invitationData);
+    setForm(pickInvitationFields(invitationData));
   }, [invitationData]);
 
   useEffect(() => {
@@ -160,15 +263,18 @@ export const DetailsClient = () => {
       const updates = { ...prev };
 
       if (data?.defaults?.ourStoryText) {
-        updates.ourStory = { ...prev.ourStory, text: data.ourStoryText };
+        updates.ourStory = {
+          ...prev.ourStory,
+          text: data.defaults.ourStoryText,
+        };
       }
       if (data?.defaults?.description) {
-        updates.description = data.description;
+        updates.description = data.defaults.description;
       }
       if (data?.defaults?.dressCodeDescription) {
         updates.dressCode = {
           ...prev.dressCode,
-          description: data.dressCodeDescription,
+          description: data.defaults.dressCodeDescription,
         };
       }
       return updates;
@@ -182,24 +288,25 @@ export const DetailsClient = () => {
         hiddenFieldsRef.current[key] = updated[key];
         delete updated[key];
       } else {
-        updated[key] = hiddenFieldsRef.current[key] || "";
+        updated[key] = hiddenFieldsRef.current[key] || ""; // without rsvp
+        // updated[key] =
+        //   key in hiddenFieldsRef.current
+        //     ? hiddenFieldsRef.current[key]
+        //     : detailsForm[key]; // with rsvp
         delete hiddenFieldsRef.current[key];
       }
       return updated;
     });
   };
 
-  // single language V2
   const handleChange = (e) => {
     const updated = {
       ...form,
       [e.target.name]: e.target.value,
     };
-
     setForm(updated);
   };
 
-  // mixed with handleChange V2
   const handleLngChange = (field, lang, value, nestedKey) => {
     setForm((prev) => {
       let updated;
@@ -229,33 +336,36 @@ export const DetailsClient = () => {
     });
   };
 
-  // for timeline updates (array) V2
   const handleTimelineChange = (newTimeline) => {
-    setForm((prev) => {
-      const updated = {
-        ...prev,
-        timeline: newTimeline,
-      };
-
-      return updated;
-    });
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-    mutate(form);
+    setForm((prev) => ({
+      ...prev,
+      timeline: newTimeline,
+    }));
   };
 
   const handleSmartBlur = () => {
+    // TODO: add post for active invitation edit
     if (form.status === "ACTIVE") return;
+
+    const isTitleFilled = form.languages?.some((lang) =>
+      form.title?.[lang]?.trim(),
+    );
+    
+    if (!isTitleFilled) return;
 
     const currentDataString = JSON.stringify(form);
 
     if (lastSavedFormRef.current !== currentDataString) {
-      mutateDraft(form);
+      mutate(buildPayload(form));
       lastSavedFormRef.current = currentDataString;
     }
   };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    router.push(`preview`);
+  };
+  console.log(form);
 
   return (
     <Box pt={{ base: "32px", md: "48px" }} pb="22px">
@@ -330,7 +440,13 @@ export const DetailsClient = () => {
           </Animate>
 
           <Animate>
-            <Rsvp name="rsvp" hide={handleHide} text="rsvp" />
+            <Rsvp
+              name="confirmationEnabled"
+              hide={handleHide}
+              onChange={handleChange}
+              text="rsvp"
+              value={form.confirmationEnabled}
+            />
           </Animate>
 
           <Animate>
@@ -415,6 +531,66 @@ export const DetailsClient = () => {
     </Box>
   );
 };
+
+// const { mutate } = useMutateAuthTanstack("invitations", "post", {
+//   onSuccess: () => {
+//     const isDraft = invitationData?.status === "DRAFT";
+
+//     if (id) {
+//       queryClient.invalidateQueries({
+//         queryKey: [`invitations/active`],
+//         refetchType: "all",
+//       });
+
+//       if (isDraft) {
+//         queryClient.invalidateQueries({
+//           queryKey: [`invitations/drafts`],
+//           refetchType: "all",
+//         });
+//       }
+//     }
+
+//     const message =
+//       id && !isDraft
+//         ? "Basic Wedding Information Edited Successfully."
+//         : "Basic Wedding Information Completed.";
+
+//     success(message);
+//     router.push(id && !isDraft ? `/auth/invitations` : `preview`);
+//   },
+//   onError: (err) =>
+//     error(err?.response?.data?.error || "Personal info editing error!"),
+// });
+
+// const status = invitationData?.status;
+
+// if (id) {
+//   if (status === "ACTIVE") {
+//     queryClient.invalidateQueries({
+//       queryKey: [`invitations/active`],
+//       refetchType: "all",
+//     });
+//     success("Basic Wedding Information Edited Successfully.");
+//     router.push(`/auth/invitations`);
+//   } else {
+//     alert("Draft case");
+//     queryClient.invalidateQueries({
+//       queryKey: [`invitations/active`],
+//       refetchType: "all",
+//     });
+//     queryClient.invalidateQueries({
+//       queryKey: [`invitations/drafts`],
+//       refetchType: "all",
+//     });
+//     success("Basic Wedding Information Completed.");
+//     // // setForm(detailsForm);
+//     router.push(`preview`);
+//   }
+// } else {
+//   success("Basic Wedding Information Completed.");
+//   // // setForm(detailsForm);
+//   router.push(`preview`);
+// }
 
 // const handleSmartBlur = () => {
 //   if (!template || !palette) return;

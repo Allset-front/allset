@@ -152,9 +152,7 @@ export const schemes = [
 ]
 
 export const detailsForm = {
-  languages: ["hy"],
   templateId: "",
-  colorPaletteId: "",
   title: {
     hy: "",
     en: "",
@@ -168,12 +166,7 @@ export const detailsForm = {
     ru: ""
   },
   mainImages: [],
-  rsvp: true,
-  // closingText: {
-  //   hy: "",
-  //   en: "",
-  //   ru: ""
-  // },
+  confirmationEnabled: true,
   venue: {
     location: "",
     link: ""
@@ -181,7 +174,6 @@ export const detailsForm = {
   timeline: [],
   countDown: true,
   connectWithUs: {
-    // description: "",
     name: "",
     phone: "",
     email: "",
@@ -203,8 +195,42 @@ export const detailsForm = {
       ru: ""
     },
     photoUrls: [],
-  }
+  },
+  languages: ["hy"],
+  colorPaletteId: "",
 }
+
+export const SERVER_FIELDS = [
+  "status",
+  "createdAt",
+  "publishedAt",
+  "expiresAt",
+  "finalPrice",
+  "guestCount",
+  "lastModifiedAt",
+  "template",
+];
+
+export const INVITATION_FIELDS = [
+  "id",
+  "title",
+  "urlExtension",
+  "eventDate",
+  "description",
+  "mainImages",
+  "closingText",
+  "confirmationEnabled",
+  "timeline",
+  "countDown",
+  "connectWithUs",
+  "dressCode",
+  "albumLink",
+  "ourStory",
+  "languages",
+  "colorPaletteId",
+  "venue",
+  "templateId",
+];
 
 import visa from "@/assets/imgs/visa.png";
 import idram from "@/assets/imgs/idram.png";

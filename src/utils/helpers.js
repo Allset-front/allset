@@ -34,9 +34,14 @@ export const getStepInfo = (pathname) => {
 
   if (!step) return { show: false };
 
+  const stepToPath = Object.fromEntries(
+    Object.entries(steps).map(([path, step]) => [step, path])
+  );
+
   return {
     step,
-    value: (step / 4) * 100,
+    // value: (step / 4) * 100,
+    stepToPath, 
     show: true,
   };
 };

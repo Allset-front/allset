@@ -2,13 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import {
-  Dialog,
-  Icon,
-  Input,
-  InputGroup,
-  CloseButton,
-} from "@chakra-ui/react";
+import { Dialog, Icon, Input, InputGroup, CloseButton } from "@chakra-ui/react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { calendar } from "../../assets/svgs";
@@ -27,7 +21,8 @@ export const Calendar = ({ name, value, onChange, required }) => {
 
   useEffect(() => {
     if (value) {
-      const [day, month, year] = value.split("-").map(Number);
+      // const [day, month, year] = value.split("-").map(Number);
+      const [year, month, day] = value.split("-").map(Number);
       setSelected(new Date(year, month - 1, day));
     } else {
       setSelected(null);
@@ -42,7 +37,8 @@ export const Calendar = ({ name, value, onChange, required }) => {
     onChange?.({
       target: {
         name,
-        value: formatDate(date, "DD-MM-YYYY"),
+        // value: formatDate(date, "DD-MM-YYYY"),
+        value: formatDate(date, "YYYY-MM-DD"),
       },
     });
   };

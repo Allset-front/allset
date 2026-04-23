@@ -19,10 +19,6 @@ export const Continue = () => {
   });
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
-  // console.log(template);
-  // console.log(palette);
-  // console.log(palette);
-
   const t = useTranslations();
   const pathname = usePathname();
   const search = useSearch();

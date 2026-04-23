@@ -95,7 +95,7 @@ export const highlightText = (text, query) => {
 
   return text.split(regex).map((part, i) =>
     regex.test(part) ? (
-      <span key={i} style={{ background: "#81e6d9"}}>
+      <span key={i} style={{ background: "#81e6d9" }}>
         {part}
       </span>
     ) : (
@@ -103,3 +103,18 @@ export const highlightText = (text, query) => {
     ),
   );
 };
+
+import { SERVER_FIELDS, INVITATION_FIELDS } from "./constants";
+
+export const buildPayload = (form) => {
+  const payload = { ...form };
+  SERVER_FIELDS.forEach((key) => delete payload[key]);
+  if (!payload.id) delete payload.id;
+  return payload;
+};
+
+export const pickInvitationFields = (data) =>
+  INVITATION_FIELDS.reduce((acc, key) => {
+    if (key in data) acc[key] = data[key];
+    return acc;
+  }, {});

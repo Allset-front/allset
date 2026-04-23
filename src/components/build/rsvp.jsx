@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useTranslations } from "next-intl";
 import { Field, Flex, Stack, Text } from "@chakra-ui/react";
 import { Label } from "./typography/label";
 import { Switcher } from "./switcher";
 
-export const Rsvp = ({ name, hide, text }) => {
+export const Rsvp = ({ name, hide, onChange, text, value }) => {
   const t = useTranslations();
-  const [checked, setChecked] = useState(true);
 
   const handleSwitchChange = (e) => {
-    setChecked(e.checked);
     hide(name, !e.checked);
+    onChange({ target: { name, value: e.checked } });
   };
 
   return (
@@ -24,7 +23,7 @@ export const Rsvp = ({ name, hide, text }) => {
           <Label text={text} />
           {/* </HStack> */}
 
-          <Switcher checked={checked} onChange={handleSwitchChange} />
+          <Switcher checked={value} onChange={handleSwitchChange} />
         </Field.Label>
         <Text textStyle="xs" color={"#6B7280"}>
           {t("rsvp_text")}
