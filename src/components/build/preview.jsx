@@ -1,28 +1,21 @@
 "use client";
 
 import { useQueryState } from "nuqs";
-import {
-  Button,
-  Flex,
-  For,
-  HStack,
-  Image,
-  Stack,
-  useMediaQuery,
-  VStack,
-  Box
-} from "@chakra-ui/react";
+import { Box, Flex, Stack, useMediaQuery, VStack } from "@chakra-ui/react";
 import { MidText } from "@/components/build/typography/midText";
 import { SubText } from "@/components/build/typography/subText";
-import { responsive } from "@/utils/constants";
-import img from "@/assets/imgs/customisations.png";
+import { ViewportToggle } from "@/components/build/viewportToggle";
+import { InvitationFrame } from "@/components/invitation/InvitationFrame";
+import { DEFAULT_VIEWPORT } from "@/components/invitation/theme/viewports";
 
-export const Preview = () => {
-  const [device, setDevice] = useQueryState("device");
+export const Preview = ({ template, palette, data }) => {
+  const [device] = useQueryState("device", { defaultValue: DEFAULT_VIEWPORT });
   const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   return (
     <VStack
+      flex="1"
+      minW="0"
       w="100%"
       minH="100%"
       bg="white"
@@ -30,7 +23,7 @@ export const Preview = () => {
       p={{ base: "0", md: "24px" }}
       gap={{ base: "0", md: "32px" }}
     >
-      <Flex w="100%" justify={"space-between"}>
+      <Flex w="100%" justify={"space-between"} align={"center"}>
         {!isMobile && (
           <Stack gap={"8px"}>
             <MidText text="template_preview" />
@@ -38,62 +31,28 @@ export const Preview = () => {
           </Stack>
         )}
 
-        <HStack display={{ base: "none", md: "flex" }}>
-          <For each={responsive}>
-            {({ id, name, icon }) => (
-              <Button
-                key={id}
-                variant={device === name ? "subtle" : "ghost"}
-                onClick={() => setDevice(name)}
-                p="0"
-                gap="0"
-              >
-                {icon}
-              </Button>
-            )}
-          </For>
-        </HStack>
+        <ViewportToggle display={{ base: "none", md: "flex" }} />
       </Flex>
 
-      {/* <Image
-        w="100%"
-        h={{ base: "430px", md: "685px" }}
-        objectFit={"cover"}
-        src={img.src}
-        borderRadius={"8px"}
-        // p={"60px 25px 0 25px"}
-      /> */}
-
-      <Box position="relative" w="100%"  h={{ base: "430px", md: "685px" }}>
-        <Image
-          w="100%"
-          h="100%"
-          objectFit={"cover"}
-          src={img.src}
-          borderRadius={"8px"}
+      <Box position="relative" w="100%" h={{ base: "430px", md: "685px" }}>
+        <InvitationFrame
+          viewport={device}
+          palette={palette}
+          template={template}
+          data={data}
+          height="100%"
         />
 
-        <HStack
-          position={{ base: "absolute", md: "static" }}
+        <ViewportToggle
+          position="absolute"
           display={{ base: "flex", md: "none" }}
           top="8px"
           right="8px"
           zIndex={2}
-        >
-          <For each={responsive}>
-            {({ id, name, icon }) => (
-              <Button
-                key={id}
-                variant={device === name ? "subtle" : "ghost"}
-                onClick={() => setDevice(name)}
-                p="0"
-                gap="0"
-              >
-                {icon}
-              </Button>
-            )}
-          </For>
-        </HStack>
+          bg="whiteAlpha.800"
+          borderRadius="6px"
+          p="2px"
+        />
       </Box>
     </VStack>
   );

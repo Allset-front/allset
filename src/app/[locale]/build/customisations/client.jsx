@@ -17,13 +17,18 @@ export const CustomisationsClient = () => {
 
   const { data } = useGetTanstack("templates");
   const [template] = useQueryState("template");
+  const [paletteId] = useQueryState("palette");
   const [isMobile] = useMediaQuery("(max-width: 767px)");
 
   if (!template) {
     return router.push("/build/templates");
   }
 
-  const selectedTemplate = data?.find((item) => item.id === template) || [];
+  const selectedTemplate = data?.find((item) => item.id === template) || null;
+  const selectedPalette =
+    selectedTemplate?.palettes?.find((p) => p.id === paletteId) ||
+    selectedTemplate?.palettes?.[0] ||
+    null;
 
   return (
     <Animate>
@@ -42,7 +47,7 @@ export const CustomisationsClient = () => {
         flexDirection={{ base: "column-reverse", md: "row" }}
       >
         <Aside data={selectedTemplate?.palettes} language={language} />
-        <Preview />
+        <Preview template={selectedTemplate} palette={selectedPalette} />
       </Flex>
     </Animate>
   );
