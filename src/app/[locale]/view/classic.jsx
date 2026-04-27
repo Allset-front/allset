@@ -1,15 +1,26 @@
 "use client";
 
-import { Box, Button, Flex, HStack, Input, Stack, Text, VStack } from "@chakra-ui/react";
-import { paletteToVars } from "./theme/paletteToVars";
-import { designWidth } from "./theme/viewports";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Input,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { designWidth, paletteToVars } from "@/utils/formatters";
 
 const SCRIPT_FONT_URL =
   "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap";
 
-const HERO_FALLBACK = "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=70";
-const COUPLE_FALLBACK = "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=70";
-const STORY_BG = "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=70";
+const HERO_FALLBACK =
+  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=70";
+const COUPLE_FALLBACK =
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=70";
+const STORY_BG =
+  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=70";
 const GALLERY_FALLBACKS = [
   "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=70",
   "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=600&q=70",
@@ -48,7 +59,7 @@ const diffParts = (iso) => {
 const scriptFont = `"Dancing Script", "Great Vibes", cursive`;
 const serifFont = `"Cormorant Garamond", "Playfair Display", Georgia, serif`;
 
-export const Invitation = ({ viewport = "pc", palette, data, template }) => {
+export default function Classic({ viewport = "pc", palette, data, template }) {
   const vars = paletteToVars(palette?.colors);
   const language = data?.languages?.[0] || "en";
 
@@ -70,15 +81,14 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
     pickLang(template?.defaults?.description, language) ||
     "We would be honored to have you join us as we celebrate the beginning of our new life together. Your presence will make our special day even more meaningful.";
 
-  const timeline =
-    data?.timeline?.length
-      ? data.timeline
-      : [
-          { time: "12:00", venueName: "BRIDE'S HOME" },
-          { time: "13:30", venueName: "DEPARTURE TO GROOM'S HOME" },
-          { time: "16:00", venueName: "GROOM'S HOME" },
-          { time: "17:30", venueName: "ARRIVAL AT RECEPTION VENUE" },
-        ];
+  const timeline = data?.timeline?.length
+    ? data.timeline
+    : [
+        { time: "12:00", venueName: "BRIDE'S HOME" },
+        { time: "13:30", venueName: "DEPARTURE TO GROOM'S HOME" },
+        { time: "16:00", venueName: "GROOM'S HOME" },
+        { time: "17:30", venueName: "ARRIVAL AT RECEPTION VENUE" },
+      ];
 
   const dressCodeDesc =
     pickLang(data?.dressCode?.description, language) ||
@@ -91,10 +101,9 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
     pickLang(template?.defaults?.ourStoryText, language) ||
     "Our story is written with sincerity, family warmth, and true devotion.\nFrom the day we met, we felt something special — something that only grew stronger with every moment, every smile, every challenge.\nNow, with our families' blessings and love in our hearts, we are ready to start a new life together.";
 
-  const gallery =
-    data?.ourStory?.photoUrls?.length
-      ? data.ourStory.photoUrls.slice(0, 4)
-      : GALLERY_FALLBACKS;
+  const gallery = data?.ourStory?.photoUrls?.length
+    ? data.ourStory.photoUrls.slice(0, 4)
+    : GALLERY_FALLBACKS;
 
   const contact = data?.connectWithUs || {};
   const phone = contact.phone || "+374 99 112233";
@@ -175,10 +184,26 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
             divideX="1px"
             divideColor="rgba(0,0,0,0.15)"
           >
-            <CountdownCell value={countdown.days} label="days" isMobile={isMobile} />
-            <CountdownCell value={String(countdown.hours).padStart(2, "0")} label="hours" isMobile={isMobile} />
-            <CountdownCell value={String(countdown.min).padStart(2, "0")} label="min" isMobile={isMobile} />
-            <CountdownCell value={String(countdown.sec).padStart(2, "0")} label="sec" isMobile={isMobile} />
+            <CountdownCell
+              value={countdown.days}
+              label="days"
+              isMobile={isMobile}
+            />
+            <CountdownCell
+              value={String(countdown.hours).padStart(2, "0")}
+              label="hours"
+              isMobile={isMobile}
+            />
+            <CountdownCell
+              value={String(countdown.min).padStart(2, "0")}
+              label="min"
+              isMobile={isMobile}
+            />
+            <CountdownCell
+              value={String(countdown.sec).padStart(2, "0")}
+              label="sec"
+              isMobile={isMobile}
+            />
           </HStack>
         )}
 
@@ -210,7 +235,9 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
             letterSpacing="0.04em"
             textTransform="uppercase"
           >
-            Timing for our<br />special day
+            Timing for our
+            <br />
+            special day
           </Text>
           <Text
             fontSize={isMobile ? "13px" : "15px"}
@@ -218,7 +245,8 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
             maxW="440px"
             lineHeight="1.6"
           >
-            Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque consequat a justo diam adipiscing velit tincidunt.
+            Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque
+            consequat a justo diam adipiscing velit tincidunt.
           </Text>
 
           <Stack gap="18px" pt="8px" w="100%">
@@ -234,7 +262,9 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
                     textTransform="uppercase"
                     color="rgba(255,255,255,0.7)"
                   >
-                    {pickLang(item.venueName, language) || item.venueName || "Venue"}
+                    {pickLang(item.venueName, language) ||
+                      item.venueName ||
+                      "Venue"}
                   </Text>
                 </VStack>
                 <Button
@@ -283,7 +313,9 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
             textAlign="center"
             textTransform="uppercase"
           >
-            Please let us know if you<br />will join us
+            Please let us know if you
+            <br />
+            will join us
           </Text>
           <VStack gap="12px" w={isMobile ? "100%" : "420px"}>
             <Input
@@ -360,8 +392,20 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
         </Text>
         <HStack gap="0" pt="12px">
           <Box w="32px" h="32px" borderRadius="50%" bg="var(--c-accent)" />
-          <Box w="32px" h="32px" borderRadius="50%" bg="var(--c-secondary)" ml="-10px" />
-          <Box w="32px" h="32px" borderRadius="50%" bg="var(--c-surface)" ml="-10px" />
+          <Box
+            w="32px"
+            h="32px"
+            borderRadius="50%"
+            bg="var(--c-secondary)"
+            ml="-10px"
+          />
+          <Box
+            w="32px"
+            h="32px"
+            borderRadius="50%"
+            bg="var(--c-surface)"
+            ml="-10px"
+          />
         </HStack>
         <VStack gap="4px">
           <Text fontSize="14px" fontWeight="500">
@@ -378,7 +422,12 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
           lineHeight="1.7"
           pt="8px"
         >
-          Lorem ipsum dolor sit amet consectetur. Molestie suada sollicitudin suspendisse congue condimentum. Egestas at aliquam pharetra tempus et. Morbi tincidunt viverra nunc felis sollicitudin pretium. Lacus arcu purus sed diam. Varius laoreet quis pellentesque et justo at. Cursus cursus bibendum lacus pellentesque leo ullamcorper libero suspendisse in.
+          Lorem ipsum dolor sit amet consectetur. Molestie suada sollicitudin
+          suspendisse congue condimentum. Egestas at aliquam pharetra tempus et.
+          Morbi tincidunt viverra nunc felis sollicitudin pretium. Lacus arcu
+          purus sed diam. Varius laoreet quis pellentesque et justo at. Cursus
+          cursus bibendum lacus pellentesque leo ullamcorper libero suspendisse
+          in.
         </Text>
       </VStack>
 
@@ -421,7 +470,12 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
             </Text>
           </>
         )}
-        <Text fontSize="12px" letterSpacing="0.15em" color="#6B6B6B" textTransform="uppercase">
+        <Text
+          fontSize="12px"
+          letterSpacing="0.15em"
+          color="#6B6B6B"
+          textTransform="uppercase"
+        >
           Go to look at the photos
         </Text>
         <Text
@@ -433,7 +487,8 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
           WEDDING GALLERY
         </Text>
         <Text fontSize="13px" color="#6B6B6B" maxW="440px">
-          Our photos and videos will be available soon.<br />
+          Our photos and videos will be available soon.
+          <br />
           Please wait for the official link after the wedding.
         </Text>
         <Button
@@ -445,7 +500,9 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
           fontSize="13px"
           _hover={{ opacity: 0.9 }}
           as={data?.albumLink ? "a" : "button"}
-          {...(data?.albumLink ? { href: data.albumLink, target: "_blank" } : {})}
+          {...(data?.albumLink
+            ? { href: data.albumLink, target: "_blank" }
+            : {})}
         >
           Open
         </Button>
@@ -518,12 +575,18 @@ export const Invitation = ({ viewport = "pc", palette, data, template }) => {
       </VStack>
 
       {/* Palette indicator (matches the "Palette - C1" label in the mockup) */}
-      <Box bg="#222" color="rgba(255,255,255,0.6)" textAlign="center" py="8px" fontSize="11px">
+      <Box
+        bg="#222"
+        color="rgba(255,255,255,0.6)"
+        textAlign="center"
+        py="8px"
+        fontSize="11px"
+      >
         Palette — {palette?.name?.en || palette?.id || "default"}
       </Box>
     </Box>
   );
-};
+}
 
 const CountdownCell = ({ value, label, isMobile }) => (
   <HStack px={isMobile ? "10px" : "18px"} align="baseline" gap="6px">

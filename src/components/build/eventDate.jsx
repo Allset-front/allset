@@ -5,7 +5,7 @@ import { Field, Stack, Text } from "@chakra-ui/react";
 import { Label } from "@/components/build/typography/label";
 import { Calendar } from "@/components/build/calendar";
 
-export const EventDate = ({ name, value, onChange, required }) => {
+export const EventDate = ({ name, value, onChange, required, disabled }) => {
   const t = useTranslations();
 
   return (
@@ -23,6 +23,7 @@ export const EventDate = ({ name, value, onChange, required }) => {
           value={value}
           onChange={onChange}
           required={required}
+          disabled={disabled}
         />
       </Field.Root>
     </Stack>

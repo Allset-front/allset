@@ -29,168 +29,6 @@ import { Venue } from "@/components/build/venue";
 import { Rsvp } from "@/components/build/rsvp";
 import { error } from "@/components/ui/alerts";
 
-// export const DetailsClient = () => {
-//   const router = useRouter();
-//   const hiddenFieldsRef = useRef({});
-//   const lastSavedFormRef = useRef(null);
-
-//   const { isAuthenticated, isLoading } = useAuth0();
-//   const [{ template, palette, id }] = useQueryStates({
-//     template: parseAsString,
-//     palette: parseAsString,
-//     id: parseAsString,
-//   });
-
-//   if (!isLoading && !isAuthenticated) {
-//     return router.push(
-//       `/build/customisations?template=${template}${palette ? `&palette=${palette}` : ""}`,
-//     );
-//   }
-
-//   // const { data } = useGetTanstack(`templates/${template}`); // V2
-//   const { data } = useGetTanstack(`templates/${template}`, !id); // V3
-//   const { data: invitationData } = useGetAuthTanstack(
-//     `invitations/${id}`,
-//     !!id,
-//   );
-
-//   const { mutate } = useMutateAuthTanstack("invitations/draft", "post", {
-//     onSuccess: (res) => {
-//       const draftId = res?.id;
-//       if (draftId) {
-//         setForm((prev) => {
-//           if (prev.id === draftId) return prev;
-//           const updated = { ...prev, id: draftId };
-//           lastSavedFormRef.current = JSON.stringify(updated);
-//           return updated;
-//         });
-//       }
-//       queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
-//     },
-//     onError: (err) => error(err?.response?.data?.error || "Draft error!"),
-//   });
-
-//   const [form, setForm] = useState({
-//     ...detailsForm,
-//     templateId: template,
-//     colorPaletteId: palette,
-//   });
-
-//   const [agenda, setAgenda] = useState(
-//     data?.defaults?.agendaTitles ??
-//       invitationData?.template?.defaults?.agendaTitles,
-//   );
-
-//   useEffect(() => {
-//     if (!invitationData) return;
-//     setForm(invitationData);
-//   }, [invitationData]);
-
-//   useEffect(() => {
-//     if (!data) return;
-
-//     setForm((prev) => {
-//       const updates = { ...prev };
-
-//       if (data?.defaults?.ourStoryText) {
-//         updates.ourStory = { ...prev.ourStory, text: data.ourStoryText };
-//       }
-//       if (data?.defaults?.description) {
-//         updates.description = data.description;
-//       }
-//       if (data?.defaults?.dressCodeDescription) {
-//         updates.dressCode = {
-//           ...prev.dressCode,
-//           description: data.dressCodeDescription,
-//         };
-//       }
-//       return updates;
-//     });
-//   }, [data]);
-
-//   const handleHide = (key, hidden) => {
-//     setForm((prev) => {
-//       const updated = { ...prev };
-//       if (hidden) {
-//         hiddenFieldsRef.current[key] = updated[key];
-//         delete updated[key];
-//       } else {
-//         updated[key] = hiddenFieldsRef.current[key] || "";
-//         delete hiddenFieldsRef.current[key];
-//       }
-//       return updated;
-//     });
-//   };
-
-//   // single language V2
-//   const handleChange = (e) => {
-//     const updated = {
-//       ...form,
-//       [e.target.name]: e.target.value,
-//     };
-
-//     setForm(updated);
-//   };
-
-//   // mixed with handleChange V2
-//   const handleLngChange = (field, lang, value, nestedKey) => {
-//     setForm((prev) => {
-//       let updated;
-
-//       if (!nestedKey) {
-//         updated = {
-//           ...prev,
-//           [field]: {
-//             ...(prev[field] || { hy: "", ru: "", en: "" }),
-//             [lang]: value,
-//           },
-//         };
-//       } else {
-//         updated = {
-//           ...prev,
-//           [field]: {
-//             ...(prev[field] || {}),
-//             [nestedKey]: {
-//               ...(prev[field]?.[nestedKey] || { hy: "", ru: "", en: "" }),
-//               [lang]: value,
-//             },
-//           },
-//         };
-//       }
-
-//       return updated;
-//     });
-//   };
-
-//   // for timeline updates (array) V2
-//   const handleTimelineChange = (newTimeline) => {
-//     setForm((prev) => {
-//       const updated = {
-//         ...prev,
-//         timeline: newTimeline,
-//       };
-
-//       return updated;
-//     });
-//   };
-
-//   const submit = async (e) => {
-//     e.preventDefault();
-//     // mutate(form);
-//     router.push(`preview`);
-//   };
-
-//   const handleSmartBlur = () => {
-//     if (form.status === "ACTIVE") return;
-
-//     const currentDataString = JSON.stringify(form);
-
-//     if (lastSavedFormRef.current !== currentDataString) {
-//       mutate(form);
-//       lastSavedFormRef.current = currentDataString;
-//     }
-//   };
-
 export const DetailsClient = () => {
   const router = useRouter();
   const hiddenFieldsRef = useRef({});
@@ -219,12 +57,6 @@ export const DetailsClient = () => {
   //   mutateDelete();
   // }, []);
   //
-
-  // if (!isLoading && !isAuthenticated) {
-  //   return router.push(
-  //     `/build/customisations?template=${template}${palette ? `&palette=${palette}` : ""}`,
-  //   );
-  // }
 
   const { data } = useGetTanstack(`templates/${template}`, !id);
   const { data: invitationData } = useGetAuthTanstack(
@@ -255,11 +87,6 @@ export const DetailsClient = () => {
   });
 
   formRef.current = form;
-
-  // const [agenda, setAgenda] = useState(
-  //   data?.defaults?.agendaTitles ??
-  //     invitationData?.template?.defaults?.agendaTitles,
-  // );
 
   const [agenda, setAgenda] = useState([]);
 
@@ -320,24 +147,12 @@ export const DetailsClient = () => {
         hiddenFieldsRef.current[key] = updated[key];
         delete updated[key];
       } else {
-        updated[key] = hiddenFieldsRef.current[key] || ""; // without rsvp
-        // updated[key] =
-        //   key in hiddenFieldsRef.current
-        //     ? hiddenFieldsRef.current[key]
-        //     : detailsForm[key]; // with rsvp
+        updated[key] = hiddenFieldsRef.current[key] || "";
         delete hiddenFieldsRef.current[key];
       }
       return updated;
     });
   };
-
-  // const handleChange = (e) => {
-  //   const updated = {
-  //     ...form,
-  //     [e.target.name]: e.target.value,
-  //   };
-  //   setForm(updated);
-  // };
   const handleChange = (e) => {
     setForm((prev) => ({
       ...prev,
@@ -382,8 +197,7 @@ export const DetailsClient = () => {
   };
 
   const handleSmartBlur = () => {
-    // TODO: add post for active invitation edit
-    if (form.status === "ACTIVE") return;
+    if (invitationData?.status === "ACTIVE") return;
 
     const current = formRef.current;
 
@@ -395,43 +209,16 @@ export const DetailsClient = () => {
 
     const currentDataString = JSON.stringify(current);
 
-    // if (lastSavedFormRef.current !== currentDataString) {
-    //   mutate(buildPayload(form));
-    //   lastSavedFormRef.current = currentDataString;
-    // }
     if (lastSavedFormRef.current !== currentDataString) {
-      // const { id, ...rest } = current;
-      // mutate(id ? { id, ...rest } : rest);
-
       mutate(buildPayload(current));
       lastSavedFormRef.current = currentDataString;
     }
-    // setTimeout(() => {
-    //   if (formRef.current.status === "ACTIVE") return;
-
-    //   const current = formRef.current;
-
-    //   const isTitleFilled = current.languages?.some((lang) =>
-    //     current.title?.[lang]?.trim(),
-    //   );
-
-    //   if (!isTitleFilled) return;
-
-    //   const currentDataString = JSON.stringify(current);
-
-    //   if (lastSavedFormRef.current !== currentDataString) {
-    //     const { id, ...rest } = current;
-    //     mutate(id ? { id, ...rest } : rest);
-    //     lastSavedFormRef.current = currentDataString;
-    //   }
-    // }, 100);
   };
 
   const submit = async (e) => {
     e.preventDefault();
     router.push(`preview`);
   };
-  console.log(form);
 
   return (
     <Box pt={{ base: "32px", md: "48px" }} pb="22px">
@@ -474,6 +261,7 @@ export const DetailsClient = () => {
               name="eventDate"
               value={form.eventDate}
               onChange={handleChange}
+              disabled={form.status === "ACTIVE" ? true : false}
               required={true}
             />
           </Animate>
@@ -586,12 +374,7 @@ export const DetailsClient = () => {
           </Animate>
         </Stack>
 
-        <Animate
-        // initial={{ opacity: 0, y: 40 }}
-        // whileInView={{ opacity: 1, y: 0 }}
-        // transition={{ duration: 0.5 }}
-        // viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-        >
+        <Animate>
           <Expire />
         </Animate>
       </Stack>
@@ -599,174 +382,7 @@ export const DetailsClient = () => {
   );
 };
 
-// const { mutate } = useMutateAuthTanstack("invitations", "post", {
-//   onSuccess: () => {
-//     const isDraft = invitationData?.status === "DRAFT";
-
-//     if (id) {
-//       queryClient.invalidateQueries({
-//         queryKey: [`invitations/active`],
-//         refetchType: "all",
-//       });
-
-//       if (isDraft) {
-//         queryClient.invalidateQueries({
-//           queryKey: [`invitations/drafts`],
-//           refetchType: "all",
-//         });
-//       }
-//     }
-
-//     const message =
-//       id && !isDraft
-//         ? "Basic Wedding Information Edited Successfully."
-//         : "Basic Wedding Information Completed.";
-
-//     success(message);
-//     router.push(id && !isDraft ? `/auth/invitations` : `preview`);
-//   },
-//   onError: (err) =>
-//     error(err?.response?.data?.error || "Personal info editing error!"),
-// });
-
-// const status = invitationData?.status;
-
-// if (id) {
-//   if (status === "ACTIVE") {
-//     queryClient.invalidateQueries({
-//       queryKey: [`invitations/active`],
-//       refetchType: "all",
-//     });
-//     success("Basic Wedding Information Edited Successfully.");
-//     router.push(`/auth/invitations`);
-//   } else {
-//     alert("Draft case");
-//     queryClient.invalidateQueries({
-//       queryKey: [`invitations/active`],
-//       refetchType: "all",
-//     });
-//     queryClient.invalidateQueries({
-//       queryKey: [`invitations/drafts`],
-//       refetchType: "all",
-//     });
-//     success("Basic Wedding Information Completed.");
-//     // // setForm(detailsForm);
-//     router.push(`preview`);
-//   }
-// } else {
-//   success("Basic Wedding Information Completed.");
-//   // // setForm(detailsForm);
-//   router.push(`preview`);
-// }
-
-// const handleSmartBlur = () => {
-//   if (!template || !palette) return;
-
-//   // optional: wait until template data loaded
-//   if (!data) return;
-
-//   const currentDataString = JSON.stringify(form);
-
-//   if (lastSavedFormRef.current !== currentDataString) {
-//     console.log("SENDING DRAFT:", form);
-//     mutateDraft(form);
-//   }
-// };
-
-// clear drafts
-// const { mutate: mutateDelete } = useMutateAuthTanstack(
-//   "invitations/drafts",
-//   "delete",
-//   {
-//     onSuccess: () => {
-//       success("Drafts deleted.");
-//     },
-//   },
-// );
-
-// useEffect(() => {
-//   mutateDelete();
-// }, []);
-//
-
-// for timeline updates (array) V1
-// const handleTimelineChange = (newTimeline) => {
-//   setForm((prev) => ({
-//     ...prev,
-//     timeline: newTimeline,
-//   }));
-// };
-
-// single language V1
-// const handleChange = (e) => {
-//   setForm({
-//     ...form,
-//     [e.target.name]: e.target.value,
-//   });
-// };
-
-// mixed with handleChange V1
-// const handleLngChange = (field, lang, value, nestedKey) => {
-//   setForm((prev) => {
-//     if (!nestedKey) {
-//       return {
-//         ...prev,
-//         [field]: {
-//           ...(prev[field] || { hy: "", ru: "", en: "" }),
-//           [lang]: value,
-//         },
-//       };
-//     }
-
-//     return {
-//       ...prev,
-//       [field]: {
-//         ...(prev[field] || {}),
-//         [nestedKey]: {
-//           ...(prev[field]?.[nestedKey] || { hy: "", ru: "", en: "" }),
-//           [lang]: value,
-//         },
-//       },
-//     };
-//   });
-// };
-
-// multi language
-// const handleLngChange = (name, lang, value) => {
-//   setForm((prev) => ({
-//     ...prev,
-//     [name]: {
-//       ...(prev[name] || { hy: "", ru: "", en: "" }),
-//       [lang]: value,
-//     },
-//   }));
-// };
-
-// useEffect(() => {
-//   if (defaults?.ourStoryText) {
-//     setForm((prev) => ({
-//       ...prev,
-//       ourStory: {
-//         ...prev.ourStory,
-//         text: defaults?.ourStoryText,
-//       },
-//     }));
-//   }
-//   if (defaults?.description) {
-//     setForm((prev) => ({
-//       ...prev,
-//       description: {
-//         ...defaults?.description,
-//       },
-//     }));
-//   }
-//   if (defaults?.dressCodeDescription) {
-//     setForm((prev) => ({
-//       ...prev,
-//       dressCode: {
-//         ...prev.dressCode,
-//         description: defaults?.dressCodeDescription,
-//       },
-//     }));
-//   }
-// }, [defaults]);
+// initial={{ opacity: 0, y: 40 }}
+// whileInView={{ opacity: 1, y: 0 }}
+// transition={{ duration: 0.5 }}
+// viewport={{ once: true, margin: "0px 0px -100px 0px" }}

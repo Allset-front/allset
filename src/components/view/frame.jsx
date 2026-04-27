@@ -1,10 +1,10 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { Invitation } from "./Invitation";
-import { designWidth, fitScale } from "./theme/viewports";
+import { designWidth, fitScale } from "@/utils/formatters";
+import { Renderer } from "./renderer";
 
-export const InvitationFrame = ({
+export const Frame = ({
   viewport = "pc",
   palette,
   data,
@@ -52,7 +52,7 @@ export const InvitationFrame = ({
       ref={outerRef}
       style={{
         width: "100%",
-        height: height ?? undefined,
+        height: height ?? "100%",
         maxHeight: maxHeight ?? undefined,
         overflowY: "auto",
         overflowX: "hidden",
@@ -79,7 +79,8 @@ export const InvitationFrame = ({
             left: 0,
           }}
         >
-          <Invitation
+          <Renderer
+            id={template.id}
             viewport={viewport}
             palette={palette}
             data={data}

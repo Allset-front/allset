@@ -6,8 +6,8 @@ import { useGetTanstack, useGetAuthTanstack } from "@/hooks/useTanstack";
 import { Animate } from "@/components/ui/animate";
 import { MidText } from "@/components/build/typography/midText";
 import { ViewportToggle } from "@/components/build/viewportToggle";
-import { InvitationFrame } from "@/components/invitation/InvitationFrame";
-import { DEFAULT_VIEWPORT } from "@/components/invitation/theme/viewports";
+import { Frame } from "@/components/view/frame";
+import { DEFAULT_VIEWPORT } from "@/utils/constants";
 
 export const PreviewClient = () => {
   const [template] = useQueryState("template");
@@ -41,8 +41,8 @@ export const PreviewClient = () => {
           <ViewportToggle />
         </Flex>
 
-        <Box w="100%">
-          <InvitationFrame
+        <Box w="100%" h="fit-content">
+          <Frame
             viewport={device}
             template={selectedTemplate}
             palette={selectedPalette}

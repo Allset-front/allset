@@ -10,7 +10,7 @@ import { formatDate } from "../../utils/formatters";
 import { calendarLocales, currentYear, today } from "../../utils/constants";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
-export const Calendar = ({ name, value, onChange, required }) => {
+export const Calendar = ({ name, value, onChange, required, disabled }) => {
   const ref = useRef();
 
   const t = useTranslations();
@@ -38,18 +38,12 @@ export const Calendar = ({ name, value, onChange, required }) => {
     setOpen(false);
   };
 
-  // const formatted = selected
-  // ? format(selected, "EEEE, MMMM d, yyyy", {
-  //     locale: calendarLocales[language],
-  //   })
-  // : "";
-
   const formatted = selected ? formatDate(selected, "DD/MM/YYYY") : "";
 
   useOutsideClick(ref, open, setOpen);
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen} placement="center">
+    <Dialog.Root open={open} onOpenChange={setOpen} placement="center" disabled={disabled}>
       <Dialog.Trigger asChild>
         <InputGroup startElement={<Icon>{calendar.icon}</Icon>}>
           <Input

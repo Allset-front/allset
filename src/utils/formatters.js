@@ -118,3 +118,25 @@ export const pickInvitationFields = (data) =>
     if (key in data) acc[key] = data[key];
     return acc;
   }, {});
+
+// view
+import { FALLBACK } from "./constants";
+
+export const paletteToVars = (colors) => {
+  const c = Array.isArray(colors) && colors.length ? colors : FALLBACK;
+  return {
+    "--c-primary": c[0] ?? FALLBACK[0],
+    "--c-secondary": c[1] ?? c[0] ?? FALLBACK[1],
+    "--c-accent": c[2] ?? c[1] ?? c[0] ?? FALLBACK[2],
+    "--c-surface": c[3] ?? c[2] ?? c[1] ?? c[0] ?? FALLBACK[3],
+  };
+};
+import { DESIGN_WIDTH, DEFAULT_VIEWPORT } from "./constants";
+
+export const designWidth = (viewport) =>
+  DESIGN_WIDTH[viewport] ?? DESIGN_WIDTH[DEFAULT_VIEWPORT];
+
+export const fitScale = (containerWidth, viewport) => {
+  if (!containerWidth) return 1;
+  return Math.min(1, containerWidth / designWidth(viewport));
+};

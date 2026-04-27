@@ -5,8 +5,8 @@ import { Box, Flex, Stack, useMediaQuery, VStack } from "@chakra-ui/react";
 import { MidText } from "@/components/build/typography/midText";
 import { SubText } from "@/components/build/typography/subText";
 import { ViewportToggle } from "@/components/build/viewportToggle";
-import { InvitationFrame } from "@/components/invitation/InvitationFrame";
-import { DEFAULT_VIEWPORT } from "@/components/invitation/theme/viewports";
+import { Frame } from "../view/frame";
+import { DEFAULT_VIEWPORT } from "@/utils/constants";
 
 export const Preview = ({ template, palette, data }) => {
   const [device] = useQueryState("device", { defaultValue: DEFAULT_VIEWPORT });
@@ -35,7 +35,7 @@ export const Preview = ({ template, palette, data }) => {
       </Flex>
 
       <Box position="relative" w="100%" h={{ base: "430px", md: "685px" }}>
-        <InvitationFrame
+        <Frame
           viewport={device}
           palette={palette}
           template={template}

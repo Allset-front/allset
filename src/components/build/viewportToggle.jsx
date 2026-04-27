@@ -2,8 +2,7 @@
 
 import { Button, For, HStack } from "@chakra-ui/react";
 import { useQueryState } from "nuqs";
-import { responsive } from "@/utils/constants";
-import { DEFAULT_VIEWPORT } from "@/components/invitation/theme/viewports";
+import { DEFAULT_VIEWPORT, responsive } from "@/utils/constants";
 
 export const ViewportToggle = ({ size, ...rest }) => {
   const [device, setDevice] = useQueryState("device", {

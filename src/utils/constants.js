@@ -409,3 +409,17 @@ export const guestEditOptions = ["GROOM", "BRIDE"];
 //   п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "kh", ц: "ts",
 //   ч: "ch", ш: "sh", щ: "shch", ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
 // };
+
+
+// view
+export const FALLBACK = ["#0D3B3A", "#7FA39B", "#C7D6CE", "#F1F4EF"];
+
+export const VIEWPORTS = ["pc", "laptop", "mobile"];
+
+export const DEFAULT_VIEWPORT = "pc";
+
+export const DESIGN_WIDTH = {
+  pc: 1440,
+  laptop: 1024,
+  mobile: 375,
+};

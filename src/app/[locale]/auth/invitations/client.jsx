@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
-import { useGetAuthTanstack, useMutateAuthTanstack } from "@/hooks/useTanstack";
-import { Button, Flex, For, Stack, Tabs } from "@chakra-ui/react";
+import { useGetAuthTanstack } from "@/hooks/useTanstack";
+import { Flex, For, Stack, Tabs } from "@chakra-ui/react";
 import { invitationTabs } from "@/utils/constants";
 import { Animate } from "@/components/ui/animate";
 import { filterInvitations } from "@/utils/helpers";
@@ -23,10 +23,6 @@ export const InvitationsClient = () => {
   const { isLoading, data } = useGetAuthTanstack(`invitations/${tab}`);
 
   const filteredData = filterInvitations(data, name);
-
-  //* DELETE DRAFTS
-  // const { mutate } = useMutateAuthTanstack("invitations/drafts", "delete");
-  // return <Button onClick={() => mutate()}>DELETE DRAFTS</Button>;
 
   return (
     <Animate>
