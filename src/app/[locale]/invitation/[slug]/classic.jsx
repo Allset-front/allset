@@ -13,78 +13,94 @@ import {
   Button,
   Flex,
   HStack,
+  Icon,
   Input,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useGetTanstack } from "@/hooks/useTanstack";
+import { useTranslations } from "next-intl";
+import { map } from "@/assets/svgs";
+import mainBg from "@/assets/imgs/invitations/classic/main_bg.png";
+import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
+import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
+import fallbackBg1 from "@/assets/imgs/invitations/classic/fallback_bg_1.jpg";
+import fallbackBg2 from "@/assets/imgs/invitations/classic/fallback_bg_2.jpg";
+import fallbackBg3 from "@/assets/imgs/invitations/classic/fallback_bg_3.jpg";
+import fallbackBg4 from "@/assets/imgs/invitations/classic/fallback_bg_4.jpg";
+import { Selector } from "@/components/build/selector";
 
-const SCRIPT_FONT_URL =
-  "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap";
+// const SCRIPT_FONT_URL =
+//   "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap";
 
-const HERO_FALLBACK =
-  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=70";
-const COUPLE_FALLBACK =
-  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=70";
-const STORY_BG =
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=70";
 const GALLERY_FALLBACKS = [
-  "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=70",
-  "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=600&q=70",
-  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=70",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=70",
+  fallbackBg1.src,
+  fallbackBg2.src,
+  fallbackBg3.src,
+  fallbackBg4.src,
 ];
 
 // const scriptFont = `"Dancing Script", "Great Vibes", cursive`;
 // const serifFont = `"Cormorant Garamond", "Playfair Display", Georgia, serif`;
 
 export default function Classic({ viewport = "pc", palette, data }) {
+  const t = useTranslations();
+
+  // const shouldFetch = isEmptyObject(data) ;
   const { slug } = useParams();
-  // TODO: do public call to invitation by slug
-  const { data: invitationData } = useGetTanstack(`invitations/url/${slug}`);
+
+  const { data: invitationData } = useGetTanstack(
+    `invitations/url/${slug}`,
+    !data && !!slug,
+  );
   console.log(invitationData);
 
+  const finalData = data ?? invitationData;
   const vars = paletteToVars(palette?.colors);
-  const language = data?.languages?.[0] || "en";
-
+  const language = finalData?.languages?.[0] || "en";
   const title =
-    pickLang(data?.title, language) ||
-    pickLang(data?.name, language) ||
+    pickLang(finalData?.title, language) ||
+    pickLang(finalData?.name, language) ||
     "Henry & Mariam";
-
-  const eventDateText = formatEventDate(data?.eventDate);
-  const countdown = diffParts(data?.eventDate);
+  const eventDateText = formatEventDate(finalData?.eventDate);
+  const countdown = diffParts(finalData?.eventDate);
 
   const heroImage =
-    data?.mainImages?.[0]?.url || data?.mainImages?.[0] || HERO_FALLBACK;
+    finalData?.mainImages?.[0]?.url || finalData?.mainImages?.[0] || mainBg.src;
   const coupleImage =
-    data?.mainImages?.[1]?.url || data?.mainImages?.[1] || COUPLE_FALLBACK;
-  const description = pickLang(data?.description, language) || "";
+    finalData?.mainImages?.[1]?.url ||
+    finalData?.mainImages?.[1] ||
+    timingBg.src;
+  const gallery = finalData?.ourStory?.photoUrls?.length
+    ? finalData.ourStory.photoUrls
+    : GALLERY_FALLBACKS;
 
-  const timeline = data?.timeline?.length
-    ? data.timeline
+  const description =
+    pickLang(finalData?.description, language) || t("classic_title");
+  const timeline = finalData?.timeline?.length
+    ? finalData.timeline
     : [
         { time: "12:00", venueName: "BRIDE'S HOME" },
         { time: "13:30", venueName: "DEPARTURE TO GROOM'S HOME" },
         { time: "16:00", venueName: "GROOM'S HOME" },
         { time: "17:30", venueName: "ARRIVAL AT RECEPTION VENUE" },
       ];
-
-  const dressCodeDesc = pickLang(data?.dressCode?.description, language) || "";
-  const dressCodeStyle = data?.dressCode?.colorPaletteId || "";
-  const storyText = pickLang(data?.ourStory?.text, language) || "";
-
-  const gallery = data?.ourStory?.photoUrls?.length
-    ? data.ourStory.photoUrls
-    : GALLERY_FALLBACKS;
-
-  const contact = data?.connectWithUs || {};
-  const phone = contact.phone || "";
-  const email = contact.email || "";
+  const dressCodeDesc =
+    pickLang(finalData?.dressCode?.description, language) ||
+    "Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque consequat a justo diam adipiscing velit tincidunt.";
+  const dressCodeName =
+    finalData?.dressCode?.colorPaletteId || palette?.name?.[language]; // needs checking
+  const dressCodeAbout = "" || palette?.description?.[language]; // needs checking
+  const storyText =
+    pickLang(finalData?.ourStory?.text, language) || t("classic_story_desc");
+  const contact = finalData?.connectWithUs || {};
+  const phone = contact.phone || "+374 99 XXXXXX";
+  const email = contact.email || "username@gmail.com";
 
   // const width = designWidth(viewport);
   const isMobile = viewport === "mobile";
+  console.log(palette); //
 
   return (
     <Box
@@ -93,17 +109,16 @@ export default function Classic({ viewport = "pc", palette, data }) {
       // w={`${width}px`}
       bg="white"
       color="#111"
-      // fontFamily={serifFont}
       overflow="hidden"
     >
       {/* Inject fonts once per preview tree */}
-      <link rel="stylesheet" href={SCRIPT_FONT_URL} />
+      {/* <link rel="stylesheet" href={SCRIPT_FONT_URL} /> */}
 
       {/* ————— HERO ————— */}
       <Box
         position="relative"
         w="100%"
-        h={isMobile ? "520px" : "640px"}
+        h={isMobile ? "520px" : "750px"}
         bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
         bgSize="cover"
         bgPos="center"
@@ -113,22 +128,23 @@ export default function Classic({ viewport = "pc", palette, data }) {
           bottom={isMobile ? "40px" : "80px"}
           left="0"
           right="0"
-          gap={isMobile ? "8px" : "16px"}
+          gap={isMobile ? "8px" : "100px"}
           color="white"
           textAlign="center"
         >
           <Text
-            // fontFamily={scriptFont}
-            fontSize={isMobile ? "54px" : "84px"}
-            lineHeight="1"
-            fontWeight="500"
+            fontFamily={"Oooh Baby"}
+            fontSize={isMobile ? "54px" : "103px"}
+            lineHeight="24px"
+            fontWeight="400"
           >
             {title}
           </Text>
           <Text
-            // fontFamily={serifFont}
-            fontSize={isMobile ? "26px" : "36px"}
-            letterSpacing="0.05em"
+            fontFamily={"Oleo Script"}
+            fontSize={isMobile ? "26px" : "63px"}
+            lineHeight="24px"
+            fontWeight="400"
           >
             {eventDateText}
           </Text>
@@ -138,120 +154,134 @@ export default function Classic({ viewport = "pc", palette, data }) {
       {/* ————— INTRO + COUNTDOWN ————— */}
       <VStack
         bg="#F4F1EC"
-        py={isMobile ? "40px" : "72px"}
-        px={isMobile ? "24px" : "160px"}
-        gap={isMobile ? "24px" : "36px"}
+        py={isMobile ? "40px" : "60px"}
+        px={isMobile ? "24px" : "100px"}
+        gap={isMobile ? "24px" : "100px"}
       >
         <Text
           textAlign="center"
-          maxW="820px"
-          fontSize={isMobile ? "15px" : "18px"}
-          lineHeight="1.6"
-          color="#333"
+          maxW="942px"
+          fontFamily={"Myanmar Text"}
+          fontSize={isMobile ? "15px" : "20px"}
+          lineHeight="28px"
+          fontWeight="400"
+          color="#3E433C"
         >
           {description}
         </Text>
 
-        {data?.countDown !== false && (
-          <HStack
-            gap={isMobile ? "16px" : "28px"}
-            divideX="1px"
-            divideColor="rgba(0,0,0,0.15)"
-          >
-            <CountdownCell
-              value={countdown.days}
-              label="days"
-              isMobile={isMobile}
-            />
-            <CountdownCell
-              value={String(countdown.hours).padStart(2, "0")}
-              label="hours"
-              isMobile={isMobile}
-            />
-            <CountdownCell
-              value={String(countdown.min).padStart(2, "0")}
-              label="min"
-              isMobile={isMobile}
-            />
-            <CountdownCell
-              value={String(countdown.sec).padStart(2, "0")}
-              label="sec"
-              isMobile={isMobile}
-            />
-          </HStack>
-        )}
+        <Stack gap="40px">
+          {finalData?.countDown !== false && (
+            <HStack
+              gap={isMobile ? "16px" : "48px"}
+              // divideX="1px"
+              // divideColor="rgba(0,0,0,0.15)"
+            >
+              <CountdownCell
+                value={countdown.days}
+                label="days"
+                isMobile={isMobile}
+              />
+              <CountdownCell
+                value={String(countdown.hours).padStart(2, "0")}
+                label="hours"
+                isMobile={isMobile}
+              />
+              <CountdownCell
+                value={String(countdown.min).padStart(2, "0")}
+                label="min"
+                isMobile={isMobile}
+              />
+              <CountdownCell
+                value={String(countdown.sec).padStart(2, "0")}
+                label="sec"
+                isMobile={isMobile}
+              />
+            </HStack>
+          )}
 
-        <Text
-          textAlign="center"
-          fontStyle="italic"
-          color="#6B6B6B"
-          fontSize={isMobile ? "13px" : "15px"}
-        >
-          Our journey to forever has already begun...
-        </Text>
+          <Text
+            fontFamily={"Myanmar Text"}
+            textAlign="center"
+            color="#3E433C"
+            fontSize={isMobile ? "13px" : "18px"}
+            lineHeight={"24px"}
+          >
+            {t("classic_journey")}
+          </Text>
+        </Stack>
       </VStack>
 
       {/* ————— TIMING ————— */}
       <Flex
         bg="var(--c-primary)"
         color="white"
-        py={isMobile ? "40px" : "80px"}
-        px={isMobile ? "24px" : "96px"}
         direction={isMobile ? "column" : "row"}
         align={isMobile ? "stretch" : "center"}
         gap={isMobile ? "32px" : "60px"}
       >
-        <VStack align="flex-start" gap="20px" flex="1">
+        <VStack align="flex-start" gap="40px" flex="1" p="100px 0 100px 160px">
           <Text
-            // fontFamily={serifFont}
-            fontWeight="600"
-            fontSize={isMobile ? "22px" : "28px"}
-            letterSpacing="0.04em"
+            fontFamily={"Mulish"}
+            fontWeight="800"
+            fontSize={isMobile ? "22px" : "34px"}
+            lineHeight="50px"
             textTransform="uppercase"
-          >
-            Timing for our
-            <br />
-            special day
-          </Text>
+            color="#FFFFFF"
+            dangerouslySetInnerHTML={{
+              __html: t("classic_timing").replace(/\n/g, "<br />"),
+            }}
+          />
           <Text
-            fontSize={isMobile ? "13px" : "15px"}
-            color="rgba(255,255,255,0.75)"
+            fontFamily={"Mulish"}
+            fontWeight="400"
+            fontSize={isMobile ? "13px" : "18px"}
+            lineHeight="28px"
+            color="#FFFFFF"
             maxW="440px"
-            lineHeight="1.6"
           >
             Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque
             consequat a justo diam adipiscing velit tincidunt.
           </Text>
 
-          <Stack gap="18px" pt="8px" w="100%">
+          <Stack gap="40px" minW={"361px"}>
             {timeline.map((item, i) => (
-              <Flex key={i} align="flex-start" gap="20px">
-                <VStack align="flex-start" gap="2px" minW="160px">
-                  <Text fontSize={isMobile ? "20px" : "24px"} fontWeight="600">
+              <Flex
+                key={i}
+                justify={"space-between"}
+                align={"center"}
+                gap="20px"
+              >
+                <VStack align="flex-start" gap="24px" minW="160px">
+                  <Text
+                    fontFamily={"Mulish"}
+                    fontSize={isMobile ? "20px" : "34px"}
+                    fontWeight="800"
+                    lineHeight={"24px"}
+                  >
                     {item.time || "00:00"}
                   </Text>
                   <Text
-                    fontSize="12px"
-                    letterSpacing="0.1em"
+                    fontFamily={"OFL Sorts Mill Goudy TT"}
+                    fontSize={isMobile ? "15px" : "22px"}
+                    fontWeight="500"
+                    lineHeight={"34px"}
                     textTransform="uppercase"
                     color="rgba(255,255,255,0.7)"
                   >
-                    {pickLang(item.venueName, language) ||
-                      item.venueName ||
-                      "Venue"}
+                    {pickLang(item.venueName, language) || item.venueName}
                   </Text>
                 </VStack>
                 <Button
-                  size="xs"
-                  variant="outline"
-                  borderColor="rgba(255,255,255,0.3)"
-                  color="white"
-                  _hover={{ bg: "rgba(255,255,255,0.08)" }}
-                  px="10px"
-                  h="26px"
-                  fontSize="11px"
+                  // variant="ghost"
+                  color="#FFFFFF"
+                  // _hover={{ bg: "rgba(255,255,255,0.08)" }}
+                  fontSize="14px"
+                  bg="#240F0F"
+                  borderRadius={"10px"}
+                  h="44px"
                 >
-                  📍 Map
+                  <Icon>{map.icon}</Icon> {t("classic_map")}
                 </Button>
               </Flex>
             ))}
@@ -261,9 +291,11 @@ export default function Classic({ viewport = "pc", palette, data }) {
         {!isMobile && (
           <Box
             flex="0 0 auto"
-            w="380px"
-            h="520px"
-            borderRadius="200px"
+            w="652px"
+            h="972px"
+            // borderRadius="200px"
+            borderTopLeftRadius="470px"
+            borderBottomLeftRadius="470px"
             overflow="hidden"
             bgImage={`url(${coupleImage})`}
             bgSize="cover"
@@ -273,66 +305,64 @@ export default function Classic({ viewport = "pc", palette, data }) {
       </Flex>
 
       {/* ————— RSVP ————— */}
-      {data?.rsvp !== false && (
-        <VStack
-          bg="#F4F1EC"
-          py={isMobile ? "40px" : "72px"}
-          px={isMobile ? "24px" : "0"}
-          gap="24px"
-        >
+      {finalData?.rsvp !== false && (
+        <VStack bg="#F4F1EC" py={isMobile ? "40px" : "100px"} gap="37px">
           <Text
-            // fontFamily={serifFont}
-            fontSize={isMobile ? "20px" : "26px"}
-            letterSpacing="0.08em"
+            fontFamily={"OFL Sorts Mill Goudy TT"}
+            fontSize={isMobile ? "20px" : "34px"}
+            fontWeight={500}
+            lineHeight="48px"
             textAlign="center"
             textTransform="uppercase"
-          >
-            Please let us know if you
-            <br />
-            will join us
-          </Text>
-          <VStack gap="12px" w={isMobile ? "100%" : "420px"}>
-            <Input
-              placeholder="Type your full name"
-              size="lg"
-              bg="white"
-              borderColor="rgba(0,0,0,0.1)"
-              fontSize="14px"
-            />
-            <Box
-              as="select"
-              w="100%"
-              h="44px"
-              px="14px"
-              bg="white"
-              border="1px solid rgba(0,0,0,0.1)"
-              borderRadius="6px"
-              fontSize="14px"
-              color="#6B6B6B"
-              disabled
-            >
-              <option>Guest count</option>
-            </Box>
-            <HStack w="100%" gap="12px" pt="4px">
+            dangerouslySetInnerHTML={{
+              __html: t("classic_join").replace(/\n/g, "<br />"),
+            }}
+          />
+          <VStack gap="37px">
+            <VStack gap="16px" minW={isMobile ? "100%" : "442px"}>
+              <Input
+                placeholder={t("classic_type")}
+                // size="lg"
+                h="52px"
+                bg="white"
+                borderColor="rgba(0,0,0,0.1)"
+                // fontSize="14px"
+              />
+              <Box
+                as="select"
+                w="100%"
+                h="52px"
+                bg="white"
+                border="1px solid rgba(0,0,0,0.1)"
+                borderRadius="6px"
+                // fontSize="14px"
+                color="#6B6B6B"
+                disabled
+              >
+                <option>{t("classic_count")}</option>
+              </Box>
+            </VStack>
+            {/* <Selector /> */}
+            <HStack w="100%" gap="12px">
               <Button
                 flex="1"
                 bg="var(--c-primary)"
                 color="white"
                 h="44px"
-                fontSize="13px"
+                fontSize="14px"
                 _hover={{ opacity: 0.9 }}
               >
-                I will attend
+                {t("classic_accept")}
               </Button>
-              <Button
+                <Button
                 flex="1"
                 variant="outline"
                 borderColor="rgba(0,0,0,0.15)"
                 color="#111"
                 h="44px"
-                fontSize="13px"
+                fontSize="14px"
               >
-                Sorry, can't make it
+                {t("classic_reject")}
               </Button>
             </HStack>
           </VStack>
@@ -354,7 +384,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
           letterSpacing="0.12em"
           fontWeight="600"
         >
-          DRESS CODE
+          {t("dresscode")}
         </Text>
         <Text
           fontSize={isMobile ? "13px" : "15px"}
@@ -383,10 +413,10 @@ export default function Classic({ viewport = "pc", palette, data }) {
         </HStack>
         <VStack gap="4px">
           <Text fontSize="14px" fontWeight="500">
-            {dressCodeStyle}
+            {dressCodeName}
           </Text>
           <Text fontSize="12px" color="rgba(255,255,255,0.6)">
-            Warm and sophisticated tones.
+            {dressCodeAbout}
           </Text>
         </VStack>
         <Text
@@ -450,7 +480,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
           color="#6B6B6B"
           textTransform="uppercase"
         >
-          Go to look at the photos
+          {t("classic_look")}
         </Text>
         <Text
           // fontFamily={serifFont}
@@ -458,13 +488,16 @@ export default function Classic({ viewport = "pc", palette, data }) {
           letterSpacing="0.12em"
           fontWeight="600"
         >
-          WEDDING GALLERY
+          {t("classic_gallery")}
         </Text>
-        <Text fontSize="13px" color="#6B6B6B" maxW="440px">
-          Our photos and videos will be available soon.
-          <br />
-          Please wait for the official link after the wedding.
-        </Text>
+        <Text
+          fontSize="13px"
+          color="#6B6B6B"
+          maxW="440px"
+          dangerouslySetInnerHTML={{
+            __html: t("classic_soon").replace(/\n/g, "<br />"),
+          }}
+        />
         <Button
           bg="var(--c-primary)"
           color="white"
@@ -473,12 +506,12 @@ export default function Classic({ viewport = "pc", palette, data }) {
           h="40px"
           fontSize="13px"
           _hover={{ opacity: 0.9 }}
-          as={data?.albumLink ? "a" : "button"}
-          {...(data?.albumLink
-            ? { href: data.albumLink, target: "_blank" }
+          as={finalData?.albumLink ? "a" : "button"}
+          {...(finalData?.albumLink
+            ? { href: finalData.albumLink, target: "_blank" }
             : {})}
         >
-          Open
+          {t("classic_open")}
         </Button>
       </VStack>
 
@@ -486,40 +519,54 @@ export default function Classic({ viewport = "pc", palette, data }) {
       <Box
         position="relative"
         w="100%"
-        py={isMobile ? "60px" : "100px"}
-        px={isMobile ? "24px" : "120px"}
-        bgImage={`linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url(${STORY_BG})`}
+        py={isMobile ? "60px" : "112px"}
+        // px={isMobile ? "24px" : "120px"}
+        bgImage={`linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url(${storyBg.src})`}
         bgSize="cover"
+        bgRepeat={"no-repeat"}
         bgPos="center"
+        h="451px"
       >
-        <VStack gap="20px" textAlign="center">
+        <VStack gap="40px" textAlign="center">
           <Text
-            // fontFamily={serifFont}
-            fontSize={isMobile ? "20px" : "26px"}
-            letterSpacing="0.12em"
-            fontWeight="600"
+            fontFamily={"OFL Sorts Mill Goudy TT"}
+            fontSize={isMobile ? "20px" : "34px"}
+            lineHeight="48px"
+            fontWeight="500"
           >
-            OUR LOVE STORY
+            {t("classic_story")}
           </Text>
           <Text
-            maxW="720px"
-            fontSize={isMobile ? "13px" : "15px"}
-            color="#444"
-            lineHeight="1.7"
+            maxW="877px"
+            fontFamily={"Mulish"}
+            fontSize={isMobile ? "15px" : "18px"}
+            lineHeight="28px"
+            color="#323232"
             whiteSpace="pre-line"
-          >
-            {storyText}
-          </Text>
+            // dangerouslySetInnerHTML={{
+            //   __html: t("classic_story_desc").replace(/\n/g, "<br />"),
+            // }}
+            dangerouslySetInnerHTML={{
+              __html: storyText.replace(/\n/g, "<br />"),
+            }}
+          />
         </VStack>
       </Box>
 
       {/* ————— PHOTO STRIP ————— */}
-      <Flex w="100%" h={isMobile ? "180px" : "260px"}>
+      <Flex
+        w="100%"
+        // h={isMobile ? "180px" : "260px"}
+        my="100px"
+        px="56px"
+        gap="10px"
+      >
         {gallery.map((src, i) => (
           <Box
             key={i}
             flex="1"
-            h="100%"
+            maxw="320px"
+            h="320px"
             bgImage={`url(${typeof src === "string" ? src : src?.url || ""})`}
             bgSize="cover"
             bgPos="center"
@@ -529,35 +576,40 @@ export default function Classic({ viewport = "pc", palette, data }) {
       </Flex>
 
       {/* ————— CONTACT ————— */}
-      <VStack
-        bg="var(--c-primary)"
-        color="white"
-        py={isMobile ? "28px" : "40px"}
-        gap="12px"
+      <Flex
+        // bg="var(--c-primary)"
+        // color="white"
+        // py={isMobile ? "28px" : "40px"}
+        pb="100px"
+        align={"center"}
+        justify={"center"}
+        gap="90px"
       >
-        <Text fontSize="14px" letterSpacing="0.12em" fontWeight="600">
-          CONTACT WITH US
-        </Text>
-        <HStack
-          gap={isMobile ? "16px" : "32px"}
-          fontSize="13px"
-          color="rgba(255,255,255,0.85)"
+        <Text
+          fontFamily={"Mulish"}
+          fontSize="30px"
+          lineHeight="24px"
+          fontWeight="800"
         >
-          <Text>{phone}</Text>
-          <Text>{email}</Text>
-        </HStack>
-      </VStack>
-
-      {/* Palette indicator (matches the "Palette - C1" label in the mockup) */}
-      <Box
-        bg="#222"
-        color="rgba(255,255,255,0.6)"
-        textAlign="center"
-        py="8px"
-        fontSize="11px"
-      >
-        Palette — {palette?.name?.en || palette?.id || "default"}
-      </Box>
+          {t("classic_contact")}
+        </Text>
+        <Text
+          fontFamily={"Mulish"}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+        >
+          {phone}
+        </Text>
+        <Text
+          fontFamily={"Mulish"}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+        >
+          {email}
+        </Text>
+      </Flex>
     </Box>
   );
 }
@@ -565,17 +617,20 @@ export default function Classic({ viewport = "pc", palette, data }) {
 const CountdownCell = ({ value, label, isMobile }) => (
   <HStack px={isMobile ? "10px" : "18px"} align="baseline" gap="6px">
     <Text
-      // fontFamily={serifFont}
-      fontSize={isMobile ? "36px" : "52px"}
-      fontWeight="600"
+      fontFamily={"Myanmar MN"}
+      fontSize={isMobile ? "36px" : "50px"}
+      fontWeight="400"
       color="var(--c-primary)"
-      lineHeight="1"
+      lineHeight="28px"
     >
       {value}
     </Text>
     <Text
-      fontSize={isMobile ? "12px" : "14px"}
-      color="#6B6B6B"
+      fontFamily={"Myanmar MN"}
+      fontSize={isMobile ? "12px" : "34px"}
+      fontWeight="400"
+      color="var(--c-primary)"
+      lineHeight="28px"
       textTransform="lowercase"
     >
       {label}

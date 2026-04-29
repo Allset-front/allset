@@ -393,5 +393,21 @@
     "get_off": "Get first 30% off",
     "no_active": "You don't have any active invitation yet.",
     "no_drafts": "You don't have any draft invitation yet.",
-    "no_expired": "You don't have any expired invitation yet."
+    "no_expired": "You don't have any expired invitation yet.",
+    "classic_title": "We would be honored to have you join us as we celebrate the beginning of our new life together.Your presence will make our special day even more meaningful.",
+    "classic_journey": "Our journey to forever has already begun...",
+    "classic_timing": "Timing for our <br/> special day",
+    "classic_map": "Map",
+    "classic_join": "Please let us know if you <br/> will join us",
+    "classic_type": "Type your full name",
+    "classic_count": "Guest count",
+    "classic_accept": "I will attend",
+    "classic_reject": "Sorry, can't make it",
+    "classic_look": "Go to look at the photos",
+    "classic_gallery": "Wedding Gallery",
+    "classic_soon": "Our photos and videos will be available soon.<br/> Please wait for the official link after the wedding.",
+    "classic_open": "Open",
+    "classic_story": "OUR LOVE STORY",
+    "classic_story_desc": "Our story is written with sincerity, family warmth, and true devotion. <br/> From the day we met, we felt something special — something that only grew stronger <br/> with every moment, every smile, every challenge. <br/> Now, with our families’ blessings and love in our hearts, <br/> we are ready to start a new life together.",
+    "classic_contact": "Contact with us"
 }

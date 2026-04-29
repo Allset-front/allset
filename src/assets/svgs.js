@@ -539,3 +539,11 @@ export const downloadTable = {
         </svg>
     )
 }
+
+export const map = {
+    icon: (
+        <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 1L1 5V22.3333L9 18.3333M9 1L17 5M9 1V18.3333M17 5L25 1V18.3333L17 22.3333M17 5V22.3333M17 22.3333L9 18.3333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    )
+}
