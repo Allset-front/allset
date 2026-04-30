@@ -4,7 +4,6 @@ import {
   Flex,
   For,
   Icon,
-  Image,
   Menu,
   Portal,
   Spinner,
