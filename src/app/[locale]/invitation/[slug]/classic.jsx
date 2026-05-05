@@ -47,6 +47,8 @@ const GALLERY_FALLBACKS = [
 // const serifFont = `"Cormorant Garamond", "Playfair Display", Georgia, serif`;
 
 export default function Classic({ viewport = "pc", palette, data }) {
+ console.log(data);
+ 
   const t = useTranslations();
   const language = useLocale();
 
@@ -106,7 +108,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
       overflow="hidden"
       // position={"relative"}
     >
-      <Language locales={locales} />
+      {locales && <Language locales={locales} />}
       {/* Inject fonts once per preview tree */}
       {/* <link rel="stylesheet" href={SCRIPT_FONT_URL} /> */}
 

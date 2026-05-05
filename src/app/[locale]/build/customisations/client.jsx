@@ -48,7 +48,7 @@ export const CustomisationsClient = () => {
         flexDirection={{ base: "column-reverse", md: "row" }}
       >
         <Aside data={selectedTemplate?.palettes} language={language} />
-        {/* <Preview palette={selectedPalette} />  */}
+        <Preview palette={selectedPalette} /> 
       </Flex>
     </Animate>
   );
