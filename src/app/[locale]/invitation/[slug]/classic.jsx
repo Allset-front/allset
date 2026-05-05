@@ -27,7 +27,7 @@ import mainBg from "@/assets/imgs/invitations/classic/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
-import { GALLERY_FALLBACKS } from "@/utils/constants";
+import { GUEST_COUNT, GALLERY_FALLBACKS } from "@/utils/constants";
 
 export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
@@ -76,6 +76,9 @@ export default function Classic({ viewport = "pc", palette, data }) {
   const contact = finalData?.connectWithUs || {};
   const phone = contact.phone || "+374 99 XXXXXX";
   const email = contact.email || "username@gmail.com";
+  const guestCount = createListCollection({
+    items: GUEST_COUNT,
+  });
 
   // const width = designWidth(viewport);
   const isMobile = viewport === "mobile";
@@ -629,17 +632,3 @@ export default function Classic({ viewport = "pc", palette, data }) {
     </Box>
   );
 }
-
-const guestCount = createListCollection({
-  items: [
-    { label: "1", value: "1" },
-    { label: "2", value: "2" },
-    { label: "3", value: "3" },
-    { label: "4", value: "4" },
-    { label: "5", value: "5" },
-    { label: "6", value: "6" },
-    { label: "7", value: "7" },
-    { label: "8", value: "8" },
-    { label: "9", value: "9" },
-  ],
-});
