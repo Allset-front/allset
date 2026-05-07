@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useGetTanstack } from "@/hooks/useTanstack";
@@ -28,6 +28,11 @@ import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS } from "@/utils/constants";
+import { Link } from "@/i18n/routing";
+//
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/image-gallery.css";
+//
 
 export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
@@ -48,12 +53,24 @@ export default function Classic({ viewport = "pc", palette, data }) {
   const [countdown, setCountdown] = useState(() =>
     diffParts(finalData?.eventDate),
   );
+  const galleryRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const heroImage = finalData?.mainImages?.[0] || mainBg.src;
   const coupleImage = finalData?.mainImages?.[1] || timingBg.src;
   const gallery = finalData?.ourStory?.photoUrls?.length
     ? finalData.ourStory.photoUrls
     : GALLERY_FALLBACKS;
+
+  const galleryItems = useMemo(
+    () =>
+      gallery.map((src) => {
+        // const url = typeof src === "string" ? src : src?.url || "";
+        return { original: src, thumbnail: src };
+      }),
+    [gallery],
+  );
 
   const description =
     pickLang(finalData?.description, language) || t("classic_title");
@@ -82,6 +99,12 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
   // const width = designWidth(viewport);
   const isMobile = viewport === "mobile";
+
+  const openFullscreen = (index) => {
+    setActiveIndex(index);
+    setIsFullscreen(true);
+    setTimeout(() => galleryRef.current?.fullScreen(), 50);
+  };
 
   useEffect(() => {
     if (!finalData?.eventDate) return;
@@ -261,6 +284,9 @@ export default function Classic({ viewport = "pc", palette, data }) {
                   </Text>
                 </VStack>
                 <Button
+                  as={Link}
+                  href={item.venueLocation}
+                  target="_blank"
                   // variant="ghost"
                   color="#FFFFFF"
                   // _hover={{ bg: "rgba(255,255,255,0.08)" }}
@@ -583,26 +609,48 @@ export default function Classic({ viewport = "pc", palette, data }) {
       </Box>
 
       {/* ————— PHOTO STRIP ————— */}
+
       <Flex
         w="100%"
         // h={isMobile ? "180px" : "260px"}
         my="100px"
         px="56px"
         gap="10px"
+        justify={"center"}
       >
-        {gallery.map((src, i) => (
-          <Box
-            key={i}
-            flex="1"
-            maxw="320px"
-            h="320px"
-            bgImage={`url(${typeof src === "string" ? src : src?.url || ""})`}
-            bgSize="cover"
-            bgPos="center"
-            filter={i === 1 || i === 3 ? "grayscale(100%)" : "none"}
-          />
-        ))}
+        {gallery.map((src, i) => {
+          return (
+            <Box
+              key={i}
+              flex="1"
+              maxW="320px"
+              h="320px"
+              bgImage={`url(${src})`}
+              bgSize="cover"
+              bgPos="center"
+              filter={i === 1 || i === 3 ? "grayscale(100%)" : "none"}
+              cursor="zoom-in"
+              onClick={() => openFullscreen(i)}
+            />
+          );
+        })}
       </Flex>
+
+      {/* Hidden fullscreen gallery */}
+      {isFullscreen && (
+        <Box position="fixed" inset="0" zIndex="9999">
+          <ImageGallery
+            ref={galleryRef}
+            items={galleryItems}
+            // startIndex={activeIndex}
+            showPlayButton={false}
+            showThumbnails={false}
+            onScreenChange={(isFull) => {
+              if (!isFull) setIsFullscreen(false);
+            }}
+          />
+        </Box>
+      )}
 
       {/* ————— CONTACT ————— */}
       <Flex
@@ -622,10 +670,10 @@ export default function Classic({ viewport = "pc", palette, data }) {
         >
           {t("classic_contact")}
         </Text>
-        <Text fontSize="24px" lineHeight="24px" fontWeight="800">
+        <Text as="a" href={`tel:${phone}`} fontSize="24px" lineHeight="24px" fontWeight="800">
           {phone}
         </Text>
-        <Text fontSize="24px" lineHeight="24px" fontWeight="800">
+        <Text as="a" href={`mailto:${email}`} fontSize="24px" lineHeight="24px" fontWeight="800">
           {email}
         </Text>
       </Flex>

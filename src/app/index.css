@@ -88,3 +88,16 @@ input, textarea {
   background: #ac8a5f !important;
   width: 24px !important;
 }
+
+
+.image-gallery {
+  width: 100% !important;
+}
+
+.image-gallery-thumbnails-wrapper {
+  display: none !important;
+}
+
+.image-gallery-image {
+  padding: 0 15px !important;
+}
