@@ -39,15 +39,6 @@ export const Photos = ({ name, value, onChange, count, required }) => {
     });
   };
 
-  // const handleDeleteUrl = (url) => {
-  //   onChange({
-  //     target: {
-  //       name,
-  //       value: (value ?? []).filter((img) => img !== url),
-  //     },
-  //   });
-  // };
-
   return (
     <Stack
       borderRadius={"8px"}
@@ -73,7 +64,7 @@ export const Photos = ({ name, value, onChange, count, required }) => {
         flexWrap="wrap"
       >
         <FileUploadList
-          value={value ?? []} // ✅ pass directly, no local state
+          value={value ?? []}
           onFileSelect={handleFileSelect}
           onDeleteUrl={handleDeleteUrl}
         />
