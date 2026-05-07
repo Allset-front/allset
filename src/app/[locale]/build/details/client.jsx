@@ -252,6 +252,48 @@ export const DetailsClient = () => {
     return processedForm;
   };
 
+  const processStoryImages = async (current) => {
+    let processedForm = { ...current };
+
+    const photoUrls = current.ourStory?.photoUrls;
+
+    if (!Array.isArray(photoUrls) || !current.id) {
+      return processedForm;
+    }
+
+    const existingUrls = photoUrls.filter((img) => typeof img === "string");
+    const newFiles = photoUrls.filter((img) => img instanceof File);
+
+    if (newFiles.length === 0) {
+      return processedForm;
+    }
+
+    const uploadedUrls = await InvitationStorageService.uploadMany(
+      newFiles,
+      current.id,
+    );
+
+    const mergedUrls = [...existingUrls, ...uploadedUrls];
+
+    processedForm = {
+      ...processedForm,
+      ourStory: {
+        ...processedForm.ourStory,
+        photoUrls: mergedUrls,
+      },
+    };
+
+    setForm((prev) => ({
+      ...prev,
+      ourStory: {
+        ...prev.ourStory,
+        photoUrls: mergedUrls,
+      },
+    }));
+
+    return processedForm;
+  };
+
   const handleSmartBlur = async () => {
     if (invitationData?.status === "ACTIVE") return;
 
@@ -263,7 +305,8 @@ export const DetailsClient = () => {
 
     if (!isTitleFilled) return;
 
-    const processedForm = await processMainImages(current);
+    let processedForm = await processMainImages(current);
+    processedForm = await processStoryImages(processedForm);
 
     const sanitized = {
       ...processedForm,
@@ -425,6 +468,7 @@ export const DetailsClient = () => {
               name="ourStory"
               value={form.ourStory}
               onChange={handleLngChange}
+              photoUrlsChange={handleChange}
               hide={handleHide}
               required={false}
               languages={form.languages}

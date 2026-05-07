@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { remove } from "../../assets/svgs";
 
-export const FileUploadList = ({ value = [], onFileSelect, onDeleteUrl }) => {
+export const PhotosUpload = ({ value = [], onFileSelect, onDeleteUrl }) => {
   const fileUpload = useFileUploadContext();
   const newFiles = fileUpload.acceptedFiles; 
 

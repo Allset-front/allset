@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Field, FileUpload, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { upload } from "../../assets/svgs";
 import { Label } from "@/components/build/typography/label";
-import { FileUploadList } from "@/components/build/filleUpload";
+import { PhotosUpload } from "@/components/build/photosUpload";
 import { extractKeyFromUrl } from "@/utils/formatters";
 import { InvitationStorageService } from "@/services/aws";
 
@@ -63,7 +63,7 @@ export const Photos = ({ name, value, onChange, count, required }) => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        <FileUploadList
+        <PhotosUpload
           value={value ?? []}
           onFileSelect={handleFileSelect}
           onDeleteUrl={handleDeleteUrl}

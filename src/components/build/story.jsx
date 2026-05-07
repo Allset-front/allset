@@ -5,14 +5,17 @@ import { useTranslations } from "next-intl";
 import { Field, FileUpload, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { upload } from "../../assets/svgs";
 import { Label } from "@/components/build/typography/label";
-import { FileUploadList } from "@/components/build/filleUpload";
+import { StoryUpload } from "@/components/build/storyUpload";
 import { Switcher } from "@/components/build/switcher";
 import { TextArea } from "../ui/textarea";
+import { extractKeyFromUrl } from "@/utils/formatters";
+import { InvitationStorageService } from "@/services/aws";
 
 export const Story = ({
   name,
   value,
   onChange,
+  photoUrlsChange,
   hide,
   required,
   languages,
@@ -27,32 +30,39 @@ export const Story = ({
     hide(name, !e.checked);
   };
 
-  // const handleNestedChange = (e, lang) => {
-  //   onChange({
-  //     target: {
-  //       name: name,
-  //       value: {
-  //         ...value,
-  //         text: {
-  //           ...value?.text,
-  //           [lang]: e.target.value,
-  //         },
-  //       },
-  //     },
-  //   });
-  // };
-
   const handleInputChange = (e, lng) => {
     onChange(name, lng, e.target.value, "text");
   };
 
   const handleFileSelect = (files) => {
-    onChange({
+    photoUrlsChange({
       target: {
         name,
         value: {
           ...value,
           photoUrls: files,
+        },
+      },
+    });
+  };
+
+  const handleDeleteUrl = async (url) => {
+    const key = extractKeyFromUrl(url);
+
+    if (key) {
+      try {
+        await InvitationStorageService.delete(key);
+      } catch (err) {
+        console.error("AWS delete failed:", err);
+      }
+    }
+
+    photoUrlsChange({
+      target: {
+        name,
+        value: {
+          ...value,
+          photoUrls: (value?.photoUrls ?? []).filter((img) => img !== url),
         },
       },
     });
@@ -103,7 +113,11 @@ export const Story = ({
           flexDirection="row"
           flexWrap="wrap"
         >
-          <FileUploadList onFileSelect={handleFileSelect} />
+          <StoryUpload
+            value={value?.photoUrls ?? []}
+            onFileSelect={handleFileSelect}
+            onDeleteUrl={handleDeleteUrl}
+          />
           <FileUpload.HiddenInput />
           <FileUpload.Dropzone
             minW="163px"
