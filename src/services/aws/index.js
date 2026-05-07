@@ -10,16 +10,41 @@ import { s3Client, region, bucket } from "@/lib/aws";
 
 export const InvitationStorageService = {
     async upload(file, invitationId) {
-        if (!file) throw new Error("File is required");
-        if (!invitationId) throw new Error("Invitation ID is required");
+        // if (!file) throw new Error("File is required");
+        // if (!invitationId) throw new Error("Invitation ID is required");
+
+        if (!(file instanceof Blob)) {
+            console.error("Invalid upload input:", file);
+            throw new Error("Upload expects Blob/File");
+        }
 
         const key = `invitations/${invitationId}/${Date.now()}-${file.name}`;
+        const arrayBuffer = await file.arrayBuffer();
+        const body = new Uint8Array(arrayBuffer);
+
+        // const upload = new Upload({
+        //     client: s3Client,
+        //     params: {
+        //         Bucket: bucket,
+        //         Key: key,
+        //         Body: file,
+        //         ContentType: file.type,
+        //     },
+        // });
+
+        // await upload.done();
+
+        // return {
+        //     key,
+        //     url: `https://${bucket}.s3.${region}.amazonaws.com/${key}`,
+        // };
 
         await s3Client.send(
             new PutObjectCommand({
                 Bucket: bucket,
                 Key: key,
-                Body: file,
+                // Body: file,
+                Body: body,
                 ContentType: file.type,
             })
         );
@@ -30,7 +55,17 @@ export const InvitationStorageService = {
         };
     },
 
-    async deleteImage(key) {
+    async uploadMany(files, invitationId) {
+        if (!files?.length || !invitationId) return [];
+
+        const uploaded = await Promise.all(
+            files.map((file) => this.upload(file, invitationId)),
+        );
+
+        return uploaded.map((img) => img.url);
+    },
+
+    async delete(key) {
         if (!key) return;
         await s3Client.send(
             new DeleteObjectCommand({

@@ -110,6 +110,14 @@ export const pickInvitationFields = (data) =>
     return acc;
   }, {});
 
+export const extractKeyFromUrl = (url) => {
+  try {
+    return decodeURIComponent(new URL(url).pathname.slice(1));
+  } catch {
+    return null;
+  }
+};
+
 // view
 import { FALLBACK } from "./constants";
 

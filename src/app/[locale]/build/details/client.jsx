@@ -29,6 +29,7 @@ import { Expire } from "@/components/build/expire";
 import { Venue } from "@/components/build/venue";
 import { Rsvp } from "@/components/build/rsvp";
 import { error } from "@/components/ui/alerts";
+import { InvitationStorageService } from "@/services/aws/index";
 
 export const DetailsClient = () => {
   const router = useRouter();
@@ -37,9 +38,8 @@ export const DetailsClient = () => {
   const lastSavedFormRef = useRef(null);
   const formRef = useRef(null);
 
-  // TODO: set id to params after draft creation
   const { isAuthenticated, isLoading } = useAuth0();
-  const [{ template, palette, id }] = useQueryStates({
+  const [{ template, palette, id }, setQuery] = useQueryStates({
     template: parseAsString,
     palette: parseAsString,
     id: parseAsString,
@@ -72,18 +72,6 @@ export const DetailsClient = () => {
       const draftId = res?.id;
       const urlExtension = res?.urlExtension;
 
-      // setForm((prev) => {
-      //   const updated = {
-      //     ...prev,
-      //     ...(draftId && { id: draftId }),
-      //     ...(urlExtension && { urlExtension }),
-      //   };
-
-      //   lastSavedFormRef.current = JSON.stringify(updated);
-
-      //   return updated;
-      // });
-
       if (urlExtension) {
         setUrlExtension(urlExtension);
       }
@@ -95,6 +83,10 @@ export const DetailsClient = () => {
           lastSavedFormRef.current = JSON.stringify(updated);
           return updated;
         });
+
+        if (!search?.includes(draftId)) {
+          setQuery({ id: draftId });
+        }
       }
       queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
     },
@@ -129,11 +121,24 @@ export const DetailsClient = () => {
 
   useEffect(() => {
     if (!invitationData) return;
-    setForm(pickInvitationFields(invitationData));
+
+    const picked = pickInvitationFields(invitationData);
+    setForm(picked);
 
     if (invitationData?.urlExtension) {
       setUrlExtension(invitationData.urlExtension);
     }
+
+    const sanitized = {
+      ...picked,
+      timeline: picked.timeline?.map((item) => ({
+        venueKey: item.venueKey,
+        venueName: item.venueName,
+        time: item.time,
+        venueLocation: item.venueLocation,
+      })),
+    };
+    lastSavedFormRef.current = JSON.stringify(sanitized);
   }, [invitationData]);
 
   useEffect(() => {
@@ -160,11 +165,6 @@ export const DetailsClient = () => {
       return updates;
     });
   }, [data]);
-
-  useEffect(() => {
-    if (!form.eventDate) return;
-    handleSmartBlur();
-  }, [form.eventDate]);
 
   const handleHide = (key, hidden) => {
     setForm((prev) => {
@@ -223,31 +223,36 @@ export const DetailsClient = () => {
     }));
   };
 
-  // const handleSmartBlur = () => {
-  //   if (invitationData?.status === "ACTIVE") return;
+  const processMainImages = async (current) => {
+    let processedForm = { ...current };
 
-  //   const current = formRef.current;
+    if (!Array.isArray(current.mainImages)) {
+      return processedForm;
+    }
 
-  //   const isTitleFilled = current.languages?.some((lang) =>
-  //     current.title?.[lang]?.trim(),
-  //   );
+    const isFileArray =
+      current.mainImages.length > 0 && current.mainImages[0] instanceof File;
 
-  //   if (!isTitleFilled) return;
+    if (!isFileArray || !current.id) {
+      return processedForm;
+    }
 
-  //   const currentDataString = JSON.stringify(current);
+    const urls = await InvitationStorageService.uploadMany(
+      current.mainImages,
+      current.id,
+    );
 
-  //   if (lastSavedFormRef.current !== currentDataString) {
-  //     // const payload = {
-  //     //   ...current,
-  //     //   timeline: current.timeline?.map(({ venueKey, ...rest }) => rest),
-  //     // };
-  //     // mutate(buildPayload(payload));
-  //     mutate(buildPayload(current));
-  //     lastSavedFormRef.current = currentDataString;
-  //   }
-  // };
+    processedForm.mainImages = urls;
 
-  const handleSmartBlur = () => {
+    setForm((prev) => ({
+      ...prev,
+      mainImages: urls,
+    }));
+
+    return processedForm;
+  };
+
+  const handleSmartBlur = async () => {
     if (invitationData?.status === "ACTIVE") return;
 
     const current = formRef.current;
@@ -258,9 +263,11 @@ export const DetailsClient = () => {
 
     if (!isTitleFilled) return;
 
+    const processedForm = await processMainImages(current);
+
     const sanitized = {
-      ...current,
-      timeline: current.timeline?.map((item) => ({
+      ...processedForm,
+      timeline: processedForm.timeline?.map((item) => ({
         venueKey: item.venueKey,
         venueName: item.venueName,
         time: item.time,
@@ -280,7 +287,6 @@ export const DetailsClient = () => {
     e.preventDefault();
     router.push(`preview${search}`);
   };
-
 
   return (
     <Box pt={{ base: "32px", md: "48px" }} pb="22px">
@@ -342,10 +348,14 @@ export const DetailsClient = () => {
 
           <Animate>
             <Photos
-              // onFileSelect={(file) =>
-              //   setForm((prev) => ({ ...prev, mainImages: file }))
-              // }
               name="mainImages"
+              // onChange={(name, files) =>
+              //   setForm((prev) => ({
+              //     ...prev,
+              //     [name]: Array.from(files ?? []),
+              //   }))
+              // }
+              value={form.mainImages}
               onChange={handleChange}
               count={
                 data?.mainImageMaxCount ??
@@ -443,6 +453,136 @@ export const DetailsClient = () => {
     </Box>
   );
 };
+
+// V1 - these two affect the draft call after the invitation/id call.
+// useEffect(() => {
+//   if (!invitationData) return;
+//   setForm(pickInvitationFields(invitationData));
+
+//   if (invitationData?.urlExtension) {
+//     setUrlExtension(invitationData.urlExtension);
+//   }
+// }, [invitationData]);
+
+// useEffect(() => {
+//   if (!form.eventDate) return;
+//   handleSmartBlur();
+// }, [form.eventDate]);
+// blur with nested img upload logic (not needed)
+// const handleSmartBlur = async () => {
+//   if (invitationData?.status === "ACTIVE") return;
+
+//   const current = formRef.current;
+
+//   const isTitleFilled = current.languages?.some((lang) =>
+//     current.title?.[lang]?.trim(),
+//   );
+
+//   if (!isTitleFilled) return;
+
+//   //
+//   const processedForm = await processMainImages(current);
+//   //
+
+//   //
+//   // let processedForm = { ...current };
+
+//   // if (Array.isArray(current.mainImages)) {
+//   //   const isFileArray =
+//   //     current.mainImages.length > 0 && current.mainImages[0] instanceof File;
+
+//   //   if (isFileArray && current.id) {
+//   //     const urls = await uploadImages(current.mainImages, current.id);
+//   //     console.log(urls);
+
+//   //     processedForm.mainImages = urls;
+
+//   //     // also update UI state so next blur won't re-upload
+//   //     setForm((prev) => ({
+//   //       ...prev,
+//   //       mainImages: urls,
+//   //     }));
+//   //   }
+//   // }
+//   //
+
+//   const sanitized = {
+//     // ...current,
+//     ...processedForm,
+//     // timeline: current.timeline?.map((item) => ({
+//     timeline: processedForm.timeline?.map((item) => ({
+//       venueKey: item.venueKey,
+//       venueName: item.venueName,
+//       time: item.time,
+//       venueLocation: item.venueLocation,
+//     })),
+//   };
+
+//   const currentDataString = JSON.stringify(sanitized);
+
+//   if (lastSavedFormRef.current !== currentDataString) {
+//     mutate(buildPayload(sanitized));
+//     lastSavedFormRef.current = currentDataString;
+//   }
+// };
+
+// V2 --works, but not needed (it was added for draft call fix)
+// const handleSmartBlur = () => {
+//   setTimeout(async () => {
+//     if (invitationData?.status === "ACTIVE") return;
+
+//     const current = formRef.current;
+
+//     const isTitleFilled = current.languages?.some((lang) =>
+//       current.title?.[lang]?.trim(),
+//     );
+
+//     if (!isTitleFilled) return;
+
+//     const processedForm = await processMainImages(current);
+
+//     const sanitized = {
+//       ...processedForm,
+//       timeline: processedForm.timeline?.map((item) => ({
+//         venueKey: item.venueKey,
+//         venueName: item.venueName,
+//         time: item.time,
+//         venueLocation: item.venueLocation,
+//       })),
+//     };
+
+//     const currentDataString = JSON.stringify(sanitized);
+
+//     if (lastSavedFormRef.current !== currentDataString) {
+//       mutate(buildPayload(sanitized));
+//       lastSavedFormRef.current = currentDataString;
+//     }
+//   }, 0);
+// };
+
+// const handleSmartBlur = () => {
+//   if (invitationData?.status === "ACTIVE") return;
+
+//   const current = formRef.current;
+
+//   const isTitleFilled = current.languages?.some((lang) =>
+//     current.title?.[lang]?.trim(),
+//   );
+
+//   if (!isTitleFilled) return;
+
+//   const currentDataString = JSON.stringify(current);
+
+//   if (lastSavedFormRef.current !== currentDataString) {
+//     // const payload = {
+//     //   ...current,
+//     //   timeline: current.timeline?.map(({ venueKey, ...rest }) => rest),
+//     // };
+//     // mutate(buildPayload(payload));
+//     mutate(buildPayload(current));
+//     lastSavedFormRef.current = currentDataString;
+//   }
+// };
 
 // initial={{ opacity: 0, y: 40 }}
 // whileInView={{ opacity: 1, y: 0 }}

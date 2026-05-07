@@ -5,8 +5,10 @@ import { Field, FileUpload, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { upload } from "../../assets/svgs";
 import { Label } from "@/components/build/typography/label";
 import { FileUploadList } from "@/components/build/filleUpload";
+import { extractKeyFromUrl } from "@/utils/formatters";
+import { InvitationStorageService } from "@/services/aws";
 
-export const Photos = ({ name, onChange, required, count }) => {
+export const Photos = ({ name, value, onChange, count, required }) => {
   const t = useTranslations();
 
   const handleFileSelect = (files) => {
@@ -17,6 +19,34 @@ export const Photos = ({ name, onChange, required, count }) => {
       },
     });
   };
+
+  const handleDeleteUrl = async (url) => {
+    const key = extractKeyFromUrl(url);
+
+    if (key) {
+      try {
+        await InvitationStorageService.delete(key);
+      } catch (err) {
+        console.error("AWS delete failed:", err);
+      }
+    }
+
+    onChange({
+      target: {
+        name,
+        value: (value ?? []).filter((img) => img !== url),
+      },
+    });
+  };
+
+  // const handleDeleteUrl = (url) => {
+  //   onChange({
+  //     target: {
+  //       name,
+  //       value: (value ?? []).filter((img) => img !== url),
+  //     },
+  //   });
+  // };
 
   return (
     <Stack
@@ -42,7 +72,11 @@ export const Photos = ({ name, onChange, required, count }) => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        <FileUploadList onFileSelect={handleFileSelect} />
+        <FileUploadList
+          value={value ?? []} // ✅ pass directly, no local state
+          onFileSelect={handleFileSelect}
+          onDeleteUrl={handleDeleteUrl}
+        />
         <FileUpload.HiddenInput />
         <FileUpload.Dropzone
           minW="163px"
