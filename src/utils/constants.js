@@ -448,3 +448,17 @@ export const GUEST_COUNT = [
   { label: "8", value: "8" },
   { label: "9", value: "9" },
 ]
+
+export const TIMELINE = [
+  { time: "12:00", venueName: "BRIDE'S HOME" },
+  { time: "13:30", venueName: "DEPARTURE TO GROOM'S HOME" },
+  { time: "16:00", venueName: "GROOM'S HOME" },
+  { time: "17:30", venueName: "ARRIVAL AT RECEPTION VENUE" },
+]
+
+// used in formatEventDate & diffParts formatters
+export const FALLBACK_DATE = (() => {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() + 1);
+  return d;
+})();

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useGetTanstack, useMutateAuthTanstack } from "@/hooks/useTanstack";
-import { diffParts, formatEventDate, paletteToVars } from "@/utils/formatters";
+import { formatEventDate, paletteToVars } from "@/utils/formatters";
 import { Language } from "@/components/invitation/language";
 import { getInvitationForm, pickLang } from "@/utils/helpers";
 import {
@@ -23,25 +23,23 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { leftBrace, map, rightBrace } from "@/assets/svgs";
-import { Countdown } from "@/components/invitation/countdown";
+import { CountdownTimer } from "@/components/invitation/countdownTimer";
 import mainBg from "@/assets/imgs/invitations/classic/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
-import { GUEST_COUNT, GALLERY_FALLBACKS } from "@/utils/constants";
+import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
-import { error, success } from "@/components/ui/alerts";
-
-import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/image-gallery.css";
-import { queryClient } from "@/providers/queryProvider";
 import { Radio } from "@/components/auth/invitations/guests/radio";
 import { isNotEmptyArray } from "@/utils/checkers";
+import { error, success } from "@/components/ui/alerts";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/image-gallery.css";
 
 export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
   const language = useLocale();
-  const closeButtonRef = useRef(null);
+  const galleryRef = useRef(null);
 
   const { slug } = useParams();
   const { data: invitationData } = useGetTanstack(
@@ -50,12 +48,6 @@ export default function Classic({ viewport = "pc", palette, data }) {
   );
   const { mutate } = useMutateAuthTanstack("confirmations/guest", "post", {
     onSuccess: () => {
-      // invitation by id,tables,stats
-      queryClient.invalidateQueries({
-        predicate: (query) =>
-          query.queryKey[0]?.startsWith(`confirmations/invitation/${id}`),
-      });
-      if (closeButtonRef.current) closeButtonRef.current.click();
       setForm(getInvitationForm(id));
       setGuests([`${t("classic_count")}`]);
       success("Confirmation has been sent.");
@@ -65,7 +57,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
   });
 
   const finalData = data ?? invitationData;
-  const id = finalData.id;
+  const id = finalData?.id;
   const locales = finalData?.languages;
   const vars = paletteToVars(palette?.colors);
   const title = pickLang(finalData?.title, language) || "Henry & Mariam";
@@ -73,11 +65,6 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
   const [form, setForm] = useState(getInvitationForm(id));
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
-
-  const [countdown, setCountdown] = useState(() =>
-    diffParts(finalData?.eventDate),
-  );
-  const galleryRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const heroImage = finalData?.mainImages?.[0] || mainBg.src;
@@ -89,7 +76,6 @@ export default function Classic({ viewport = "pc", palette, data }) {
   const galleryItems = useMemo(
     () =>
       gallery.map((src) => {
-        // const url = typeof src === "string" ? src : src?.url || "";
         return { original: src, thumbnail: src };
       }),
     [gallery],
@@ -97,14 +83,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
   const description =
     pickLang(finalData?.description, language) || t("classic_title");
-  const timeline = finalData?.timeline?.length
-    ? finalData.timeline
-    : [
-        { time: "12:00", venueName: "BRIDE'S HOME" },
-        { time: "13:30", venueName: "DEPARTURE TO GROOM'S HOME" },
-        { time: "16:00", venueName: "GROOM'S HOME" },
-        { time: "17:30", venueName: "ARRIVAL AT RECEPTION VENUE" },
-      ];
+  const timeline = finalData?.timeline || TIMELINE;
   const dressCodeDesc =
     pickLang(finalData?.dressCode?.description, language) ||
     t("dresscode_desc");
@@ -150,6 +129,22 @@ export default function Classic({ viewport = "pc", palette, data }) {
     });
   };
 
+  const handleGuestCountChange = ({ value }) => {
+    const count = Number(value[0]) || 0;
+
+    setGuests(value);
+    setForm((prev) => ({
+      ...prev,
+      secondaryGuests:
+        count === 0
+          ? []
+          : Array.from(
+              { length: count },
+              (_, i) => prev.secondaryGuests[i] ?? "",
+            ),
+    }));
+  };
+
   const handleConfirm = (e) => {
     e.preventDefault();
 
@@ -170,16 +165,6 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
     mutate({ ...form, status: "DECLINED" });
   };
-
-  useEffect(() => {
-    if (!finalData?.eventDate) return;
-
-    const interval = setInterval(() => {
-      setCountdown(diffParts(finalData.eventDate));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [finalData?.eventDate]);
 
   return (
     <Box
@@ -251,32 +236,10 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
         <Stack gap="40px">
           {finalData?.countDown !== false && (
-            <HStack
-              gap={isMobile ? "16px" : "48px"}
-              // divideX="1px"
-              // divideColor="rgba(0,0,0,0.15)"
-            >
-              <Countdown
-                value={countdown.days}
-                label="days"
-                isMobile={isMobile}
-              />
-              <Countdown
-                value={String(countdown.hours).padStart(2, "0")}
-                label="hours"
-                isMobile={isMobile}
-              />
-              <Countdown
-                value={String(countdown.min).padStart(2, "0")}
-                label="min"
-                isMobile={isMobile}
-              />
-              <Countdown
-                value={String(countdown.sec).padStart(2, "0")}
-                label="sec"
-                isMobile={isMobile}
-              />
-            </HStack>
+            <CountdownTimer
+              eventDate={finalData?.eventDate}
+              isMobile={isMobile}
+            />
           )}
 
           <Text
@@ -428,21 +391,8 @@ export default function Classic({ viewport = "pc", palette, data }) {
                 //     ),
                 //   }));
                 // }}
-                onValueChange={({ value }) => {
-                  const count = Number(value[0]) || 0;
-                  
-                  setGuests(value);
-                  setForm((prev) => ({
-                    ...prev,
-                    secondaryGuests:
-                      count === 0
-                        ? []
-                        : Array.from(
-                            { length: count },
-                            (_, i) => prev.secondaryGuests[i] ?? "",
-                          ),
-                  }));
-                }}
+
+                onValueChange={handleGuestCountChange}
               >
                 <Select.HiddenSelect />
                 <Select.Control>

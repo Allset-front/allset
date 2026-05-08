@@ -8,7 +8,6 @@ import Modern from "@/app/[locale]/invitation/[slug]/modern";
 import Vintage from "@/app/[locale]/invitation/[slug]/vintage";
 
 export const Renderer = ({ viewport, palette }) => {
-  // TODO: set id via props for build/customisations page
   const [{ template, id }] = useQueryStates({
     template: parseAsString,
     id: parseAsString,
