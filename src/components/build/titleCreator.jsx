@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Field, Flex, HStack, Icon, Stack, Text } from "@chakra-ui/react";
 import { BASE_URL } from "@/lib/api/config";
 import { Label } from "@/components/build/typography/label";
@@ -19,10 +19,11 @@ export const TitleCreator = ({
   languages,
 }) => {
   const t = useTranslations();
+  const language = useLocale();
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const fullUrl = BASE_URL + (urlExtension ?? "");
+  const fullUrl = `${BASE_URL}${language}/invitation/${urlExtension ?? ""}`;
 
   const handleInputChange = (e, lng) => {
     const val = e.target.value;

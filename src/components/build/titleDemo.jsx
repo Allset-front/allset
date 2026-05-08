@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Field, Flex, HStack, Icon, Stack, Text } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Label } from "@/components/build/typography/label";
@@ -11,10 +11,11 @@ import { error, success } from "../ui/alerts";
 
 export const TitleDemo = () => {
   const t = useTranslations();
+  const language = useLocale();
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const fullUrl = BASE_URL + ("es_du" ?? "");
+  const fullUrl = `${BASE_URL}${language}/invitation/example`;
 
   const handleCopy = async () => {
     if (isCopied) return info("URL is in clipboard!");

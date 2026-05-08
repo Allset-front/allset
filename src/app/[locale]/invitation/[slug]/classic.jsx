@@ -29,10 +29,8 @@ import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
-//
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
-//
 
 export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
