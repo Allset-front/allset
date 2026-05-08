@@ -41,7 +41,7 @@ export const getStepInfo = (pathname) => {
   return {
     step,
     // value: (step / 4) * 100,
-    stepToPath, 
+    stepToPath,
     show: true,
   };
 };
@@ -171,6 +171,15 @@ export const getInitialForm = (id) => ({
   guestSide: "",
   status: "CONFIRMED",
   createdBy: "INVITATION_OWNER",
+});
+
+export const getInvitationForm = (id) => ({
+  invitationId: id,
+  mainGuest: "",
+  secondaryGuests: [],
+  guestSide: "",
+  status: "",
+  createdBy: "GUEST",
 });
 
 export const filterGuestsByName = (data = [], name = "") => {

@@ -3,15 +3,16 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useGetTanstack } from "@/hooks/useTanstack";
+import { useGetTanstack, useMutateAuthTanstack } from "@/hooks/useTanstack";
 import { diffParts, formatEventDate, paletteToVars } from "@/utils/formatters";
 import { Language } from "@/components/invitation/language";
-import { pickLang } from "@/utils/helpers";
+import { getInvitationForm, pickLang } from "@/utils/helpers";
 import {
   Box,
   Button,
   createListCollection,
   Flex,
+  For,
   HStack,
   Icon,
   Input,
@@ -29,30 +30,54 @@ import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
+import { error, success } from "@/components/ui/alerts";
+
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
+import { queryClient } from "@/providers/queryProvider";
+import { Radio } from "@/components/auth/invitations/guests/radio";
+import { isNotEmptyArray } from "@/utils/checkers";
 
 export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
   const language = useLocale();
+  const closeButtonRef = useRef(null);
 
   const { slug } = useParams();
   const { data: invitationData } = useGetTanstack(
     `invitations/url/${slug}`,
     !data && !!slug,
   );
+  const { mutate } = useMutateAuthTanstack("confirmations/guest", "post", {
+    onSuccess: () => {
+      // invitation by id,tables,stats
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0]?.startsWith(`confirmations/invitation/${id}`),
+      });
+      if (closeButtonRef.current) closeButtonRef.current.click();
+      setForm(getInvitationForm(id));
+      setGuests([`${t("classic_count")}`]);
+      success("Confirmation has been sent.");
+    },
+    onError: (err) =>
+      error(err?.response?.data?.error || "Guest list adding error!"),
+  });
 
   const finalData = data ?? invitationData;
+  const id = finalData.id;
   const locales = finalData?.languages;
   const vars = paletteToVars(palette?.colors);
   const title = pickLang(finalData?.title, language) || "Henry & Mariam";
   const eventDateText = formatEventDate(finalData?.eventDate);
 
+  const [form, setForm] = useState(getInvitationForm(id));
+  const [guests, setGuests] = useState([`${t("classic_count")}`]);
+
   const [countdown, setCountdown] = useState(() =>
     diffParts(finalData?.eventDate),
   );
   const galleryRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const heroImage = finalData?.mainImages?.[0] || mainBg.src;
@@ -98,10 +123,52 @@ export default function Classic({ viewport = "pc", palette, data }) {
   // const width = designWidth(viewport);
   const isMobile = viewport === "mobile";
 
-  const openFullscreen = (index) => {
-    setActiveIndex(index);
+  const openFullscreen = () => {
     setIsFullscreen(true);
     setTimeout(() => galleryRef.current?.fullScreen(), 50);
+  };
+
+  // form
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSecondaryGuestChange = (index, value) => {
+    setForm((prev) => {
+      const updated = [...prev.secondaryGuests];
+      updated[index] = value;
+
+      return {
+        ...prev,
+        secondaryGuests: updated,
+      };
+    });
+  };
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+
+    if (!form.mainGuest) return error(t("add_guest"));
+    if (!form.guestSide) return error(t("invitor"));
+
+    const hasEmptyGuest = form.secondaryGuests.some((guest) => !guest.trim());
+    if (hasEmptyGuest) return error(t("accompanying_name"));
+
+    mutate({ ...form, status: "CONFIRMED" });
+  };
+
+  const handleDecline = (e) => {
+    e.preventDefault();
+
+    if (!form.mainGuest) return error(t("add_guest"));
+    if (!form.guestSide) return error(t("invitor"));
+
+    mutate({ ...form, status: "DECLINED" });
   };
 
   useEffect(() => {
@@ -335,31 +402,47 @@ export default function Classic({ viewport = "pc", palette, data }) {
             <VStack gap="16px" minW={isMobile ? "100%" : "442px"}>
               <Input
                 placeholder={t("classic_type")}
-                // size="lg"
                 h="52px"
                 bg="white"
-                // fontSize="14px"
                 variant="outline"
+                //
+                name="mainGuest"
+                value={form.mainGuest}
+                onChange={handleChange}
               />
-              {/* <Box
-                as="select"
-                w="100%"
-                h="52px"
-                bg="white"
-                border="1px solid rgba(0,0,0,0.1)"
-                borderRadius="6px"
-                // fontSize="14px"
-                color="#6B6B6B"
-                disabled
-              >
-                <option>{t("classic_count")}</option>
-              </Box> */}
               <Select.Root
                 collection={guestCount}
                 size="lg"
                 width="100%"
                 bg="white"
                 variant="outline"
+                value={guests}
+                //
+                // onValueChange={({ value }) => {
+                //   const count = Number(value[0]) || 0;
+                //   setForm((prev) => ({
+                //     ...prev,
+                //     secondaryGuests: Array.from(
+                //       { length: count },
+                //       (_, i) => prev.secondaryGuests[i] ?? "",
+                //     ),
+                //   }));
+                // }}
+                onValueChange={({ value }) => {
+                  const count = Number(value[0]) || 0;
+                  
+                  setGuests(value);
+                  setForm((prev) => ({
+                    ...prev,
+                    secondaryGuests:
+                      count === 0
+                        ? []
+                        : Array.from(
+                            { length: count },
+                            (_, i) => prev.secondaryGuests[i] ?? "",
+                          ),
+                  }));
+                }}
               >
                 <Select.HiddenSelect />
                 <Select.Control>
@@ -374,7 +457,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                   <Select.Positioner>
                     <Select.Content>
                       {guestCount.items.map(({ label, value }) => (
-                        <Select.Item item={label} key={value}>
+                        <Select.Item item={value} key={value}>
                           {label}
                           <Select.ItemIndicator />
                         </Select.Item>
@@ -383,6 +466,31 @@ export default function Classic({ viewport = "pc", palette, data }) {
                   </Select.Positioner>
                 </Portal>
               </Select.Root>
+
+              {isNotEmptyArray(form.secondaryGuests) && (
+                <For each={form.secondaryGuests}>
+                  {(el, idx) => (
+                    <Input
+                      key={idx}
+                      value={el}
+                      placeholder={t("accompanying_name")}
+                      variant="outline"
+                      h="52px"
+                      bg="white"
+                      onChange={(e) =>
+                        handleSecondaryGuestChange(idx, e.target.value)
+                      }
+                    />
+                  )}
+                </For>
+              )}
+
+              <Radio
+                value={form.guestSide}
+                onChange={(value) =>
+                  setForm((prev) => ({ ...prev, guestSide: value }))
+                }
+              />
             </VStack>
             <Flex
               minW={isMobile ? "100%" : "442px"}
@@ -402,6 +510,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                   borderColor: "#004143",
                 }}
                 transition="all 0.3s ease"
+                onClick={handleConfirm}
               >
                 {t("classic_accept")}
               </Button>
@@ -411,6 +520,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                 color="#111"
                 h="44px"
                 fontSize="14px"
+                onClick={handleDecline}
               >
                 {t("classic_reject")}
               </Button>
@@ -628,7 +738,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
               bgPos="center"
               filter={i === 1 || i === 3 ? "grayscale(100%)" : "none"}
               cursor="zoom-in"
-              onClick={() => openFullscreen(i)}
+              onClick={openFullscreen}
             />
           );
         })}
@@ -640,7 +750,6 @@ export default function Classic({ viewport = "pc", palette, data }) {
           <ImageGallery
             ref={galleryRef}
             items={galleryItems}
-            // startIndex={activeIndex}
             showPlayButton={false}
             showThumbnails={false}
             onScreenChange={(isFull) => {
@@ -668,10 +777,22 @@ export default function Classic({ viewport = "pc", palette, data }) {
         >
           {t("classic_contact")}
         </Text>
-        <Text as="a" href={`tel:${phone}`} fontSize="24px" lineHeight="24px" fontWeight="800">
+        <Text
+          as="a"
+          href={`tel:${phone}`}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+        >
           {phone}
         </Text>
-        <Text as="a" href={`mailto:${email}`} fontSize="24px" lineHeight="24px" fontWeight="800">
+        <Text
+          as="a"
+          href={`mailto:${email}`}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+        >
           {email}
         </Text>
       </Flex>
