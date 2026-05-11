@@ -37,7 +37,7 @@ export const useGetAuthTanstack = (name, enabled) => {
             return data;
         },
         // enabled: !isLoading && isAuthenticated, // V1
-        enabled: !isLoading && isAuthenticated && enabled, // V2 (if in details client query is not id)
+        enabled: !isLoading && isAuthenticated && enabled, // V2 (if in details client query has no id)
     });
 };
 

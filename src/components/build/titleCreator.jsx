@@ -34,8 +34,6 @@ export const TitleCreator = ({
   };
 
   const handleCopy = async () => {
-    if (!value?.en) return error("Fill english title!");
-
     if (isCopied) return info("URL is in clipboard!");
 
     try {
