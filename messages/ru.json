@@ -418,5 +418,14 @@
     "success_price": "Оплаченная сумма",
     "success_copy": "Скопировать ссылку приглашения",
     "success_go": "Перейти к приглашениям",
-    "back_home": "Вернуться на главную"
+    "back_home": "Вернуться на главную",
+        
+    "failed_title": "Оплата не выполнена",
+    "failed_desc_1": "Не удалось обработать ваш платеж.",
+    "failed_desc_2": "Пожалуйста, проверьте данные и попробуйте снова.",
+    "failed_reason": "Причина",
+    "failed_amount": "Сумма",
+    "failed_insufficient": "Недостаточно средств",
+    "failed_try": "Попробовать снова",
+    "failed_again": "Use Different Payment Method"
 }

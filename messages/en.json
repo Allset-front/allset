@@ -418,5 +418,14 @@
     "success_price": "Amount paid",
     "success_copy": "Copy Invitation Link",
     "success_go": "Go to Invitations",
-    "back_home": "Back to Home"
+    "back_home": "Back to Home",
+    
+    "failed_title": "Payment Failed",
+    "failed_desc_1": "Your payment could not be processed.",
+    "failed_desc_2": "Please check your details and try again.",
+    "failed_reason": "Reason",
+    "failed_amount": "Amount",
+    "failed_insufficient": "Insufficient funds",
+    "failed_try": "Try Again",
+    "failed_again": "Use Different Payment Method"
 }

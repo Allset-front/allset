@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import {
   Button,
   CloseButton,
@@ -17,7 +18,7 @@ import img from "@/assets/imgs/failed.png";
 import { Link, useRouter } from "@/i18n/routing";
 
 export const Failed = ({ open, setQuery }) => {
-  const router = useRouter();
+  const t = useTranslations();
 
   const handleClose = async () => {
     await setQuery({ status: null });
@@ -59,7 +60,7 @@ export const Failed = ({ open, setQuery }) => {
                   fontWeight={600}
                   fontSize={"28px"}
                 >
-                  Payment Successful!
+                  {t("failed_title")}
                 </Dialog.Title>
               </Stack>
             </Dialog.Header>
@@ -71,8 +72,7 @@ export const Failed = ({ open, setQuery }) => {
                 fontSize={"16px"}
                 lineHeight={"24px"}
               >
-                Your payment could not be processed. <br /> Please check your
-                details and try again.
+                {t("failed_desc_1")} <br /> {t("failed_desc_2")}
               </Text>
 
               <Separator m="20px 0" />
@@ -80,16 +80,16 @@ export const Failed = ({ open, setQuery }) => {
               <Flex justify={"space-between"}>
                 <Stack>
                   <Text color={"#949EB0"} fontWeight={400}>
-                    Reason
+                    {t("failed_reason")}
                   </Text>
                   <Text color={"#949EB0"} fontWeight={400}>
-                    Amount
+                    {t("failed_amount")}
                   </Text>
                 </Stack>
 
                 <Stack align={"flex-end"}>
                   <Text color={"#E0272C"} fontWeight={500}>
-                    Insufficient funds
+                    {t("failed_insufficient")}
                   </Text>
                   <Text color={"#004143"} fontWeight={500}>
                     20.000 AMD
@@ -116,7 +116,7 @@ export const Failed = ({ open, setQuery }) => {
                 transition="all 0.3s ease"
                 onClick={handleClose}
               >
-                Try Again
+                {t("failed_try")}
               </Button>
               <Button
                 w="100%"
@@ -128,7 +128,7 @@ export const Failed = ({ open, setQuery }) => {
                 borderColor="#004143"
                 onClick={handleChangePayment}
               >
-                Use Different Payment Method
+                {t("failed_again")}
               </Button>
               <ChakraLink
                 as={Link}
@@ -140,7 +140,7 @@ export const Failed = ({ open, setQuery }) => {
                 fontSize={"14px"}
                 fontWeight={400}
               >
-                Back to Home
+                {t("back_home")}
               </ChakraLink>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
