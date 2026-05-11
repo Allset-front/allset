@@ -3,7 +3,7 @@
 import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
 import apiClient from "@/lib/api";
-import { Box, Container, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { error, success } from "@/components/ui/alerts";
 import { Animate } from "@/components/ui/animate";
 import { TitleDemo } from "@/components/build/titleDemo";
@@ -20,7 +20,6 @@ export const ConfirmClient = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      alert(159);
       const { data } = await apiClient.post(`/invitations`, form);
 
       if (data.status === "ok") {

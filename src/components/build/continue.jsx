@@ -12,10 +12,10 @@ import { Button } from "@chakra-ui/react";
 import { next } from "@/assets/svgs";
 
 export const Continue = () => {
-  const [{ template, palette, accept }] = useQueryStates({
+  const [{ template, palette, legal }] = useQueryStates({
     template: parseAsString,
     palette: parseAsString,
-    accept: parseAsString,
+    legal: parseAsString,
   });
   const [shouldNavigate, setShouldNavigate] = useState(false);
 
@@ -139,7 +139,7 @@ export const Continue = () => {
         },
       }}
       transition="all 0.3s ease"
-      disabled={disabled && !(accept == true || accept === "true")}
+      disabled={disabled && !(legal == true || legal === "true")}
     >
       {t(name)}
     </Button>

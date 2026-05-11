@@ -89,7 +89,7 @@ export const isContinueDisabled = (pathname, values) => {
         },
         {
             path: `/build/confirm`,
-            required: ["template", "palette", "accept"]
+            required: ["template", "palette", "legal"]
         },
     ];
 

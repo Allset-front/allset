@@ -12,8 +12,8 @@ export const Pay = () => {
   const t = useTranslations();
   const router = useRouter();
 
-  const [{ accept, payment }] = useQueryStates({
-    accept: parseAsString,
+  const [{ legal, payment }] = useQueryStates({
+    legal: parseAsString,
     payment: parseAsString,
   });
 
@@ -25,7 +25,7 @@ export const Pay = () => {
         content={
           !payment
             ? "Choose paymant method"
-            : !accept
+            : !legal
               ? "Please agree terms and policy"
               : "Pay"
         }
@@ -39,7 +39,7 @@ export const Pay = () => {
           border="1px solid"
           boxShadow="xl"
           borderColor="#4B5563"
-          disabled={!accept || !payment}
+          disabled={!legal || !payment}
           _hover={{ bg: "white", color: "#004143" }}
         >
           {t("pay")}

@@ -22,8 +22,8 @@ import { Link } from "@/i18n/routing";
 export const Payment = () => {
   const t = useTranslations();
 
-  const [{ accept, payment }, setQuery] = useQueryStates({
-    accept: parseAsString,
+  const [{ legal, payment }, setQuery] = useQueryStates({
+    legal: parseAsString,
     payment: parseAsString,
   });
 
@@ -92,8 +92,8 @@ export const Payment = () => {
 
       <Checkbox.Root
         size="sm"
-        checked={accept}
-        onCheckedChange={(e) => setQuery({ accept: !!e.checked })}
+        checked={legal}
+        onCheckedChange={(e) => setQuery({ legal: !!e.checked })}
         // onCheckedChange={handleChange}
         alignItems="start"
       >
@@ -104,7 +104,7 @@ export const Payment = () => {
           _checked={{ border: "none", bg: "transparent" }}
           cursor={"pointer"}
         >
-          {accept && <Icon>{checked.icon}</Icon>}
+          {legal && <Icon>{checked.icon}</Icon>}
         </Checkbox.Control>
         <Checkbox.Label
           fontSize={"12px"}
