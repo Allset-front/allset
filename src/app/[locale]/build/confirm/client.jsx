@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
+import { useRouter } from "@/i18n/routing";
+import { useQueryState } from "nuqs";
 import apiClient from "@/lib/api";
 import { Box, Stack } from "@chakra-ui/react";
 import { error, success } from "@/components/ui/alerts";
@@ -11,9 +12,15 @@ import { ConfirmDate } from "@/components/build/confirmDate";
 import { Promocode } from "@/components/auth/profile/promocode";
 import { Payment } from "@/components/build/payment";
 import { Pay } from "@/components/build/pay";
+import { Sucess } from "@/components/build/sucess";
+import { Failed } from "@/components/build/failed";
 
 export const ConfirmClient = () => {
   const router = useRouter();
+
+  const [status, setStatus] = useQueryState("status", {
+    defaultValue: "",
+  });
 
   const [form, setForm] = useState();
 
@@ -63,6 +70,9 @@ export const ConfirmClient = () => {
           <Pay />
         </Animate>
       </Stack>
+
+      {status === "success" && <Sucess status={status} setStatus={setStatus} />}
+      {status === "failed" && <Failed status={status} setStatus={setStatus} />}
     </Box>
   );
 };
