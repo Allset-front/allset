@@ -16,7 +16,7 @@ import {
 import img from "@/assets/imgs/failed.png";
 import { Link, useRouter } from "@/i18n/routing";
 
-export const Failed = ({ status, setQuery }) => {
+export const Failed = ({ open, setQuery }) => {
   const router = useRouter();
 
   const handleClose = async () => {
@@ -30,13 +30,12 @@ export const Failed = ({ status, setQuery }) => {
 
   return (
     <Dialog.Root
-      open={status}
+      open={open}
       onOpenChange={(e) => {
         if (!e.open) {
           handleClose();
         }
       }}
-      F
       placement="center"
       motionPreset="slide-in-bottom"
       as="form"

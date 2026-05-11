@@ -12,6 +12,7 @@ import { Button } from "@chakra-ui/react";
 import { next } from "@/assets/svgs";
 
 export const Continue = () => {
+  // TODO: confirm has his own nav logic and needs removed from here
   const [{ template, palette, legal }] = useQueryStates({
     template: parseAsString,
     palette: parseAsString,

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
-import { parseAsString, useQueryState, useQueryStates } from "nuqs";
+import { parseAsString, useQueryStates } from "nuqs";
 import apiClient from "@/lib/api";
 import { Box, Stack } from "@chakra-ui/react";
 import { error, success } from "@/components/ui/alerts";
@@ -18,27 +18,21 @@ import { Failed } from "@/components/build/failed";
 export const ConfirmClient = () => {
   const router = useRouter();
 
-  // const [status, setStatus] = useQueryState("status", {
-  //   defaultValue: "",
-  // });
-
-  const [{ status }, setQuery] = useQueryStates({
+  const [{ status, payment }, setQuery] = useQueryStates({
     status: parseAsString,
     payment: parseAsString,
   });
 
-  const [form, setForm] = useState();
-
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await apiClient.post(`/invitations`, form);
-
-      if (data.status === "ok") {
-        success("Basic Wedding Information Completed.");
-        setForm();
-        router.push(`/payment`);
-      }
+      // const { data } = await apiClient.post(`/invitations`, form);
+      // if (data.status === "ok") {
+      //   success("Basic Wedding Information Completed.");
+      //   setForm();
+      //   router.push(`/payment`);
+      // }
+      setQuery({ status: payment === "visa" ? "failed" : "success" });
     } catch (err) {
       error(`Error - ${err}`);
     }
@@ -76,8 +70,8 @@ export const ConfirmClient = () => {
         </Animate>
       </Stack>
 
-      {status === "success" && <Sucess status={status} setQuery={setQuery} />}
-      {status === "failed" && <Failed status={status} setQuery={setQuery} />}
+      <Sucess open={status === "success"} setQuery={setQuery} />
+      <Failed open={status === "failed"} setQuery={setQuery} />
     </Box>
   );
 };

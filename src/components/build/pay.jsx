@@ -31,6 +31,8 @@ export const Pay = () => {
         }
       >
         <Button
+          type="submit"
+          form="confirm"
           fontWeight="400"
           lineHeight="24px"
           bg="#004143"

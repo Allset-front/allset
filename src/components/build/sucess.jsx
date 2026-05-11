@@ -21,7 +21,7 @@ import { share } from "@/assets/svgs";
 import { error, info, success } from "../ui/alerts";
 import { BASE_URL } from "@/lib/api/config";
 
-export const Sucess = ({ status, setQuery }) => {
+export const Sucess = ({ open, setQuery }) => {
   const language = useLocale();
   const router = useRouter();
 
@@ -47,13 +47,13 @@ export const Sucess = ({ status, setQuery }) => {
 
   return (
     <Dialog.Root
-      open={status}
+      open={open}
+      //   modal={false}
       onOpenChange={(e) => {
         if (!e.open) {
           handleClose();
         }
       }}
-      F
       placement="center"
       motionPreset="slide-in-bottom"
       as="form"
