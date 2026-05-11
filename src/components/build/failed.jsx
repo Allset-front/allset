@@ -48,6 +48,7 @@ export const Failed = ({ open, setQuery }) => {
               <Stack
                 align={"center"}
                 justify={"center"}
+                textAlign={"center"}
                 gap="32px"
                 w="full"
                 pt="28px"

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Button,
   CloseButton,
@@ -22,6 +22,7 @@ import { error, info, success } from "../ui/alerts";
 import { BASE_URL } from "@/lib/api/config";
 
 export const Sucess = ({ open, setQuery }) => {
+  const t = useTranslations();
   const language = useLocale();
   const router = useRouter();
 
@@ -66,6 +67,7 @@ export const Sucess = ({ open, setQuery }) => {
               <Stack
                 align={"center"}
                 justify={"center"}
+                textAlign={"center"}
                 gap="32px"
                 w="full"
                 pt="28px"
@@ -76,7 +78,7 @@ export const Sucess = ({ open, setQuery }) => {
                   fontWeight={600}
                   fontSize={"28px"}
                 >
-                  Payment Successful!
+                  {t("success_title")}
                 </Dialog.Title>
               </Stack>
             </Dialog.Header>
@@ -88,8 +90,9 @@ export const Sucess = ({ open, setQuery }) => {
                 fontSize={"16px"}
                 lineHeight={"24px"}
               >
-                Your payment of 20 000 AMD has been processed successfully.{" "}
-                <br /> Your invitation is now ready. Start inviting guests.
+                {t("success_desc_1")}
+                <br />
+                {t("success_desc_2")}
               </Text>
 
               <Separator m="20px 0" />
@@ -97,10 +100,10 @@ export const Sucess = ({ open, setQuery }) => {
               <Flex justify={"space-between"}>
                 <Stack>
                   <Text color={"#949EB0"} fontWeight={400}>
-                    Order ID
+                    {t("success_order")}
                   </Text>
                   <Text color={"#949EB0"} fontWeight={400}>
-                    Amount paid
+                    {t("success_price")}
                   </Text>
                 </Stack>
 
@@ -115,11 +118,6 @@ export const Sucess = ({ open, setQuery }) => {
               </Flex>
             </Dialog.Body>
             <Dialog.Footer flexDirection={"column"} gap="12px">
-              {/* <Dialog.ActionTrigger asChild>
-                <Button w="100%" variant="outline">
-                  Cancel
-                </Button>
-              </Dialog.ActionTrigger> */}
               <Button
                 w="100%"
                 h="52px"
@@ -144,7 +142,7 @@ export const Sucess = ({ open, setQuery }) => {
                 onClick={handleCopy}
               >
                 <Icon>{share.icon}</Icon>
-                Copy Invitation Link
+                {t("success_copy")}
               </Button>
               <Button
                 w="100%"
@@ -156,7 +154,7 @@ export const Sucess = ({ open, setQuery }) => {
                 borderColor="#004143"
                 onClick={() => router.push("/auth/invitations")}
               >
-                Go to Invitations
+                {t("success_go")}
               </Button>
               <ChakraLink
                 as={Link}
@@ -168,7 +166,7 @@ export const Sucess = ({ open, setQuery }) => {
                 fontSize={"14px"}
                 fontWeight={400}
               >
-                Back to Home
+                {t("back_home")}
               </ChakraLink>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
