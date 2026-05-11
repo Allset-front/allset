@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
-import { useQueryState } from "nuqs";
+import { parseAsString, useQueryState, useQueryStates } from "nuqs";
 import apiClient from "@/lib/api";
 import { Box, Stack } from "@chakra-ui/react";
 import { error, success } from "@/components/ui/alerts";
@@ -18,8 +18,13 @@ import { Failed } from "@/components/build/failed";
 export const ConfirmClient = () => {
   const router = useRouter();
 
-  const [status, setStatus] = useQueryState("status", {
-    defaultValue: "",
+  // const [status, setStatus] = useQueryState("status", {
+  //   defaultValue: "",
+  // });
+
+  const [{ status }, setQuery] = useQueryStates({
+    status: parseAsString,
+    payment: parseAsString,
   });
 
   const [form, setForm] = useState();
@@ -71,8 +76,8 @@ export const ConfirmClient = () => {
         </Animate>
       </Stack>
 
-      {status === "success" && <Sucess status={status} setStatus={setStatus} />}
-      {status === "failed" && <Failed status={status} setStatus={setStatus} />}
+      {status === "success" && <Sucess status={status} setQuery={setQuery} />}
+      {status === "failed" && <Failed status={status} setQuery={setQuery} />}
     </Box>
   );
 };

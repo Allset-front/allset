@@ -9,8 +9,6 @@ import {
   Portal,
   Image,
   Stack,
-  Center,
-  VStack,
   Flex,
   Text,
   Separator,
@@ -23,7 +21,7 @@ import { share } from "@/assets/svgs";
 import { error, info, success } from "../ui/alerts";
 import { BASE_URL } from "@/lib/api/config";
 
-export const Sucess = ({ status, setStatus }) => {
+export const Sucess = ({ status, setQuery }) => {
   const language = useLocale();
   const router = useRouter();
 
@@ -32,7 +30,7 @@ export const Sucess = ({ status, setStatus }) => {
   const fullUrl = `${BASE_URL}${language}/invitation/`;
 
   const handleClose = async () => {
-    await setStatus(null);
+    await setQuery({ status: null });
   };
 
   const handleCopy = async () => {
@@ -90,8 +88,8 @@ export const Sucess = ({ status, setStatus }) => {
                 fontSize={"16px"}
                 lineHeight={"24px"}
               >
-                Your payment of 20 000 AMD has been processed successfully. <br/> Your
-                invitation is now ready. Start inviting guests.
+                Your payment of 20 000 AMD has been processed successfully.{" "}
+                <br /> Your invitation is now ready. Start inviting guests.
               </Text>
 
               <Separator m="20px 0" />
