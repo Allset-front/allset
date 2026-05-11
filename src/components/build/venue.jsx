@@ -37,6 +37,7 @@ export const Venue = ({ name, value, onChange, required }) => {
           value={value?.name ?? ""}
           onChange={handleNestedChange}
           placeholder={t("venue_location")}
+          indicator={false}
         />
         <InputUrl
           name="locationLink"

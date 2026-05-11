@@ -17,14 +17,14 @@ import {
 import { Tooltip } from "@/components/ui/tooltip";
 import { editActive, guestList } from "@/assets/svgs";
 import { formatDDMMYYYY } from "@/utils/formatters";
-import img from "@/assets/imgs/active_bg.png";
 import { queryClient } from "@/providers/queryProvider";
+import img from "@/assets/imgs/active_bg.png";
 
 export const Card = ({ el }) => {
   const t = useTranslations();
   const router = useRouter();
   const language = useLocale();
-
+  
   const {
     id,
     templateId,
@@ -35,12 +35,15 @@ export const Card = ({ el }) => {
     createdAt,
     title,
   } = el;
-
-  const [, setQuery] = useQueryStates({
+  
+  const [{ tab }, setQuery] = useQueryStates({
+    tab: parseAsString,
     template: parseAsString,
     palette: parseAsString,
     id: parseAsString,
   });
+  
+  const isNotDraft = tab !== "drafts";
 
   const handleNavigate = () => {
     setQuery({
@@ -125,34 +128,36 @@ export const Card = ({ el }) => {
       </Stack>
 
       <Flex gap={"8px"}>
-        <Button
-          w="223px"
-          h="52px"
-          bg="#004143"
-          borderRadius={"10px"}
-          color="#FFFFFF"
-          fontSize="14px"
-          fontWeight="500"
-          border="1px solid"
-          borderColor="#FFFFFF"
-          _hover={{
-            bg: "#FFFFFF",
-            color: "#004143",
-            borderColor: "#004143",
-            "& path": {
-              fill: "#004143",
-              transition: "all 0.3s ease",
-            },
-          }}
-          transition="all 0.3s ease"
-          onClick={() => router.push(`invitations/${id}/guests`)}
-        >
-          <Icon>{guestList.icon}</Icon>
-          {t("guests")}
-        </Button>
+        {isNotDraft && (
+          <Button
+            w="223px"
+            h="52px"
+            bg="#004143"
+            borderRadius={"10px"}
+            color="#FFFFFF"
+            fontSize="14px"
+            fontWeight="500"
+            border="1px solid"
+            borderColor="#FFFFFF"
+            _hover={{
+              bg: "#FFFFFF",
+              color: "#004143",
+              borderColor: "#004143",
+              "& path": {
+                fill: "#004143",
+                transition: "all 0.3s ease",
+              },
+            }}
+            transition="all 0.3s ease"
+            onClick={() => router.push(`invitations/${id}/guests`)}
+          >
+            <Icon>{guestList.icon}</Icon>
+            {t("guests")}
+          </Button>
+        )}
         <Tooltip positioning={{ placement: "top" }} content={t("edit")}>
           <Button
-            w="52px"
+            w={isNotDraft ? "52px" : "100%"}
             h="52px"
             bg="transparent"
             borderRadius={"10px"}

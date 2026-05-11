@@ -12,6 +12,8 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
 
   const [checked, setChecked] = useState(true);
 
+  const contactFilled = value?.phone || value?.email;
+
   const handleSwitchChange = (e) => {
     setChecked(e.checked);
     hide(name, !e.checked);
@@ -41,7 +43,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
             <Switcher checked={checked} onChange={handleSwitchChange} />
           )}
         </Field.Label>
-        
+
         <Text textStyle="xs" color={"#6B7280"}>
           {t("contact_text")}
         </Text>
@@ -58,6 +60,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
               value={value?.name ?? ""}
               onChange={handleNestedChange}
               placeholder={t("name")}
+              required={true}
               // disabled={!checked}
             />
             <InputSimple
@@ -65,6 +68,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
               value={value?.phone ?? ""}
               onChange={handleNestedChange}
               placeholder={t("phone")}
+              required={!contactFilled}
               // disabled={!checked}
             />
             <InputSimple
@@ -72,6 +76,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
               value={value?.email ?? ""}
               onChange={handleNestedChange}
               placeholder={t("email")}
+              required={!contactFilled}
               // disabled={!checked}
             />
           </Flex>
