@@ -15,7 +15,7 @@ import {
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import img from "@/assets/imgs/failed.png";
-import { Link, useRouter } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 
 export const Failed = ({ open, setQuery }) => {
   const t = useTranslations();

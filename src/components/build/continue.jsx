@@ -12,8 +12,7 @@ import { Button } from "@chakra-ui/react";
 import { next } from "@/assets/svgs";
 
 export const Continue = () => {
-  // TODO: confirm has his own nav logic and needs removed from here
-  const [{ template, palette, legal }] = useQueryStates({
+  const [{ template, palette }] = useQueryStates({
     template: parseAsString,
     palette: parseAsString,
     legal: parseAsString,
@@ -33,7 +32,7 @@ export const Continue = () => {
 
   const isCustomisationsPage = pathname?.includes(`/customisations`);
   const isDetailsPage = pathname?.includes(`/details`);
-  const isConfirmPage = pathname?.includes(`/confirm`);
+  // const isConfirmPage = pathname?.includes(`/confirm`);
 
   const disabled = isContinueDisabled(pathname, {
     template,
@@ -117,34 +116,36 @@ export const Continue = () => {
       {/* {t("continue")} {t(name)} */}
       {t("next")} {next.icon}
     </Button>
-  ) : isConfirmPage ? (
-    <Button
-      // loading
-      type="submit"
-      form="confirm"
-      fontWeight="400"
-      lineHeight="24px"
-      bg="#004143"
-      w={{ base: "100%", md: "137px" }}
-      h="52px"
-      border="1px solid"
-      borderColor="white"
-      boxShadow="xl"
-      _hover={{
-        bg: "white",
-        color: "#004143",
-        borderColor: "#004143",
-        "& path": {
-          fill: "#004143",
-          transition: "all 0.3s ease",
-        },
-      }}
-      transition="all 0.3s ease"
-      disabled={disabled && !(legal == true || legal === "true")}
-    >
-      {t(name)}
-    </Button>
-  ) : (
+  ) 
+  // : isConfirmPage ? (
+  //   <Button
+  //     // loading
+  //     type="submit"
+  //     form="confirm"
+  //     fontWeight="400"
+  //     lineHeight="24px"
+  //     bg="#004143"
+  //     w={{ base: "100%", md: "137px" }}
+  //     h="52px"
+  //     border="1px solid"
+  //     borderColor="white"
+  //     boxShadow="xl"
+  //     _hover={{
+  //       bg: "white",
+  //       color: "#004143",
+  //       borderColor: "#004143",
+  //       "& path": {
+  //         fill: "#004143",
+  //         transition: "all 0.3s ease",
+  //       },
+  //     }}
+  //     transition="all 0.3s ease"
+  //     disabled={disabled && !(legal == true || legal === "true")}
+  //   >
+  //     {t(name)}
+  //   </Button>
+  // ) 
+  : (
     <Button
       as={!disabled ? Link : "button"}
       // to={!disabled ? path : undefined}

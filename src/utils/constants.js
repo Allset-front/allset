@@ -82,7 +82,7 @@ export const buildPages = [
   { path: "/build/details", name: "details" },
   { path: "/build/preview", name: "preview" },
   { path: "/build/confirm", name: "confirm" },
-  { path: "/build/payment", name: "payment" },
+  // { path: "/build/payment", name: "payment" },
 ];
 
 export const authPages = ["profile", "invitations", "logout"]
