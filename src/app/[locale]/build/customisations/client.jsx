@@ -15,7 +15,6 @@ export const CustomisationsClient = () => {
   const router = useRouter();
   const language = useLocale();
 
-  // TODO: multi level props start
   const { data } = useGetTanstack("templates");
   const [template] = useQueryState("template");
   const [paletteId] = useQueryState("palette");
@@ -46,6 +45,7 @@ export const CustomisationsClient = () => {
         pb="22px"
         gap={"24px"}
         flexDirection={{ base: "column-reverse", md: "row" }}
+        h="90dvh"
       >
         <Aside data={selectedTemplate?.palettes} language={language} />
         <Preview palette={selectedPalette} /> 

@@ -51,6 +51,8 @@ export const Frame = ({ viewport = "pc", palette, height, maxHeight }) => {
         overflowX: "hidden",
         background: "#F9FAFB",
         borderRadius: 8,
+        scrollbarWidth: "thin",
+        scrollbarColor: "#004143 transparent",
       }}
     >
       <div

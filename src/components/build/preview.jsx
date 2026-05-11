@@ -17,7 +17,8 @@ export const Preview = ({ palette }) => {
       flex="1"
       minW="0"
       w="100%"
-      minH="100%"
+      h="fit-content"
+      // minH="100%"
       bg="white"
       borderRadius={"8px"}
       p={{ base: "0", md: "24px" }}
@@ -34,7 +35,7 @@ export const Preview = ({ palette }) => {
         <ViewportToggle display={{ base: "none", md: "flex" }} />
       </Flex>
 
-      <Box position="relative" w="100%" h={{ base: "430px", md: "685px" }}>
+      <Box position="relative" w="100%" h={{ base: "430px", md: "685px" }} >
         <Frame viewport={device} palette={palette} height="100%" />
 
         <ViewportToggle

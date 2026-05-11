@@ -25,12 +25,19 @@ export const Aside = ({ data, language }) => {
     <Box
       as="aside"
       maxW={{ base: "100%", md: "320px" }}
-      h="fit-content"
+      h="100%"
       bg={{ base: "transparent", md: "white" }}
       borderRadius={"8px"}
       p={{ base: "0", md: "24px" }}
       // gap={{ base: "0", md: "32px" }}
       // boxShadow="0px 4px 10px 0px #0041431A"
+      overflowY={"scroll"}
+      // css={{
+      //   scrollbarWidth: "thin",
+      //   scrollbarColor: "#004143 transparent",
+      // }}
+      scrollbarWidth="thin"
+      scrollbarColor="#004143 transparent"
     >
       {!isMobile && (
         <Stack gap={"8px"} pb="24px">
