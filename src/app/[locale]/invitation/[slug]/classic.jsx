@@ -59,7 +59,11 @@ export default function Classic({ viewport = "pc", palette, data }) {
   const finalData = data ?? invitationData;
   const id = finalData?.id;
   const locales = finalData?.languages;
-  const vars = paletteToVars(palette?.colors);
+  const vars = paletteToVars(
+    palette?.colors ?? finalData?.template?.paletteKeyword?.colors,
+  );
+  console.log(vars);
+
   const title = pickLang(finalData?.title, language) || "Henry & Mariam";
   const eventDateText = formatEventDate(finalData?.eventDate);
 
@@ -165,6 +169,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
     mutate({ ...form, status: "DECLINED" });
   };
+  // console.log(finalData);
 
   return (
     <Box
@@ -218,7 +223,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
       {/* ————— INTRO + COUNTDOWN ————— */}
       <VStack
-        bg="#F4F1EC"
+        bg="#F6F5F4"
         py={isMobile ? "40px" : "60px"}
         px={isMobile ? "24px" : "100px"}
         gap={isMobile ? "24px" : "100px"}
@@ -255,7 +260,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
       {/* ————— TIMING ————— */}
       <Flex
-        bg="var(--c-primary)"
+        bg="var(--c-secondary)"
         color="white"
         direction={isMobile ? "column" : "row"}
         align={isMobile ? "stretch" : "center"}
@@ -306,7 +311,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                     fontWeight="500"
                     lineHeight={"34px"}
                     textTransform="uppercase"
-                    color="rgba(255,255,255,0.7)"
+                    color="#FFFFFF"
                   >
                     {pickLang(item.venueName, language) || item.venueName}
                   </Text>
@@ -319,8 +324,8 @@ export default function Classic({ viewport = "pc", palette, data }) {
                   color="#FFFFFF"
                   // _hover={{ bg: "rgba(255,255,255,0.08)" }}
                   fontSize="14px"
-                  bg="#240F0F"
-                  borderRadius={"10px"}
+                  bg="var(--c-primary)"
+                  borderRadius="10px"
                   h="44px"
                 >
                   <Icon>{map.icon}</Icon> {t("classic_map")}
@@ -348,13 +353,14 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
       {/* ————— RSVP ————— */}
       {finalData?.rsvp !== false && (
-        <VStack bg="#F4F1EC" py={isMobile ? "40px" : "100px"} gap="37px">
+        <VStack bg="#F6F5F4" py={isMobile ? "40px" : "100px"} gap="37px">
           <Text
             fontSize={isMobile ? "20px" : "34px"}
             fontWeight={500}
             lineHeight="48px"
             textAlign="center"
             textTransform="uppercase"
+            color="var(--c-secondary)"
             // dangerouslySetInnerHTML={{
             //   __html: t("classic_join").replace(/\n/g, "<br />"),
             // }}
@@ -372,6 +378,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                 name="mainGuest"
                 value={form.mainGuest}
                 onChange={handleChange}
+                color="var(--c-secondary)"
               />
               <Select.Root
                 collection={guestCount}
@@ -380,6 +387,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                 bg="white"
                 variant="outline"
                 value={guests}
+                color="var(--c-secondary)"
                 //
                 // onValueChange={({ value }) => {
                 //   const count = Number(value[0]) || 0;
@@ -427,6 +435,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
                       variant="outline"
                       h="52px"
                       bg="white"
+                      color="var(--c-secondary)"
                       onChange={(e) =>
                         handleSecondaryGuestChange(idx, e.target.value)
                       }
@@ -436,6 +445,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
               )}
 
               <Radio
+                color="var(--c-secondary)"
                 value={form.guestSide}
                 onChange={(value) =>
                   setForm((prev) => ({ ...prev, guestSide: value }))
@@ -448,16 +458,15 @@ export default function Classic({ viewport = "pc", palette, data }) {
               justify={"space-between"}
             >
               <Button
-                bg="var(--c-primary)"
-                color="white"
                 h="44px"
                 fontSize="14px"
-                // _hover={{ opacity: 0.9 }}
                 boxShadow="xl"
+                bg="var(--c-secondary)"
+                color="white"
                 _hover={{
-                  bg: "white",
-                  color: "#004143",
-                  borderColor: "#004143",
+                  bg: "transparent",
+                  color: "var(--c-secondary)",
+                  borderColor: "var(--c-secondary)",
                 }}
                 transition="all 0.3s ease"
                 onClick={handleConfirm}
@@ -466,10 +475,17 @@ export default function Classic({ viewport = "pc", palette, data }) {
               </Button>
               <Button
                 variant="outline"
-                borderColor="rgba(0,0,0,0.15)"
-                color="#111"
+                border="1px solid"
+                borderColor="var(--c-secondary)"
                 h="44px"
                 fontSize="14px"
+                bg="transparent"
+                color="var(--c-secondary)"
+                _hover={{
+                  bg: "var(--c-secondary)",
+                  color: "white",
+                  borderColor: "transparent",
+                }}
                 onClick={handleDecline}
               >
                 {t("classic_reject")}
@@ -481,13 +497,13 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
       {/* ————— DRESS CODE ————— */}
       <VStack
-        bg="var(--c-primary)"
+        bg="var(--c-secondary)"
         color="white"
         py={isMobile ? "48px" : "60px"}
         px={isMobile ? "24px" : "131px"}
         gap={"60px"}
         textAlign="center"
-        bgImage={`linear-gradient(var(--c-primary)), url(${dresscodeBg.src})`}
+        bgImage={`linear-gradient(var(--c-secondary)), url(${dresscodeBg.src})`}
         bgSize="cover"
         bgPos="center"
         bgBlendMode={"overlay"}
@@ -555,7 +571,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
 
       {/* ————— GALLERY CALLOUT ————— */}
       <VStack
-        bg="#F4F1EC"
+        bg="#F6F5F4"
         py={isMobile ? "48px" : "100px"}
         gap="24px"
         textAlign="center"
@@ -568,7 +584,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
               left="261px"
               top="50%"
               transform="translateY(-50%)"
-              color="var(--c-primary)"
+              color="var(--c-secondary)"
             >
               {leftBrace.icon}
             </Icon>
@@ -577,7 +593,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
               right="261px"
               top="50%"
               transform="translateY(-50%)"
-              color="var(--c-primary)"
+              color="var(--c-secondary)"
             >
               {rightBrace.icon}
             </Icon>
