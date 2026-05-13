@@ -27,7 +27,7 @@ export const InputSimple = ({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        required
+        required={required}
         variant="subtle"
         borderRadius={"4px"}
         bg="#F9FAFB"

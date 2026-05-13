@@ -43,9 +43,20 @@ export const Calendar = ({ name, value, onChange, required, disabled }) => {
   useOutsideClick(ref, open, setOpen);
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen} placement="center" disabled={disabled}>
+    <Dialog.Root
+      open={open}
+      onOpenChange={setOpen}
+      placement="center"
+      // disabled={disabled}
+    >
       <Dialog.Trigger asChild>
-        <InputGroup startElement={<Icon>{calendar.icon}</Icon>}>
+        <InputGroup
+          startElement={<Icon>{calendar.icon}</Icon>}
+          style={{
+            pointerEvents: disabled ? "none" : "auto",
+            opacity: disabled ? 0.6 : 1,
+          }}
+        >
           <Input
             type="text"
             name={name}

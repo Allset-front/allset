@@ -9,13 +9,13 @@ import { copied, copy } from "../../assets/svgs";
 import { BASE_URL } from "@/lib/api/config";
 import { error, success } from "../ui/alerts";
 
-export const TitleDemo = () => {
+export const TitleDemo = ({urlExtension}) => {
   const t = useTranslations();
   const language = useLocale();
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const fullUrl = `${BASE_URL}${language}/invitation/example`;
+  const fullUrl = `${BASE_URL}${language}/invitation/${urlExtension}`;
 
   const handleCopy = async () => {
     if (isCopied) return info("URL is in clipboard!");

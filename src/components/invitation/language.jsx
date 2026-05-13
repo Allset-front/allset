@@ -3,7 +3,7 @@
 import { Box, Flex, For, Icon, Menu, Portal, Spinner } from "@chakra-ui/react";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useTransition } from "react";
 import { languages } from "../../utils/constants";
 import { useTranslations, useLocale } from "next-intl";
 import { down } from "../../assets/svgs";
@@ -33,6 +33,23 @@ export const Language = ({ locales }) => {
     [availableLanguages, language],
   );
 
+  useEffect(() => {
+    if (!selectedLanguage && availableLanguages.length > 0) {
+      const fallbackCode = availableLanguages[0].code;
+      cookies.set("NEXT_LOCALE", fallbackCode);
+
+      startTransition(() => {
+        router.replace(
+          {
+            pathname,
+            query: Object.fromEntries(searchParams.entries()),
+          },
+          { locale: fallbackCode },
+        );
+      });
+    }
+  }, [selectedLanguage, availableLanguages, pathname, router, searchParams]);
+
   const handleChangeLng = useCallback(
     (code) => {
       if (code === language) return;
@@ -51,6 +68,8 @@ export const Language = ({ locales }) => {
     },
     [language, pathname, router, searchParams],
   );
+
+  if (availableLanguages.length <= 1) return null;
 
   return (
     <Box position="fixed" top="70px" right="10px" zIndex="100">

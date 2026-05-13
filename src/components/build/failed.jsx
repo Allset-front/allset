@@ -17,7 +17,7 @@ import {
 import img from "@/assets/imgs/failed.png";
 import { Link } from "@/i18n/routing";
 
-export const Failed = ({ open, setQuery }) => {
+export const Failed = ({ open, setQuery, price }) => {
   const t = useTranslations();
 
   const handleClose = async () => {
@@ -92,7 +92,7 @@ export const Failed = ({ open, setQuery }) => {
                     {t("failed_insufficient")}
                   </Text>
                   <Text color={"#004143"} fontWeight={500}>
-                    20.000 AMD
+                    {price ?? `20.000 ${t("currency")}`}
                   </Text>
                 </Stack>
               </Flex>

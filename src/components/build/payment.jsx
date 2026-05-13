@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryStates } from "nuqs";
 import {
   Field,
   Flex,
@@ -19,13 +18,8 @@ import { Label } from "@/components/build/typography/label";
 import { paymentMethods } from "../../utils/constants";
 import { Link } from "@/i18n/routing";
 
-export const Payment = () => {
+export const Payment = ({ legal, payment, setQuery }) => {
   const t = useTranslations();
-
-  const [{ legal, payment }, setQuery] = useQueryStates({
-    legal: parseAsString,
-    payment: parseAsString,
-  });
 
   return (
     <Stack

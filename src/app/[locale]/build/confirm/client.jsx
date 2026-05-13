@@ -1,6 +1,7 @@
 "use client";
 
 import { parseAsString, useQueryStates } from "nuqs";
+import { useGetAuthTanstack } from "@/hooks/useTanstack";
 import { Box, Stack } from "@chakra-ui/react";
 import { error } from "@/components/ui/alerts";
 import { Animate } from "@/components/ui/animate";
@@ -13,10 +14,14 @@ import { Success } from "@/components/build/success";
 import { Failed } from "@/components/build/failed";
 
 export const ConfirmClient = () => {
-  const [{ status, payment }, setQuery] = useQueryStates({
+  const [{ status, payment, id, legal }, setQuery] = useQueryStates({
+    id: parseAsString,
     status: parseAsString,
     payment: parseAsString,
+    legal: parseAsString,
   });
+
+  const { data } = useGetAuthTanstack(`invitations/${id}`, !!id);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -48,25 +53,38 @@ export const ConfirmClient = () => {
           onSubmit={submit}
         >
           <Animate>
-            <TitleDemo />
+            <TitleDemo
+              language={data?.languages[0]}
+              urlExtension={data?.urlExtension}
+            />
           </Animate>
           <Animate>
-            <ConfirmDate />
+            <ConfirmDate value={data?.eventDate} />
           </Animate>
         </Stack>
         <Animate>
           <Promocode />
         </Animate>
         <Animate>
-          <Payment />
+          <Payment legal={legal} payment={payment} setQuery={setQuery} />
         </Animate>
         <Animate>
           <Pay />
         </Animate>
       </Stack>
 
-      <Success open={status === "success"} setQuery={setQuery} />
-      <Failed open={status === "failed"} setQuery={setQuery} />
+      <Success
+        open={status === "success"}
+        setQuery={setQuery}
+        language={data?.languages[0]}
+        urlExtension={data?.urlExtension}
+        price={data?.finalPrice}
+      />
+      <Failed
+        open={status === "failed"}
+        setQuery={setQuery}
+        price={data?.finalPrice}
+      />
     </Box>
   );
 };

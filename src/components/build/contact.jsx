@@ -12,8 +12,6 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
 
   const [checked, setChecked] = useState(true);
 
-  const contactFilled = value?.phone || value?.email;
-
   const handleSwitchChange = (e) => {
     setChecked(e.checked);
     hide(name, !e.checked);
@@ -68,7 +66,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
               value={value?.phone ?? ""}
               onChange={handleNestedChange}
               placeholder={t("phone")}
-              required={!contactFilled}
+              required={!value?.email}
               // disabled={!checked}
             />
             <InputSimple
@@ -76,7 +74,7 @@ export const Contact = ({ name, value, onChange, hide, required }) => {
               value={value?.email ?? ""}
               onChange={handleNestedChange}
               placeholder={t("email")}
-              required={!contactFilled}
+              required={!value?.phone}
               // disabled={!checked}
             />
           </Flex>

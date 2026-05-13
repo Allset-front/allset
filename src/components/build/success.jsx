@@ -21,14 +21,13 @@ import { share } from "@/assets/svgs";
 import { error, info, success } from "../ui/alerts";
 import { BASE_URL } from "@/lib/api/config";
 
-export const Success = ({ open, setQuery }) => {
+export const Success = ({ open, setQuery, language, urlExtension, price }) => {
   const t = useTranslations();
-  const language = useLocale();
   const router = useRouter();
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const fullUrl = `${BASE_URL}${language}/invitation/`;
+  const fullUrl = `${BASE_URL}${language}/invitation/${urlExtension}`;
 
   const handleClose = async () => {
     await setQuery({ status: null });
@@ -91,6 +90,8 @@ export const Success = ({ open, setQuery }) => {
                 lineHeight={"24px"}
               >
                 {t("success_desc_1")}
+                {price ?? `20.000 ${t("currency")}`}
+                {t("success_desc_1_2")}
                 <br />
                 {t("success_desc_2")}
               </Text>
@@ -112,7 +113,7 @@ export const Success = ({ open, setQuery }) => {
                     #INV-2025-4821
                   </Text>
                   <Text color={"#004143"} fontWeight={500}>
-                    20.000 AMD
+                    {price ?? `20.000 ${t("currency")}`}
                   </Text>
                 </Stack>
               </Flex>
