@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { leftBrace, map, rightBrace } from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
-import mainBg from "@/assets/imgs/invitations/modern/main_bg.png";
+import mainBg from "@/assets/imgs/invitations/rustic/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
@@ -36,7 +36,7 @@ import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 
-export default function Modern({
+export default function Rustic({
   viewport = "pc",
   palette,
   data,
@@ -192,7 +192,7 @@ export default function Modern({
         bgSize="cover"
         bgPos="center"
       >
-        <VStack
+        {/* <VStack
           position="absolute"
           bottom={isMobile ? "40px" : "80px"}
           left="0"
@@ -202,7 +202,7 @@ export default function Modern({
           textAlign="center"
         >
           <Text
-            fontFamily="var(--font-allegrou)"
+            fontFamily="var(--font-shk)"
             // fontFamily={sosBanff.style.fontFamily}
             fontSize={isMobile ? "54px" : "103px"}
             lineHeight="24px"
@@ -211,14 +211,14 @@ export default function Modern({
             {title}
           </Text>
           <Text
-            fontFamily="var(--font-allegrou)"
+            fontFamily="var(--font-shk)"
             fontSize={isMobile ? "26px" : "63px"}
             lineHeight="24px"
             fontWeight="400"
           >
             {eventDateText}
           </Text>
-        </VStack>
+        </VStack> */}
       </Box>
     </Box>
   );

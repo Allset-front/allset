@@ -1,5 +1,5 @@
 import { getLocale, getMessages } from "next-intl/server";
-import { montserrat, sosbanff } from '../../assets/fonts'
+import { montserrat, sosbanff, shk, allegrou } from '../../assets/fonts'
 import { AuthProvider } from "@/providers/authProvider";
 import { QueryProvider } from "@/providers/queryProvider";
 import { ChakraUIProvider } from "@/providers/chakraProvider";
@@ -53,7 +53,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body
         // className={fonts.variable}
-        className={`${montserrat.variable} ${sosbanff.variable}`}
+        className={`${montserrat.variable} ${sosbanff.variable} ${shk.variable} ${allegrou.variable}`}
         data-locale={locale}
         style={{ backgroundColor: "#f9fafb" }}
       >

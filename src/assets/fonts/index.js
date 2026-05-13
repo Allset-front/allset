@@ -20,3 +20,15 @@ export const sosbanff = localFont({
     variable: "--font-sosbanff",
     display: "swap",
 });
+
+export const shk = localFont({
+    src: "./SHK.otf",
+    variable: "--font-shk",
+    display: "swap",
+});
+
+export const allegrou = localFont({
+    src: "./ArmAllegroU.ttf",
+    variable: "--font-allegrou",
+    display: "swap",
+});
