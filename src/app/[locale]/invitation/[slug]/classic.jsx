@@ -172,596 +172,615 @@ export default function Classic({ viewport = "pc", palette, data }) {
   // console.log(finalData);
 
   return (
-    <Box
-      data-viewport={viewport}
-      style={vars}
-      // w={`${width}px`}
-      bg="white"
-      color="#111"
-      overflow="hidden"
-      // position={"relative"}
-    >
-      {locales && <Language locales={locales} />}
-
-      {/* ————— HERO ————— */}
+    finalData && (
       <Box
-        position="relative"
-        w="100%"
-        h={isMobile ? "520px" : "750px"}
-        bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
-        bgSize="cover"
-        bgPos="center"
+        data-viewport={viewport}
+        style={vars}
+        // w={`${width}px`}
+        bg="white"
+        color="#111"
+        overflow="hidden"
+        // position={"relative"}
       >
+        {locales && <Language locales={locales} />}
+
+        {/* ————— HERO ————— */}
+        <Box
+          position="relative"
+          w="100%"
+          h={isMobile ? "520px" : "750px"}
+          bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
+          bgSize="cover"
+          bgPos="center"
+        >
+          <VStack
+            position="absolute"
+            bottom={isMobile ? "40px" : "80px"}
+            left="0"
+            right="0"
+            gap={isMobile ? "8px" : "100px"}
+            color="white"
+            textAlign="center"
+          >
+            <Text
+              fontFamily="var(--font-sosbanff)"
+              // fontFamily={sosBanff.style.fontFamily}
+              fontSize={isMobile ? "54px" : "103px"}
+              lineHeight="24px"
+              fontWeight="400"
+            >
+              {title}
+            </Text>
+            <Text
+              fontFamily="var(--font-sosbanff)"
+              fontSize={isMobile ? "26px" : "63px"}
+              lineHeight="24px"
+              fontWeight="400"
+            >
+              {eventDateText}
+            </Text>
+          </VStack>
+        </Box>
+
+        {/* ————— INTRO + COUNTDOWN ————— */}
         <VStack
-          position="absolute"
-          bottom={isMobile ? "40px" : "80px"}
-          left="0"
-          right="0"
-          gap={isMobile ? "8px" : "100px"}
-          color="white"
-          textAlign="center"
+          bg="#F6F5F4"
+          py={isMobile ? "40px" : "60px"}
+          px={isMobile ? "24px" : "100px"}
+          gap={isMobile ? "24px" : "100px"}
         >
-          <Text
-            fontFamily="var(--font-sosbanff)"
-            // fontFamily={sosBanff.style.fontFamily}
-            fontSize={isMobile ? "54px" : "103px"}
-            lineHeight="24px"
-            fontWeight="400"
-          >
-            {title}
-          </Text>
-          <Text
-            fontFamily="var(--font-sosbanff)"
-            fontSize={isMobile ? "26px" : "63px"}
-            lineHeight="24px"
-            fontWeight="400"
-          >
-            {eventDateText}
-          </Text>
-        </VStack>
-      </Box>
-
-      {/* ————— INTRO + COUNTDOWN ————— */}
-      <VStack
-        bg="#F6F5F4"
-        py={isMobile ? "40px" : "60px"}
-        px={isMobile ? "24px" : "100px"}
-        gap={isMobile ? "24px" : "100px"}
-      >
-        <Text
-          textAlign="center"
-          maxW="942px"
-          fontSize={isMobile ? "15px" : "20px"}
-          lineHeight="28px"
-          fontWeight="400"
-          color="#3E433C"
-        >
-          {description}
-        </Text>
-
-        <Stack gap="40px">
-          {finalData?.countDown !== false && (
-            <CountdownTimer
-              eventDate={finalData?.eventDate}
-              isMobile={isMobile}
-            />
-          )}
-
           <Text
             textAlign="center"
-            color="#3E433C"
-            fontSize={isMobile ? "13px" : "18px"}
-            lineHeight={"24px"}
-          >
-            {t("classic_journey")}
-          </Text>
-        </Stack>
-      </VStack>
-
-      {/* ————— TIMING ————— */}
-      <Flex
-        bg="var(--c-secondary)"
-        color="white"
-        direction={isMobile ? "column" : "row"}
-        align={isMobile ? "stretch" : "center"}
-        gap={isMobile ? "32px" : "60px"}
-      >
-        <VStack align="flex-start" gap="40px" flex="1" p="100px 0 100px 160px">
-          <Text
-            fontWeight="800"
-            fontSize={isMobile ? "22px" : "34px"}
-            lineHeight="50px"
-            textTransform="uppercase"
-            color="#FFFFFF"
-            // dangerouslySetInnerHTML={{
-            //   __html: t("classic_timing").replace(/\n/g, "<br />"),
-            // }}
-          >
-            {t("classic_timing")}
-          </Text>
-          <Text
-            fontWeight="400"
-            fontSize={isMobile ? "13px" : "18px"}
+            maxW="942px"
+            fontSize={isMobile ? "15px" : "20px"}
             lineHeight="28px"
-            color="#FFFFFF"
-            maxW="440px"
+            fontWeight="400"
+            color="#3E433C"
           >
-            Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque
-            consequat a justo diam adipiscing velit tincidunt.
+            {description}
           </Text>
 
-          <Stack gap="40px" minW={"361px"}>
-            {timeline.map((item, i) => (
-              <Flex
-                key={i}
-                justify={"space-between"}
-                align={"center"}
-                gap="20px"
-              >
-                <VStack align="flex-start" gap="24px" minW="160px">
-                  <Text
-                    fontSize={isMobile ? "20px" : "34px"}
-                    fontWeight="800"
-                    lineHeight={"24px"}
-                  >
-                    {item.time || "00:00"}
-                  </Text>
-                  <Text
-                    fontSize={isMobile ? "15px" : "22px"}
-                    fontWeight="500"
-                    lineHeight={"34px"}
-                    textTransform="uppercase"
-                    color="#FFFFFF"
-                  >
-                    {pickLang(item.venueName, language) || item.venueName}
-                  </Text>
-                </VStack>
-                <Button
-                  as={Link}
-                  href={item.venueLocation}
-                  target="_blank"
-                  // variant="ghost"
-                  color="#FFFFFF"
-                  // _hover={{ bg: "rgba(255,255,255,0.08)" }}
-                  fontSize="14px"
-                  bg="var(--c-primary)"
-                  borderRadius="10px"
-                  h="44px"
-                >
-                  <Icon>{map.icon}</Icon> {t("classic_map")}
-                </Button>
-              </Flex>
-            ))}
+          <Stack gap="40px">
+            {finalData?.countDown !== false && (
+              <CountdownTimer
+                eventDate={finalData?.eventDate}
+                isMobile={isMobile}
+              />
+            )}
+
+            <Text
+              textAlign="center"
+              color="#3E433C"
+              fontSize={isMobile ? "13px" : "18px"}
+              lineHeight={"24px"}
+            >
+              {t("classic_journey")}
+            </Text>
           </Stack>
         </VStack>
 
-        {!isMobile && (
-          <Box
-            flex="0 0 auto"
-            w="652px"
-            h="972px"
-            // borderRadius="200px"
-            borderTopLeftRadius="470px"
-            borderBottomLeftRadius="470px"
-            overflow="hidden"
-            bgImage={`url(${coupleImage})`}
-            bgSize="cover"
-            bgPos="center"
-          />
-        )}
-      </Flex>
-
-      {/* ————— RSVP ————— */}
-      {finalData?.rsvp !== false && (
-        <VStack bg="#F6F5F4" py={isMobile ? "40px" : "100px"} gap="37px">
-          <Text
-            fontSize={isMobile ? "20px" : "34px"}
-            fontWeight={500}
-            lineHeight="48px"
-            textAlign="center"
-            textTransform="uppercase"
-            color="var(--c-secondary)"
-            // dangerouslySetInnerHTML={{
-            //   __html: t("classic_join").replace(/\n/g, "<br />"),
-            // }}
-          >
-            {t("classic_join")}
-          </Text>
-          <VStack gap="37px">
-            <VStack gap="16px" minW={isMobile ? "100%" : "442px"}>
-              <Input
-                placeholder={t("classic_type")}
-                h="52px"
-                bg="white"
-                variant="outline"
-                //
-                name="mainGuest"
-                value={form.mainGuest}
-                onChange={handleChange}
-                color="var(--c-secondary)"
-              />
-              <Select.Root
-                collection={guestCount}
-                size="lg"
-                width="100%"
-                bg="white"
-                variant="outline"
-                value={guests}
-                color="var(--c-secondary)"
-                //
-                // onValueChange={({ value }) => {
-                //   const count = Number(value[0]) || 0;
-                //   setForm((prev) => ({
-                //     ...prev,
-                //     secondaryGuests: Array.from(
-                //       { length: count },
-                //       (_, i) => prev.secondaryGuests[i] ?? "",
-                //     ),
-                //   }));
-                // }}
-
-                onValueChange={handleGuestCountChange}
-              >
-                <Select.HiddenSelect />
-                <Select.Control>
-                  <Select.Trigger>
-                    <Select.ValueText placeholder={t("classic_count")} />
-                  </Select.Trigger>
-                  <Select.IndicatorGroup>
-                    <Select.Indicator />
-                  </Select.IndicatorGroup>
-                </Select.Control>
-                <Portal>
-                  <Select.Positioner>
-                    <Select.Content>
-                      {guestCount.items.map(({ label, value }) => (
-                        <Select.Item item={value} key={value}>
-                          {label}
-                          <Select.ItemIndicator />
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
-                </Portal>
-              </Select.Root>
-
-              {isNotEmptyArray(form.secondaryGuests) && (
-                <For each={form.secondaryGuests}>
-                  {(el, idx) => (
-                    <Input
-                      key={idx}
-                      value={el}
-                      placeholder={t("accompanying_name")}
-                      variant="outline"
-                      h="52px"
-                      bg="white"
-                      color="var(--c-secondary)"
-                      onChange={(e) =>
-                        handleSecondaryGuestChange(idx, e.target.value)
-                      }
-                    />
-                  )}
-                </For>
-              )}
-
-              <Radio
-                color="var(--c-secondary)"
-                value={form.guestSide}
-                onChange={(value) =>
-                  setForm((prev) => ({ ...prev, guestSide: value }))
-                }
-              />
-            </VStack>
-            <Flex
-              minW={isMobile ? "100%" : "442px"}
-              gap="12px"
-              justify={"space-between"}
-            >
-              <Button
-                h="44px"
-                fontSize="14px"
-                boxShadow="xl"
-                bg="var(--c-secondary)"
-                color="white"
-                _hover={{
-                  bg: "transparent",
-                  color: "var(--c-secondary)",
-                  borderColor: "var(--c-secondary)",
-                }}
-                transition="all 0.3s ease"
-                onClick={handleConfirm}
-              >
-                {t("classic_accept")}
-              </Button>
-              <Button
-                variant="outline"
-                border="1px solid"
-                borderColor="var(--c-secondary)"
-                h="44px"
-                fontSize="14px"
-                bg="transparent"
-                color="var(--c-secondary)"
-                _hover={{
-                  bg: "var(--c-secondary)",
-                  color: "white",
-                  borderColor: "transparent",
-                }}
-                onClick={handleDecline}
-              >
-                {t("classic_reject")}
-              </Button>
-            </Flex>
-          </VStack>
-        </VStack>
-      )}
-
-      {/* ————— DRESS CODE ————— */}
-      <VStack
-        bg="var(--c-secondary)"
-        color="white"
-        py={isMobile ? "48px" : "60px"}
-        px={isMobile ? "24px" : "131px"}
-        gap={"60px"}
-        textAlign="center"
-        bgImage={`linear-gradient(var(--c-secondary)), url(${dresscodeBg.src})`}
-        bgSize="cover"
-        bgPos="center"
-        bgBlendMode={"overlay"}
-      >
-        <Stack gap="32px">
-          <Text
-            fontSize={isMobile ? "20px" : "34px"}
-            lineHeight="24px"
-            fontWeight="800"
-            color="#FFFFFF"
-            textTransform={"uppercase"}
-          >
-            {t("dresscode")}
-          </Text>
-          <Text
-            fontSize={isMobile ? "13px" : "18px"}
-            lineHeight="28px"
-            color="#FFFFFF"
-            maxW="720px"
-          >
-            {dressCodeDesc}
-          </Text>
-        </Stack>
-
-        <Stack gap={"32px"}>
-          <VStack gap="20px">
-            <HStack gap="0">
-              <Box w="32px" h="32px" borderRadius="50%" bg="var(--c-accent)" />
-              <Box
-                w="32px"
-                h="32px"
-                borderRadius="50%"
-                bg="var(--c-secondary)"
-                ml="-10px"
-              />
-              <Box
-                w="32px"
-                h="32px"
-                borderRadius="50%"
-                bg="var(--c-surface)"
-                ml="-10px"
-              />
-            </HStack>
-            <Text
-              fontSize="18px"
-              lineHeight={"22px"}
-              fontWeight="500"
-              color="#FFFFFF"
-            >
-              {dressCodeName}
-            </Text>
-            {dressCodeAbout && (
-              <Text
-                fontSize="16px"
-                fontWeight="400"
-                lineHeight={"22px"}
-                color="#FFFFFF"
-              >
-                {dressCodeAbout}
-              </Text>
-            )}
-          </VStack>
-        </Stack>
-      </VStack>
-
-      {/* ————— GALLERY CALLOUT ————— */}
-      <VStack
-        bg="#F6F5F4"
-        py={isMobile ? "48px" : "100px"}
-        gap="24px"
-        textAlign="center"
-        position="relative"
-      >
-        {!isMobile && (
-          <>
-            <Icon
-              position="absolute"
-              left="261px"
-              top="50%"
-              transform="translateY(-50%)"
-              color="var(--c-secondary)"
-            >
-              {leftBrace.icon}
-            </Icon>
-            <Icon
-              position="absolute"
-              right="261px"
-              top="50%"
-              transform="translateY(-50%)"
-              color="var(--c-secondary)"
-            >
-              {rightBrace.icon}
-            </Icon>
-          </>
-        )}
-        <Text
-          fontSize="12px"
-          lineHeight="22px"
-          color="var(--c-primary)"
-          textTransform="uppercase"
-        >
-          {t("classic_look")}
-        </Text>
-        <Text
-          fontSize={isMobile ? "22px" : "34px"}
-          lineHeight="48px"
-          fontWeight="500"
-          color="var(--c-primary)"
-        >
-          {t("classic_gallery")}
-        </Text>
-        <Text
-          fontSize="16px"
-          fontWeight="400"
-          color="var(--c-primary)"
-          maxW="440px"
-          dangerouslySetInnerHTML={{
-            __html: t("classic_soon").replace(/\n/g, "<br />"),
-          }}
-        />
-        <Button
-          bg="var(--c-primary)"
+        {/* ————— TIMING ————— */}
+        <Flex
+          bg="var(--c-secondary)"
           color="white"
-          mt="8px"
-          px="40px"
-          h="40px"
-          fontSize="13px"
-          boxShadow="xl"
-          _hover={{
-            bg: "white",
-            color: "#004143",
-            borderColor: "#004143",
-          }}
-          transition="all 0.3s ease"
-          as={finalData?.albumLink ? "a" : "button"}
-          {...(finalData?.albumLink
-            ? { href: finalData.albumLink, target: "_blank" }
-            : {})}
+          direction={isMobile ? "column" : "row"}
+          align={isMobile ? "stretch" : "center"}
+          gap={isMobile ? "32px" : "60px"}
         >
-          {t("classic_view")}
-        </Button>
-      </VStack>
-
-      {/* ————— OUR LOVE STORY ————— */}
-      <Box
-        position="relative"
-        w="100%"
-        py={isMobile ? "60px" : "112px"}
-        // px={isMobile ? "24px" : "120px"}
-        bgImage={`linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url(${storyBg.src})`}
-        bgSize="cover"
-        bgRepeat={"no-repeat"}
-        bgPos="center"
-        h="451px"
-      >
-        <VStack gap="40px" textAlign="center">
-          <Text
-            fontSize={isMobile ? "20px" : "34px"}
-            lineHeight="48px"
-            fontWeight="500"
+          <VStack
+            align="flex-start"
+            gap="40px"
+            flex="1"
+            p="100px 0 100px 160px"
           >
-            {t("classic_story")}
-          </Text>
-          <Text
-            maxW="877px"
-            fontSize={isMobile ? "15px" : "18px"}
-            lineHeight="28px"
-            color="#323232"
-            whiteSpace="pre-line"
-            // dangerouslySetInnerHTML={{
-            //   __html: storyText.replace(/\n/g, "<br />"),
-            // }}
-          >
-            {storyText}
-          </Text>
-        </VStack>
-      </Box>
+            <Text
+              fontWeight="800"
+              fontSize={isMobile ? "22px" : "34px"}
+              lineHeight="50px"
+              textTransform="uppercase"
+              color="#FFFFFF"
+              // dangerouslySetInnerHTML={{
+              //   __html: t("classic_timing").replace(/\n/g, "<br />"),
+              // }}
+            >
+              {t("classic_timing")}
+            </Text>
+            <Text
+              fontWeight="400"
+              fontSize={isMobile ? "13px" : "18px"}
+              lineHeight="28px"
+              color="#FFFFFF"
+              maxW="440px"
+            >
+              Lorem ipsum dolor sit amet consectetur. Ut enim scelerisque
+              consequat a justo diam adipiscing velit tincidunt.
+            </Text>
 
-      {/* ————— PHOTO STRIP ————— */}
+            <Stack gap="40px" minW={"361px"}>
+              {timeline.map((item, i) => (
+                <Flex
+                  key={i}
+                  justify={"space-between"}
+                  align={"center"}
+                  gap="20px"
+                >
+                  <VStack align="flex-start" gap="24px" minW="160px">
+                    <Text
+                      fontSize={isMobile ? "20px" : "34px"}
+                      fontWeight="800"
+                      lineHeight={"24px"}
+                    >
+                      {item.time || "00:00"}
+                    </Text>
+                    <Text
+                      fontSize={isMobile ? "15px" : "22px"}
+                      fontWeight="500"
+                      lineHeight={"34px"}
+                      textTransform="uppercase"
+                      color="#FFFFFF"
+                    >
+                      {pickLang(item.venueName, language) || item.venueName}
+                    </Text>
+                  </VStack>
+                  <Button
+                    as={Link}
+                    href={item.venueLocation}
+                    target="_blank"
+                    // variant="ghost"
+                    color="#FFFFFF"
+                    // _hover={{ bg: "rgba(255,255,255,0.08)" }}
+                    fontSize="14px"
+                    bg="var(--c-primary)"
+                    borderRadius="10px"
+                    h="44px"
+                  >
+                    <Icon>{map.icon}</Icon> {t("classic_map")}
+                  </Button>
+                </Flex>
+              ))}
+            </Stack>
+          </VStack>
 
-      <Flex
-        w="100%"
-        // h={isMobile ? "180px" : "260px"}
-        my="100px"
-        px="56px"
-        gap="10px"
-        justify={"center"}
-      >
-        {gallery.map((src, i) => {
-          return (
+          {!isMobile && (
             <Box
-              key={i}
-              flex="1"
-              maxW="320px"
-              h="320px"
-              bgImage={`url(${src})`}
+              flex="0 0 auto"
+              w="652px"
+              h="972px"
+              // borderRadius="200px"
+              borderTopLeftRadius="470px"
+              borderBottomLeftRadius="470px"
+              overflow="hidden"
+              bgImage={`url(${coupleImage})`}
               bgSize="cover"
               bgPos="center"
-              filter={i === 1 || i === 3 ? "grayscale(100%)" : "none"}
-              cursor="zoom-in"
-              onClick={openFullscreen}
             />
-          );
-        })}
-      </Flex>
+          )}
+        </Flex>
 
-      {/* Hidden fullscreen gallery */}
-      {isFullscreen && (
-        <Box position="fixed" inset="0" zIndex="9999">
-          <ImageGallery
-            ref={galleryRef}
-            items={galleryItems}
-            showPlayButton={false}
-            showThumbnails={false}
-            onScreenChange={(isFull) => {
-              if (!isFull) setIsFullscreen(false);
+        {/* ————— RSVP ————— */}
+        {finalData?.rsvp !== false && (
+          <VStack bg="#F6F5F4" py={isMobile ? "40px" : "100px"} gap="37px">
+            <Text
+              fontSize={isMobile ? "20px" : "34px"}
+              fontWeight={500}
+              lineHeight="48px"
+              textAlign="center"
+              textTransform="uppercase"
+              color="var(--c-secondary)"
+              // dangerouslySetInnerHTML={{
+              //   __html: t("classic_join").replace(/\n/g, "<br />"),
+              // }}
+            >
+              {t("classic_join")}
+            </Text>
+            <VStack gap="37px">
+              <VStack gap="16px" minW={isMobile ? "100%" : "442px"}>
+                <Input
+                  placeholder={t("classic_type")}
+                  h="52px"
+                  bg="white"
+                  variant="outline"
+                  //
+                  name="mainGuest"
+                  value={form.mainGuest}
+                  onChange={handleChange}
+                  color="var(--c-secondary)"
+                />
+                <Select.Root
+                  collection={guestCount}
+                  size="lg"
+                  width="100%"
+                  bg="white"
+                  variant="outline"
+                  value={guests}
+                  color="var(--c-secondary)"
+                  //
+                  // onValueChange={({ value }) => {
+                  //   const count = Number(value[0]) || 0;
+                  //   setForm((prev) => ({
+                  //     ...prev,
+                  //     secondaryGuests: Array.from(
+                  //       { length: count },
+                  //       (_, i) => prev.secondaryGuests[i] ?? "",
+                  //     ),
+                  //   }));
+                  // }}
+
+                  onValueChange={handleGuestCountChange}
+                >
+                  <Select.HiddenSelect />
+                  <Select.Control>
+                    <Select.Trigger>
+                      <Select.ValueText placeholder={t("classic_count")} />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                  <Portal>
+                    <Select.Positioner>
+                      <Select.Content>
+                        {guestCount.items.map(({ label, value }) => (
+                          <Select.Item item={value} key={value}>
+                            {label}
+                            <Select.ItemIndicator />
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Positioner>
+                  </Portal>
+                </Select.Root>
+
+                {isNotEmptyArray(form.secondaryGuests) && (
+                  <For each={form.secondaryGuests}>
+                    {(el, idx) => (
+                      <Input
+                        key={idx}
+                        value={el}
+                        placeholder={t("accompanying_name")}
+                        variant="outline"
+                        h="52px"
+                        bg="white"
+                        color="var(--c-secondary)"
+                        onChange={(e) =>
+                          handleSecondaryGuestChange(idx, e.target.value)
+                        }
+                      />
+                    )}
+                  </For>
+                )}
+
+                <Radio
+                  color="var(--c-secondary)"
+                  value={form.guestSide}
+                  onChange={(value) =>
+                    setForm((prev) => ({ ...prev, guestSide: value }))
+                  }
+                />
+                <Flex
+                  // minW={isMobile ? "100%" : "442px"}
+                  w="100%"
+                  gap="12px"
+                  justify={"space-between"}
+                >
+                  <Button
+                    flex={1}
+                    h="44px"
+                    fontSize="14px"
+                    boxShadow="xl"
+                    bg="var(--c-secondary)"
+                    color="white"
+                    _hover={{
+                      bg: "transparent",
+                      color: "var(--c-secondary)",
+                      borderColor: "var(--c-secondary)",
+                    }}
+                    transition="all 0.3s ease"
+                    onClick={handleConfirm}
+                  >
+                    {t("classic_accept")}
+                  </Button>
+                  <Button
+                    flex={1}
+                    variant="outline"
+                    border="1px solid"
+                    borderColor="var(--c-secondary)"
+                    h="44px"
+                    fontSize="14px"
+                    bg="transparent"
+                    color="var(--c-secondary)"
+                    _hover={{
+                      bg: "var(--c-secondary)",
+                      color: "white",
+                      borderColor: "transparent",
+                    }}
+                    onClick={handleDecline}
+                  >
+                    {t("classic_reject")}
+                  </Button>
+                </Flex>
+              </VStack>
+            </VStack>
+          </VStack>
+        )}
+
+        {/* ————— DRESS CODE ————— */}
+        <VStack
+          bg="var(--c-secondary)"
+          color="white"
+          py={isMobile ? "48px" : "60px"}
+          px={isMobile ? "24px" : "131px"}
+          gap={"60px"}
+          textAlign="center"
+          bgImage={`linear-gradient(var(--c-secondary)), url(${dresscodeBg.src})`}
+          bgSize="cover"
+          bgPos="center"
+          bgBlendMode={"overlay"}
+        >
+          <Stack gap="32px">
+            <Text
+              fontSize={isMobile ? "20px" : "34px"}
+              lineHeight="24px"
+              fontWeight="800"
+              color="#FFFFFF"
+              textTransform={"uppercase"}
+            >
+              {t("dresscode")}
+            </Text>
+            <Text
+              fontSize={isMobile ? "13px" : "18px"}
+              lineHeight="28px"
+              color="#FFFFFF"
+              maxW="720px"
+            >
+              {dressCodeDesc}
+            </Text>
+          </Stack>
+
+          <Stack gap={"32px"}>
+            <VStack gap="20px">
+              <HStack gap="0">
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-accent)"
+                />
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-secondary)"
+                  ml="-10px"
+                />
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-surface)"
+                  ml="-10px"
+                />
+              </HStack>
+              <Text
+                fontSize="18px"
+                lineHeight={"22px"}
+                fontWeight="500"
+                color="#FFFFFF"
+              >
+                {dressCodeName}
+              </Text>
+              {dressCodeAbout && (
+                <Text
+                  fontSize="16px"
+                  fontWeight="400"
+                  lineHeight={"22px"}
+                  color="#FFFFFF"
+                >
+                  {dressCodeAbout}
+                </Text>
+              )}
+            </VStack>
+          </Stack>
+        </VStack>
+
+        {/* ————— GALLERY CALLOUT ————— */}
+        <VStack
+          bg="#F6F5F4"
+          py={isMobile ? "48px" : "100px"}
+          gap="24px"
+          textAlign="center"
+          position="relative"
+        >
+          {!isMobile && (
+            <>
+              <Icon
+                position="absolute"
+                left="261px"
+                top="50%"
+                transform="translateY(-50%)"
+                color="var(--c-secondary)"
+              >
+                {leftBrace.icon}
+              </Icon>
+              <Icon
+                position="absolute"
+                right="261px"
+                top="50%"
+                transform="translateY(-50%)"
+                color="var(--c-secondary)"
+              >
+                {rightBrace.icon}
+              </Icon>
+            </>
+          )}
+          <Text
+            fontSize="12px"
+            lineHeight="22px"
+            color="var(--c-secondary)"
+            textTransform="uppercase"
+          >
+            {t("classic_look")}
+          </Text>
+          <Text
+            fontSize={isMobile ? "22px" : "34px"}
+            lineHeight="48px"
+            fontWeight="500"
+            color="var(--c-secondary)"
+          >
+            {t("classic_gallery")}
+          </Text>
+          <Text
+            fontSize="16px"
+            fontWeight="400"
+            color="var(--c-secondary)"
+            maxW="440px"
+            dangerouslySetInnerHTML={{
+              __html: t("classic_soon").replace(/\n/g, "<br />"),
             }}
           />
-        </Box>
-      )}
+          <Button
+            mt="8px"
+            px="40px"
+            h="40px"
+            fontSize="13px"
+            boxShadow="xl"
+            bg="var(--c-secondary)"
+            color="white"
+            _hover={{
+              bg: "transparent",
+              color: "var(--c-secondary)",
+              borderColor: "var(--c-secondary)",
+            }}
+            transition="all 0.3s ease"
+            as={finalData?.albumLink ? "a" : "button"}
+            {...(finalData?.albumLink
+              ? { href: finalData.albumLink, target: "_blank" }
+              : {})}
+          >
+            {t("classic_view")}
+          </Button>
+        </VStack>
 
-      {/* ————— CONTACT ————— */}
-      <Flex
-        // bg="var(--c-primary)"
-        // color="white"
-        // py={isMobile ? "28px" : "40px"}
-        pb="100px"
-        align={"center"}
-        justify={"center"}
-        gap="90px"
-      >
-        <Text
-          fontSize="30px"
-          lineHeight="24px"
-          fontWeight="800"
-          textTransform={"uppercase"}
+        {/* ————— OUR LOVE STORY ————— */}
+        <Box
+          position="relative"
+          w="100%"
+          py={isMobile ? "60px" : "112px"}
+          // px={isMobile ? "24px" : "120px"}
+          bgImage={`linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url(${storyBg.src})`}
+          bgSize="cover"
+          bgRepeat={"no-repeat"}
+          bgPos="center"
+          h="451px"
         >
-          {t("classic_contact")}
-        </Text>
-        <Text
-          as="a"
-          href={`tel:${phone}`}
-          fontSize="24px"
-          lineHeight="24px"
-          fontWeight="800"
+          <VStack gap="40px" textAlign="center">
+            <Text
+              color="var(--c-secondary)"
+              fontSize={isMobile ? "20px" : "34px"}
+              lineHeight="48px"
+              fontWeight="500"
+            >
+              {t("classic_story")}
+            </Text>
+            <Text
+              maxW="877px"
+              fontSize={isMobile ? "15px" : "18px"}
+              lineHeight="28px"
+              color="var(--c-secondary)"
+              whiteSpace="pre-line"
+              fontWeight="400"
+              // dangerouslySetInnerHTML={{
+              //   __html: storyText.replace(/\n/g, "<br />"),
+              // }}
+            >
+              {storyText}
+            </Text>
+          </VStack>
+        </Box>
+
+        {/* ————— PHOTO STRIP ————— */}
+        <Flex
+          w="100%"
+          // h={isMobile ? "180px" : "260px"}
+          my="100px"
+          px="56px"
+          gap="10px"
+          justify={"center"}
         >
-          {phone}
-        </Text>
-        <Text
-          as="a"
-          href={`mailto:${email}`}
-          fontSize="24px"
-          lineHeight="24px"
-          fontWeight="800"
+          {gallery.map((src, i) => {
+            return (
+              <Box
+                key={i}
+                flex="1"
+                maxW="320px"
+                h="320px"
+                bgImage={`url(${src})`}
+                bgSize="cover"
+                bgPos="center"
+                filter={i === 1 || i === 3 ? "grayscale(100%)" : "none"}
+                cursor="zoom-in"
+                onClick={openFullscreen}
+              />
+            );
+          })}
+        </Flex>
+
+        {/* Hidden fullscreen gallery */}
+        {isFullscreen && (
+          <Box position="fixed" inset="0" zIndex="9999">
+            <ImageGallery
+              ref={galleryRef}
+              items={galleryItems}
+              showPlayButton={false}
+              showThumbnails={false}
+              onScreenChange={(isFull) => {
+                if (!isFull) setIsFullscreen(false);
+              }}
+            />
+          </Box>
+        )}
+
+        {/* ————— CONTACT ————— */}
+        <Flex
+          // bg="var(--c-primary)"
+          // color="white"
+          // py={isMobile ? "28px" : "40px"}
+          pb="100px"
+          align={"center"}
+          justify={"center"}
+          gap="90px"
         >
-          {email}
-        </Text>
-      </Flex>
-    </Box>
+          <Text
+            fontSize="30px"
+            lineHeight="24px"
+            fontWeight="800"
+            textTransform={"uppercase"}
+            color="var(--c-secondary)"
+          >
+            {t("classic_contact")}
+          </Text>
+          <Text
+            as="a"
+            href={`tel:${phone}`}
+            fontSize="24px"
+            lineHeight="24px"
+            fontWeight="800"
+            color="var(--c-secondary)"
+          >
+            {phone}
+          </Text>
+          <Text
+            as="a"
+            href={`mailto:${email}`}
+            fontSize="24px"
+            lineHeight="24px"
+            fontWeight="800"
+            color="var(--c-secondary)"
+          >
+            {email}
+          </Text>
+        </Flex>
+      </Box>
+    )
   );
 }
