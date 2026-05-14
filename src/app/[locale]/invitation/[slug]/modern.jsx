@@ -35,6 +35,7 @@ import { isNotEmptyArray } from "@/utils/checkers";
 import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
+import { Rsvp } from "@/components/invitation/rsvp";
 
 export default function Modern({
   viewport = "pc",
@@ -176,7 +177,7 @@ export default function Modern({
       data-viewport={viewport}
       style={vars}
       // w={`${width}px`}
-      bg="white"
+      bg="#F3F3F3"
       color="#111"
       overflow="hidden"
       // position={"relative"}
@@ -220,6 +221,20 @@ export default function Modern({
           </Text>
         </VStack>
       </Box>
+
+      {/* ————— RSVP ————— */}
+      <Rsvp
+        isMobile={isMobile}
+        data={data?.rsvp}
+        guestCount={guestCount}
+        form={form}
+        setForm={setForm}
+        guests={guests}
+        handleChange={handleChange}
+        handleGuestCountChange={handleGuestCountChange}
+        handleConfirm={handleConfirm}
+        handleDecline={handleDecline}
+      />
     </Box>
   );
 }

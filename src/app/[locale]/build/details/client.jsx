@@ -89,6 +89,7 @@ export const DetailsClient = () => {
         }
       }
       queryClient.invalidateQueries({ queryKey: [`invitations/drafts`] });
+      // TODO: get urlExtension & invalidate invitations/urlExtension
     },
     onError: (err) => error(err?.response?.data?.error || "Draft error!"),
   });

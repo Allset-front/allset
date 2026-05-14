@@ -35,6 +35,7 @@ import { isNotEmptyArray } from "@/utils/checkers";
 import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
+import { Rsvp } from "@/components/invitation/rsvp";
 
 export default function Classic({
   viewport = "pc",
@@ -175,7 +176,7 @@ export default function Classic({
       data-viewport={viewport}
       style={vars}
       // w={`${width}px`}
-      bg="white"
+      bg="#F6F5F4"
       color="#111"
       overflow="hidden"
       // position={"relative"}
@@ -222,7 +223,6 @@ export default function Classic({
 
       {/* ————— INTRO + COUNTDOWN ————— */}
       <VStack
-        bg="#F6F5F4"
         py={isMobile ? "40px" : "60px"}
         px={isMobile ? "24px" : "100px"}
         gap={isMobile ? "24px" : "100px"}
@@ -348,8 +348,8 @@ export default function Classic({
       </Flex>
 
       {/* ————— RSVP ————— */}
-      {data?.rsvp !== false && (
-        <VStack bg="#F6F5F4" py={isMobile ? "40px" : "100px"} gap="37px">
+      {/* {data?.rsvp !== false && (
+        <VStack py={isMobile ? "40px" : "100px"} gap="37px">
           <Text
             fontSize={isMobile ? "20px" : "34px"}
             fontWeight={500}
@@ -492,7 +492,19 @@ export default function Classic({
             </VStack>
           </VStack>
         </VStack>
-      )}
+      )} */}
+      <Rsvp
+        isMobile={isMobile}
+        data={data?.rsvp}
+        guestCount={guestCount}
+        form={form}
+        setForm={setForm}
+        guests={guests}
+        handleChange={handleChange}
+        handleGuestCountChange={handleGuestCountChange}
+        handleConfirm={handleConfirm}
+        handleDecline={handleDecline}
+      />
 
       {/* ————— DRESS CODE ————— */}
       <VStack
@@ -570,7 +582,6 @@ export default function Classic({
 
       {/* ————— GALLERY CALLOUT ————— */}
       <VStack
-        bg="#F6F5F4"
         py={isMobile ? "48px" : "100px"}
         gap="24px"
         textAlign="center"

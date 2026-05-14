@@ -176,7 +176,7 @@ export default function Rustic({
       data-viewport={viewport}
       style={vars}
       // w={`${width}px`}
-      bg="white"
+      bg="#F6F5F4"
       color="#111"
       overflow="hidden"
       // position={"relative"}
