@@ -15,7 +15,6 @@ import {
   HStack,
   Icon,
   Input,
-  Loader,
   Portal,
   Select,
   Stack,
@@ -37,12 +36,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 import { Rsvp } from "@/components/invitation/rsvp";
 
-export default function Classic({
-  viewport = "pc",
-  palette,
-  data,
-  isLoading = false,
-}) {
+export default function Classic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
   const language = useLocale();
   const galleryRef = useRef(null);
@@ -167,10 +161,6 @@ export default function Classic({
     mutate({ ...form, status: "DECLINED" });
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
     <Box
       data-viewport={viewport}
@@ -240,7 +230,11 @@ export default function Classic({
 
         <Stack gap="40px">
           {data?.countDown !== false && (
-            <CountdownTimer eventDate={data?.eventDate} isMobile={isMobile} />
+            <CountdownTimer
+              template={data?.templateId}
+              eventDate={data?.eventDate}
+              isMobile={isMobile}
+            />
           )}
 
           <Text

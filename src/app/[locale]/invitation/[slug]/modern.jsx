@@ -15,7 +15,6 @@ import {
   HStack,
   Icon,
   Input,
-  Loader,
   Portal,
   Select,
   Stack,
@@ -37,12 +36,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 import { Rsvp } from "@/components/invitation/rsvp";
 
-export default function Modern({
-  viewport = "pc",
-  palette,
-  data,
-  isLoading = false,
-}) {
+export default function Modern({ viewport = "pc", palette, data }) {
   const t = useTranslations();
   const language = useLocale();
   const galleryRef = useRef(null);
@@ -167,10 +161,7 @@ export default function Modern({
     mutate({ ...form, status: "DECLINED" });
   };
   // console.log(data);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  // console.log(vars);
 
   return (
     <Box
@@ -221,6 +212,22 @@ export default function Modern({
           </Text>
         </VStack>
       </Box>
+
+      {/* ————— COUNTDOWN ————— */}
+      <VStack
+        bg="#6F786C"
+        py={isMobile ? "40px" : "60px"}
+        px={isMobile ? "24px" : "100px"}
+        gap={isMobile ? "24px" : "100px"}
+      >
+        {data?.countDown !== false && (
+          <CountdownTimer
+            template={data?.templateId}
+            eventDate={data?.eventDate}
+            isMobile={isMobile}
+          />
+        )}
+      </VStack>
 
       {/* ————— RSVP ————— */}
       <Rsvp

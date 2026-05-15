@@ -34,6 +34,7 @@ export const Rsvp = ({
       <VStack py={isMobile ? "40px" : "100px"} gap="37px">
         <Text
           fontSize={isMobile ? "20px" : "34px"}
+          w="560px"
           fontWeight={500}
           lineHeight="48px"
           textAlign="center"
@@ -46,7 +47,7 @@ export const Rsvp = ({
           {t("classic_join")}
         </Text>
         <VStack gap="37px">
-          <VStack gap="16px" minW={isMobile ? "100%" : "442px"}>
+          <VStack gap="16px" minW={isMobile ? "100%" : "492px"}>
             <Input
               placeholder={t("classic_type")}
               h="52px"
@@ -77,7 +78,6 @@ export const Rsvp = ({
               //     ),
               //   }));
               // }}
-
               onValueChange={handleGuestCountChange}
             >
               <Select.HiddenSelect />

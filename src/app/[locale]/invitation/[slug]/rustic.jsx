@@ -15,7 +15,6 @@ import {
   HStack,
   Icon,
   Input,
-  Loader,
   Portal,
   Select,
   Stack,
@@ -35,13 +34,9 @@ import { isNotEmptyArray } from "@/utils/checkers";
 import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
+import { Rsvp } from "@/components/invitation/rsvp";
 
-export default function Rustic({
-  viewport = "pc",
-  palette,
-  data,
-  isLoading = false,
-}) {
+export default function Rustic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
   const language = useLocale();
   const galleryRef = useRef(null);
@@ -166,10 +161,7 @@ export default function Rustic({
     mutate({ ...form, status: "DECLINED" });
   };
   // console.log(data);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  // console.log(vars);
 
   return (
     <Box
@@ -192,7 +184,7 @@ export default function Rustic({
         bgSize="cover"
         bgPos="center"
       >
-        {/* <VStack
+        <VStack
           position="absolute"
           bottom={isMobile ? "40px" : "80px"}
           left="0"
@@ -218,8 +210,38 @@ export default function Rustic({
           >
             {eventDateText}
           </Text>
-        </VStack> */}
+        </VStack>
       </Box>
+
+      {/* ————— COUNTDOWN ————— */}
+      <VStack
+        bg="#6F786C" //
+        py={isMobile ? "40px" : "60px"}
+        px={isMobile ? "24px" : "100px"}
+        gap={isMobile ? "24px" : "100px"}
+      >
+        {data?.countDown !== false && (
+          <CountdownTimer
+            template={data?.templateId}
+            eventDate={data?.eventDate}
+            isMobile={isMobile}
+          />
+        )}
+      </VStack>
+
+      {/* ————— RSVP ————— */}
+      <Rsvp
+        isMobile={isMobile}
+        data={data?.rsvp}
+        guestCount={guestCount}
+        form={form}
+        setForm={setForm}
+        guests={guests}
+        handleChange={handleChange}
+        handleGuestCountChange={handleGuestCountChange}
+        handleConfirm={handleConfirm}
+        handleDecline={handleDecline}
+      />
     </Box>
   );
 }
