@@ -3,17 +3,23 @@
 import { useState, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMutateAuthTanstack } from "@/hooks/useTanstack";
-import { formatEventDate, paletteToVars } from "@/utils/formatters";
+import {
+  formatEventDate,
+  formatRusticTitle,
+  paletteToVars,
+} from "@/utils/formatters";
 import { Language } from "@/components/invitation/language";
 import { getInvitationForm, pickLang } from "@/utils/helpers";
 import {
   Box,
   Button,
+  Container,
   createListCollection,
   Flex,
   For,
   HStack,
   Icon,
+  Image,
   Input,
   Portal,
   Select,
@@ -21,11 +27,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { leftBrace, map, rightBrace } from "@/assets/svgs";
+import { bottle, heart, leftBrace, map, rightBrace } from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
-import mainBg from "@/assets/imgs/invitations/rustic/main_bg.png";
+import img from "@/assets/imgs/invitations/rustic/main_img.png";
+import loveBg from "@/assets/imgs/invitations/rustic/love_bg.png";
+import ring from "@/assets/imgs/invitations/rustic/ring.png";
+import overlay from "@/assets/imgs/invitations/rustic/overlay.png";
+import overlay2 from "@/assets/imgs/invitations/rustic/overlay2.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
-import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
@@ -35,6 +44,7 @@ import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 import { Rsvp } from "@/components/invitation/rsvp";
+import { Calendar } from "@/components/invitation/calendar";
 
 export default function Rustic({ viewport = "pc", palette, data }) {
   const t = useTranslations();
@@ -56,14 +66,15 @@ export default function Rustic({ viewport = "pc", palette, data }) {
   const vars = paletteToVars(
     palette?.colors ?? data?.template?.paletteKeyword?.colors,
   );
-  const title = pickLang(data?.title, language) || "Henry & Mariam";
+  // const title = pickLang(data?.title, language) || "Henry & Mariam";
+  const { name1, name2 } = formatRusticTitle(data?.title, language);
   const eventDateText = formatEventDate(data?.eventDate);
 
   const [form, setForm] = useState(getInvitationForm(id));
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const heroImage = data?.mainImages?.[0] || mainBg.src;
+  const heroImage = data?.mainImages?.[0] || img.src;
   const coupleImage = data?.mainImages?.[1] || timingBg.src;
   const gallery = data?.ourStory?.photoUrls?.length
     ? data.ourStory.photoUrls
@@ -77,8 +88,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
     [gallery],
   );
 
-  const description =
-    pickLang(data?.description, language) || t("classic_title");
+  const description = pickLang(data?.description, language) || t("rustic_desc");
   const timeline = data?.timeline || TIMELINE;
   const dressCodeDesc =
     pickLang(data?.dressCode?.description, language) || t("dresscode_desc");
@@ -160,8 +170,8 @@ export default function Rustic({ viewport = "pc", palette, data }) {
 
     mutate({ ...form, status: "DECLINED" });
   };
-  // console.log(data);
-  // console.log(vars);
+  console.log(data);
+  console.log(vars);
 
   return (
     <Box
@@ -171,63 +181,171 @@ export default function Rustic({ viewport = "pc", palette, data }) {
       bg="#F6F5F4"
       color="#111"
       overflow="hidden"
+      pt="75px"
       // position={"relative"}
     >
       {locales && <Language locales={locales} />}
 
       {/* ————— HERO ————— */}
-      <Box
-        position="relative"
-        w="100%"
-        h={isMobile ? "520px" : "750px"}
-        bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
-        bgSize="cover"
-        bgPos="center"
-      >
-        <VStack
-          position="absolute"
-          bottom={isMobile ? "40px" : "80px"}
-          left="0"
-          right="0"
-          gap={isMobile ? "8px" : "100px"}
-          color="white"
-          textAlign="center"
-        >
-          <Text
-            fontFamily="var(--font-shk)"
-            // fontFamily={sosBanff.style.fontFamily}
-            fontSize={isMobile ? "54px" : "103px"}
-            lineHeight="24px"
-            fontWeight="400"
-          >
-            {title}
-          </Text>
-          <Text
-            fontFamily="var(--font-shk)"
-            fontSize={isMobile ? "26px" : "63px"}
-            lineHeight="24px"
-            fontWeight="400"
-          >
-            {eventDateText}
-          </Text>
-        </VStack>
-      </Box>
+      <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
+        <Flex justify={"space-between"} gap="120px">
+          <Stack position="relative">
+            <Image
+              src={img.src}
+              alt="img"
+              w="428px"
+              h="427px"
+              borderRadius={"5px"}
+            />
+
+            <Image
+              position={"absolute"}
+              bottom={"-25px"}
+              right={"-80px"}
+              src={loveBg.src}
+              alt="img"
+              w="288px"
+              h="167px"
+              objectFit={"contain"}
+              borderRadius={"5px"}
+            />
+          </Stack>
+
+          <VStack align={"start"} gap="80px">
+            <Flex
+              w="100%"
+              gap="70px"
+              justify={"space-between"}
+              align={"center"}
+            >
+              <Text
+                fontFamily="var(--font-shk)"
+                color="var(--c-primary)"
+                // fontFamily={sosBanff.style.fontFamily}
+                fontSize={isMobile ? "54px" : "64px"}
+                lineHeight="24px"
+                fontWeight="400"
+              >
+                {t("rustic_title")}
+              </Text>
+
+              <Box
+                bgColor="var(--c-accent)"
+                borderRadius={"100%"}
+                pb="25px"
+                pl="20px"
+                pr="20px"
+              >
+                <Icon mt={"-45px"}>{bottle.icon}</Icon>
+              </Box>
+            </Flex>
+            <Text
+              w="500px"
+              fontSize={isMobile ? "16px" : "20px"}
+              lineHeight="28px"
+              fontWeight="400"
+              color="var(--c-primary)"
+            >
+              {description}
+            </Text>
+
+            <Text
+              fontFamily="var(--font-shk)"
+              color="var(--c-primary)"
+              fontSize={"74px"}
+              fontWeight={"400"}
+              lineHeight={"24px"}
+            >
+              {name1 + " + " + name2 + " = "} <Icon>{heart.icon}</Icon>
+            </Text>
+          </VStack>
+        </Flex>
+      </Container>
 
       {/* ————— COUNTDOWN ————— */}
-      <VStack
-        bg="#6F786C" //
+      <Box
+        bgColor="var(--c-accent)"
+        position="relative"
+        w="full"
+        h="263px"
+        overflow="visible"
+        mt="132px"
+        mb="187px"
+      >
+        <Container
+          maxW="1440px"
+          px={{ base: "24px", md: "80px" }}
+          h="full"
+          overflow="visible"
+          position="relative"
+        >
+          <Image
+            src={ring.src}
+            alt="ring"
+            position="absolute"
+            top="-40px"
+            // left="0"
+            zIndex={1}
+          />
+
+          <Flex
+            h="full"
+            align="center"
+            justify="space-between"
+            gap={isMobile ? "24px" : "116px"}
+          >
+            <VStack
+              gap={isMobile ? "16px" : "60px"}
+              align="center"
+            >
+              <Text color="var(--c-primary)">{t("rustic_journey")}</Text>
+              {data?.countDown !== false && (
+                <CountdownTimer
+                  template={data?.templateId}
+                  eventDate={data?.eventDate}
+                  isMobile={isMobile}
+                />
+              )}
+            </VStack>
+
+            <VStack position="relative" alignSelf="center" flexShrink={0}>
+              <Image src={overlay.src} alt="overlay" mb={"-35px"} zIndex={2} />
+              <Calendar value={data?.eventDate} zIndex={1} />
+              <Image src={overlay2.src} alt="overlay" mt={"-35px"} zIndex={2} />
+            </VStack>
+          </Flex>
+        </Container>
+      </Box>
+      {/* <Box
+        bgColor="var(--c-accent)" //
+        mt="132px" // needs to be removed
+        mb="187px" // needs to be removed
         py={isMobile ? "40px" : "60px"}
         px={isMobile ? "24px" : "100px"}
         gap={isMobile ? "24px" : "100px"}
+        position={"relative"}
+        h="263px"
       >
-        {data?.countDown !== false && (
-          <CountdownTimer
-            template={data?.templateId}
-            eventDate={data?.eventDate}
-            isMobile={isMobile}
-          />
-        )}
-      </VStack>
+        <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
+          <Image src={ring.src} alt="ring" position={"absolute"} top="-100px" />
+          <Flex gap="116px" justify={"space-between"}>
+            <VStack gap="60px">
+              <Text color="var(--c-primary)">{t("rustic_journey")}</Text>
+              {data?.countDown !== false && (
+                <CountdownTimer
+                  template={data?.templateId}
+                  eventDate={data?.eventDate}
+                  isMobile={isMobile}
+                />
+              )}
+            </VStack>
+
+            <Stack mt="-125px">
+              <Calendar value={data?.eventDate} />
+            </Stack>
+          </Flex>
+        </Container>
+      </Box> */}
 
       {/* ————— RSVP ————— */}
       <Rsvp

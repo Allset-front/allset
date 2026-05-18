@@ -427,5 +427,10 @@
     "failed_amount": "Amount",
     "failed_insufficient": "Insufficient funds",
     "failed_try": "Try Again",
-    "failed_again": "Use Different Payment Method"
+    "failed_again": "Use Different Payment Method",
+    "rustic_title": "We are getting married",
+    "rustic_desc": "We would be honored to have you join us as we celebrate the beginning of our life together. Your presence will make our day even more special.",
+    "rustic_journey": "Our journey to forever has already begun…",
+    "rustic_couple": "Our couple",
+    "rustic_happy": "So, we are happy"
 }

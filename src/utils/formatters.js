@@ -169,3 +169,26 @@ export const diffParts = (iso) => {
 
   return { days, hours, min, sec };
 };
+
+// export const formatRusticTitle = (title) => {
+//   if (!title) return {};
+
+//   return Object.entries(title).reduce((acc, [lang, value]) => {
+//     if (!value?.trim()) return acc;
+
+//     const [name1 = "", name2 = ""] = value.trim().split(/\s+/);
+//     acc[lang] = { name1, name2 };
+
+//     return acc;
+//   }, {});
+// };
+
+export const formatRusticTitle = (title, lang) => {
+  if (!title?.[lang]?.trim()) return { name1: "", name2: "" };
+
+  const [name1 = "", name2 = ""] = title[lang].trim().split(/\s+/);
+  return {
+    name1: capitalize(name1),
+    name2: capitalize(name2),
+  };
+};

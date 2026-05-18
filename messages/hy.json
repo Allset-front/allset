@@ -427,5 +427,10 @@
     "failed_amount": "Գումար",
     "failed_insufficient": "Անբավարար միջոցներ",
     "failed_try": "Փորձել կրկին",
-    "failed_again": "Use Different Payment Method"
+    "failed_again": "Օգտագործեք վճարման այլ եղանակ",
+    "rustic_title": "Մենք ամուսնանում ենք",
+    "rustic_desc": "Մեզ համար մեծ պատիվ կլինի կիսել մեր ընտանիքի սկիզբը Ձեզ հետ։ Ձեր ներկայությունը մեր օրը կդարձնի առավել հիշարժան և ջերմ։",
+    "rustic_journey": "Մեր սիրո ճանապարհն արդեն սկսվել է",
+    "rustic_couple": "Մեր զույգը",
+    "rustic_happy": "Այսպիսով, մենք երջանիկ ենք"
 }
