@@ -13,6 +13,7 @@ import { getInvitationForm, pickLang } from "@/utils/helpers";
 import {
   Box,
   Button,
+  Center,
   Container,
   createListCollection,
   Flex,
@@ -27,13 +28,15 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { bottle, heart, leftBrace, map, rightBrace } from "@/assets/svgs";
+import { bottle, heart, leftBrace, map, rightBrace, view } from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
 import img from "@/assets/imgs/invitations/rustic/main_img.png";
 import loveBg from "@/assets/imgs/invitations/rustic/love_bg.png";
 import ring from "@/assets/imgs/invitations/rustic/ring.png";
 import overlay from "@/assets/imgs/invitations/rustic/overlay.png";
 import overlay2 from "@/assets/imgs/invitations/rustic/overlay2.png";
+import galleryBg from "@/assets/imgs/invitations/rustic/gallery_bg.png";
+import moments from "@/assets/imgs/invitations/rustic/moments.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
@@ -294,10 +297,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
             justify="space-between"
             gap={isMobile ? "24px" : "116px"}
           >
-            <VStack
-              gap={isMobile ? "16px" : "60px"}
-              align="center"
-            >
+            <VStack gap={isMobile ? "16px" : "60px"} align="center">
               <Text color="var(--c-primary)">{t("rustic_journey")}</Text>
               {data?.countDown !== false && (
                 <CountdownTimer
@@ -316,40 +316,11 @@ export default function Rustic({ viewport = "pc", palette, data }) {
           </Flex>
         </Container>
       </Box>
-      {/* <Box
-        bgColor="var(--c-accent)" //
-        mt="132px" // needs to be removed
-        mb="187px" // needs to be removed
-        py={isMobile ? "40px" : "60px"}
-        px={isMobile ? "24px" : "100px"}
-        gap={isMobile ? "24px" : "100px"}
-        position={"relative"}
-        h="263px"
-      >
-        <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
-          <Image src={ring.src} alt="ring" position={"absolute"} top="-100px" />
-          <Flex gap="116px" justify={"space-between"}>
-            <VStack gap="60px">
-              <Text color="var(--c-primary)">{t("rustic_journey")}</Text>
-              {data?.countDown !== false && (
-                <CountdownTimer
-                  template={data?.templateId}
-                  eventDate={data?.eventDate}
-                  isMobile={isMobile}
-                />
-              )}
-            </VStack>
-
-            <Stack mt="-125px">
-              <Calendar value={data?.eventDate} />
-            </Stack>
-          </Flex>
-        </Container>
-      </Box> */}
 
       {/* ————— RSVP ————— */}
       <Rsvp
         isMobile={isMobile}
+        color="var(--c-primary)"
         data={data?.rsvp}
         guestCount={guestCount}
         form={form}
@@ -360,6 +331,122 @@ export default function Rustic({ viewport = "pc", palette, data }) {
         handleConfirm={handleConfirm}
         handleDecline={handleDecline}
       />
+
+      {/* ————— WEDDING GALLERY ————— */}
+      <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
+        <Center>
+          <VStack
+            bgImage={`url(${galleryBg.src})`}
+            bgSize="contain"
+            bgPos="center"
+            bgRepeat="no-repeat"
+            minW="735px"
+            w="fit-content"
+            h="541px"
+            position={"relative"}
+            align={"center"}
+            justify={"center"}
+          >
+            <Image
+              src={moments.src}
+              alt="moments"
+              position={"absolute"}
+              left="-110px"
+              top="55px"
+            />
+            <Text
+              fontSize={"12px"}
+              fontWeight={400}
+              lineHeight={"22px"}
+              color="var(--c-primary)"
+            >
+              {t("classic_look")}
+            </Text>
+            <Text
+              fontSize={"34px"}
+              fontWeight={500}
+              lineHeight={"48px"}
+              color="var(--c-primary)"
+            >
+              {t("classic_gallery")}
+            </Text>
+            <VStack>
+              <Button
+                variant={"plain"}
+                p="23px"
+                bg="#B7ADA0DE"
+                borderRadius={"100%"}
+                w="64px"
+                h="64px"
+                mt="20px"
+              >
+                <Icon>{view.icon}</Icon>
+              </Button>
+              <Text
+                fontSize={"12px"}
+                fontWeight={400}
+                lineHeight={"22px"}
+                color="var(--c-primary)"
+                mb="20px"
+              >
+                {t("classic_view")}
+              </Text>
+            </VStack>
+            <Text
+              fontSize="14px"
+              fontWeight="400"
+              lineHeight="22px"
+              color="var(--c-primary)"
+              maxW="440px"
+              textAlign={"center"}
+              dangerouslySetInnerHTML={{
+                __html: t("classic_soon").replace(/\n/g, "<br />"),
+              }}
+            />
+          </VStack>
+        </Center>
+      </Container>
+
+      {/* ————— CONTACT ————— */}
+      <Flex
+        // bg="var(--c-primary)"
+        // color="white"
+        // py={isMobile ? "28px" : "40px"}
+        pb="100px"
+        align={"center"}
+        justify={"center"}
+        gap="90px"
+      >
+        <Text
+          fontSize="30px"
+          lineHeight="24px"
+          fontWeight="800"
+          textTransform={"uppercase"}
+          color="var(--c-primary)"
+        >
+          {t("classic_contact")}
+        </Text>
+        <Text
+          as="a"
+          href={`tel:${phone}`}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+          color="var(--c-primary)"
+        >
+          {phone}
+        </Text>
+        <Text
+          as="a"
+          href={`mailto:${email}`}
+          fontSize="24px"
+          lineHeight="24px"
+          fontWeight="800"
+          color="var(--c-primary)"
+        >
+          {email}
+        </Text>
+      </Flex>
     </Box>
   );
 }

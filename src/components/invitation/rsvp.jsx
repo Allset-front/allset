@@ -17,6 +17,7 @@ import { isNotEmptyArray } from "@/utils/checkers";
 
 export const Rsvp = ({
   isMobile,
+  color,
   data,
   guestCount,
   form,
@@ -39,7 +40,7 @@ export const Rsvp = ({
           lineHeight="48px"
           textAlign="center"
           textTransform="uppercase"
-          color="var(--c-secondary)"
+          color={color}
           // dangerouslySetInnerHTML={{
           //   __html: t("classic_join").replace(/\n/g, "<br />"),
           // }}
@@ -57,7 +58,7 @@ export const Rsvp = ({
               name="mainGuest"
               value={form.mainGuest}
               onChange={handleChange}
-              color="var(--c-secondary)"
+              color={color}
             />
             <Select.Root
               collection={guestCount}
@@ -66,7 +67,7 @@ export const Rsvp = ({
               bg="white"
               variant="outline"
               value={guests}
-              color="var(--c-secondary)"
+              color={color}
               //
               // onValueChange={({ value }) => {
               //   const count = Number(value[0]) || 0;
@@ -113,7 +114,7 @@ export const Rsvp = ({
                     variant="outline"
                     h="52px"
                     bg="white"
-                    color="var(--c-secondary)"
+                    color={color}
                     onChange={(e) =>
                       handleSecondaryGuestChange(idx, e.target.value)
                     }
@@ -123,7 +124,7 @@ export const Rsvp = ({
             )}
 
             <Radio
-              color="var(--c-secondary)"
+              color={color}
               value={form.guestSide}
               onChange={(value) =>
                 setForm((prev) => ({ ...prev, guestSide: value }))
@@ -140,12 +141,12 @@ export const Rsvp = ({
                 h="44px"
                 fontSize="14px"
                 boxShadow="xl"
-                bg="var(--c-secondary)"
+                bg={color}
                 color="white"
                 _hover={{
                   bg: "transparent",
-                  color: "var(--c-secondary)",
-                  borderColor: "var(--c-secondary)",
+                  color: color,
+                  borderColor: color,
                 }}
                 transition="all 0.3s ease"
                 onClick={handleConfirm}
@@ -156,13 +157,13 @@ export const Rsvp = ({
                 flex={1}
                 variant="outline"
                 border="1px solid"
-                borderColor="var(--c-secondary)"
+                borderColor={color}
                 h="44px"
                 fontSize="14px"
                 bg="transparent"
-                color="var(--c-secondary)"
+                color={color}
                 _hover={{
-                  bg: "var(--c-secondary)",
+                  bg: color,
                   color: "white",
                   borderColor: "transparent",
                 }}

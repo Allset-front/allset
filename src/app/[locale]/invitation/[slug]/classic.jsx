@@ -489,6 +489,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
       )} */}
       <Rsvp
         isMobile={isMobile}
+        color="var(--c-secondary)"
         data={data?.rsvp}
         guestCount={guestCount}
         form={form}

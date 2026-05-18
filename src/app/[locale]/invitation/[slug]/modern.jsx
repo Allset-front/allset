@@ -232,6 +232,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
       {/* ————— RSVP ————— */}
       <Rsvp
         isMobile={isMobile}
+        color="var(--c-secondary)" // needs checking
         data={data?.rsvp}
         guestCount={guestCount}
         form={form}
