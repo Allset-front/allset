@@ -27,6 +27,7 @@ import {
   Stack,
   Text,
   VStack,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { bottle, heart, leftBrace, map, rightBrace, view } from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
@@ -37,7 +38,8 @@ import overlay from "@/assets/imgs/invitations/rustic/overlay.png";
 import overlay2 from "@/assets/imgs/invitations/rustic/overlay2.png";
 import galleryBg from "@/assets/imgs/invitations/rustic/gallery_bg.png";
 import moments from "@/assets/imgs/invitations/rustic/moments.png";
-import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
+import timingBg from "@/assets/imgs/invitations/rustic/timing_bg.png";
+import timingImg from "@/assets/imgs/invitations/rustic/timing_img.png";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
@@ -317,6 +319,84 @@ export default function Rustic({ viewport = "pc", palette, data }) {
         </Container>
       </Box>
 
+      {/* ————— TIMING ————— */}
+      <Center pt="90px">
+        <VStack
+          position={"relative"}
+          bgImage={`url(${timingBg.src})`}
+          bgSize="contain"
+          bgPos="center"
+          bgRepeat="no-repeat"
+          minH="1164px"
+          h="100%"
+          minW="1086px"
+          // w="fit-content"
+          gap="60px"
+          px="160px"
+          align={"center"}
+          justify={"center"}
+        >
+          <Image
+            src={timingImg.src}
+            alt="timing"
+            w="391px"
+            position={"absolute"}
+            top="-170px"
+            right="-170px"
+          />
+          <Text
+            fontWeight="800"
+            fontSize={isMobile ? "22px" : "34px"}
+            lineHeight="24px"
+            textTransform="uppercase"
+            color="var(--c-primary)"
+            // dangerouslySetInnerHTML={{
+            //   __html: t("classic_timing").replace(/\n/g, "<br />"),
+            // }}
+          >
+            {t("classic_timing")}
+          </Text>
+          <Stack gap="40px">
+            {timeline.map((item, i) => (
+              <Flex
+                key={i}
+                justify={"space-between"}
+                align={"center"}
+                gap="20px"
+              >
+                <VStack align="flex-start" gap="24px" minW="160px">
+                  <Text
+                    fontSize={isMobile ? "20px" : "34px"}
+                    fontWeight="800"
+                    lineHeight={"24px"}
+                  >
+                    {item.time || "00:00"}
+                  </Text>
+                  <Text
+                    fontSize={isMobile ? "15px" : "22px"}
+                    fontWeight="500"
+                    lineHeight={"34px"}
+                    textTransform="uppercase"
+                    color="var(--c-primary)"
+                  >
+                    {pickLang(item.venueName, language) || item.venueName}
+                  </Text>
+                  <ChakraLink
+                    as={Link}
+                    href={item.venueLocation}
+                    target="_blank"
+                    fontSize="14px"
+                    color="var(--c-primary)"
+                  >
+                    {t("classic_map")}
+                  </ChakraLink>
+                </VStack>
+              </Flex>
+            ))}
+          </Stack>
+        </VStack>
+      </Center>
+
       {/* ————— RSVP ————— */}
       <Rsvp
         isMobile={isMobile}
@@ -333,86 +413,87 @@ export default function Rustic({ viewport = "pc", palette, data }) {
       />
 
       {/* ————— WEDDING GALLERY ————— */}
-      <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
-        <Center>
-          <VStack
-            bgImage={`url(${galleryBg.src})`}
-            bgSize="contain"
-            bgPos="center"
-            bgRepeat="no-repeat"
-            minW="735px"
-            w="fit-content"
-            h="541px"
-            position={"relative"}
-            align={"center"}
-            justify={"center"}
+      <Center>
+        <VStack
+          bgImage={`url(${galleryBg.src})`}
+          bgSize="contain"
+          bgPos="center"
+          bgRepeat="no-repeat"
+          minW="735px"
+          w="fit-content"
+          h="541px"
+          position={"relative"}
+          align={"center"}
+          justify={"center"}
+        >
+          <Image
+            src={moments.src}
+            alt="moments"
+            position={"absolute"}
+            left="-110px"
+            top="55px"
+          />
+          <Text
+            fontSize={"12px"}
+            fontWeight={400}
+            lineHeight={"22px"}
+            color="var(--c-primary)"
           >
-            <Image
-              src={moments.src}
-              alt="moments"
-              position={"absolute"}
-              left="-110px"
-              top="55px"
-            />
+            {t("classic_look")}
+          </Text>
+          <Text
+            w="560px"
+            textAlign={"center"}
+            fontSize={"34px"}
+            fontWeight={500}
+            lineHeight={"48px"}
+            color="var(--c-primary)"
+          >
+            {t("classic_gallery")}
+          </Text>
+          <VStack>
+            <Button
+              variant={"plain"}
+              p="23px"
+              bg="#B7ADA0DE"
+              borderRadius={"100%"}
+              w="64px"
+              h="64px"
+              mt="20px"
+            >
+              <Icon>{view.icon}</Icon>
+            </Button>
             <Text
               fontSize={"12px"}
               fontWeight={400}
               lineHeight={"22px"}
               color="var(--c-primary)"
+              mb="20px"
             >
-              {t("classic_look")}
+              {t("classic_view")}
             </Text>
-            <Text
-              fontSize={"34px"}
-              fontWeight={500}
-              lineHeight={"48px"}
-              color="var(--c-primary)"
-            >
-              {t("classic_gallery")}
-            </Text>
-            <VStack>
-              <Button
-                variant={"plain"}
-                p="23px"
-                bg="#B7ADA0DE"
-                borderRadius={"100%"}
-                w="64px"
-                h="64px"
-                mt="20px"
-              >
-                <Icon>{view.icon}</Icon>
-              </Button>
-              <Text
-                fontSize={"12px"}
-                fontWeight={400}
-                lineHeight={"22px"}
-                color="var(--c-primary)"
-                mb="20px"
-              >
-                {t("classic_view")}
-              </Text>
-            </VStack>
-            <Text
-              fontSize="14px"
-              fontWeight="400"
-              lineHeight="22px"
-              color="var(--c-primary)"
-              maxW="440px"
-              textAlign={"center"}
-              dangerouslySetInnerHTML={{
-                __html: t("classic_soon").replace(/\n/g, "<br />"),
-              }}
-            />
           </VStack>
-        </Center>
-      </Container>
+          <Text
+            fontSize="14px"
+            fontWeight="400"
+            lineHeight="22px"
+            color="var(--c-primary)"
+            maxW="440px"
+            textAlign={"center"}
+            dangerouslySetInnerHTML={{
+              __html: t("classic_soon").replace(/\n/g, "<br />"),
+            }}
+          />
+        </VStack>
+      </Center>
 
       {/* ————— CONTACT ————— */}
       <Flex
         // bg="var(--c-primary)"
         // color="white"
         // py={isMobile ? "28px" : "40px"}
-        pb="100px"
+        pt="48px"
+        pb="75px"
         align={"center"}
         justify={"center"}
         gap="90px"
