@@ -1,14 +1,19 @@
-:root {
+/* :root {
   --font-main: var(--font-montserrat);
 }
 
 html,
 body {
   font-family: var(--font-main), sans-serif !important;
-}
-
+} */
+/* 
 [class*="chakra"] {
   font-family: var(--font-montserrat), sans-serif !important;
+} */
+
+html,
+body {
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 html::-webkit-scrollbar,
@@ -45,7 +50,8 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-input, textarea {
+input,
+textarea {
   font-size: 16px;
 }
 
@@ -88,7 +94,6 @@ input, textarea {
   background: #ac8a5f !important;
   width: 24px !important;
 }
-
 
 .image-gallery {
   width: 100% !important;

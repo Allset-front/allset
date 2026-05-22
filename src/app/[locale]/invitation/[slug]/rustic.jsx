@@ -29,7 +29,16 @@ import {
   VStack,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import { bottle, heart, leftBrace, map, rightBrace, view } from "@/assets/svgs";
+import {
+  bottle,
+  bottomPin,
+  heart,
+  leftBrace,
+  map,
+  rightBrace,
+  topPin,
+  view,
+} from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
 import img from "@/assets/imgs/invitations/rustic/main_img.png";
 import loveBg from "@/assets/imgs/invitations/rustic/love_bg.png";
@@ -40,7 +49,9 @@ import galleryBg from "@/assets/imgs/invitations/rustic/gallery_bg.png";
 import moments from "@/assets/imgs/invitations/rustic/moments.png";
 import timingBg from "@/assets/imgs/invitations/rustic/timing_bg.png";
 import timingImg from "@/assets/imgs/invitations/rustic/timing_img.png";
-import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
+import dresscodeBg from "@/assets/imgs/invitations/rustic/dresscode_bg.png";
+import dresscodeImg from "@/assets/imgs/invitations/rustic/dresscode_img.png";
+// import storyBg from "@/assets/imgs/invitations/rustic/story_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
 import { Radio } from "@/components/auth/invitations/guests/radio";
@@ -80,7 +91,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const heroImage = data?.mainImages?.[0] || img.src;
-  const coupleImage = data?.mainImages?.[1] || timingBg.src;
+  const coupleImage = data?.mainImages?.[1] || null; //
   const gallery = data?.ourStory?.photoUrls?.length
     ? data.ourStory.photoUrls
     : GALLERY_FALLBACKS;
@@ -311,9 +322,15 @@ export default function Rustic({ viewport = "pc", palette, data }) {
             </VStack>
 
             <VStack position="relative" alignSelf="center" flexShrink={0}>
-              <Image src={overlay.src} alt="overlay" mb={"-35px"} zIndex={2} />
+              <Icon color="var(--c-accent)" mb={"-35px"} zIndex={2}>
+                {topPin.icon}
+              </Icon>
+              {/* <Image src={overlay.src} alt="overlay" mb={"-35px"} zIndex={2} /> */}
               <Calendar value={data?.eventDate} zIndex={1} />
-              <Image src={overlay2.src} alt="overlay" mt={"-35px"} zIndex={2} />
+              <Icon color="var(--c-accent)" mt={"-35px"} zIndex={2}>
+                {bottomPin.icon}
+              </Icon>
+              {/* <Image src={overlay2.src} alt="overlay" mt={"-35px"} zIndex={2} /> */}
             </VStack>
           </Flex>
         </Container>
@@ -321,80 +338,108 @@ export default function Rustic({ viewport = "pc", palette, data }) {
 
       {/* ————— TIMING ————— */}
       <Center pt="90px">
-        <VStack
-          position={"relative"}
-          bgImage={`url(${timingBg.src})`}
-          bgSize="contain"
-          bgPos="center"
-          bgRepeat="no-repeat"
-          minH="1164px"
-          h="100%"
-          minW="1086px"
-          // w="fit-content"
-          gap="60px"
-          px="160px"
-          align={"center"}
-          justify={"center"}
-        >
-          <Image
-            src={timingImg.src}
-            alt="timing"
-            w="391px"
-            position={"absolute"}
-            top="-170px"
-            right="-170px"
+        <Box position="relative" minH="1164px" minW="1086px">
+          <Box
+            position="absolute"
+            inset="0"
+            bg="var(--c-secondary)"
+            style={{
+              WebkitMaskImage: `url(${timingBg.src})`,
+              WebkitMaskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              WebkitMaskSize: "contain",
+
+              maskImage: `url(${timingBg.src})`,
+              maskRepeat: "no-repeat",
+              maskPosition: "center",
+              maskSize: "contain",
+            }}
           />
-          <Text
-            fontWeight="800"
-            fontSize={isMobile ? "22px" : "34px"}
-            lineHeight="24px"
-            textTransform="uppercase"
-            color="var(--c-primary)"
-            // dangerouslySetInnerHTML={{
-            //   __html: t("classic_timing").replace(/\n/g, "<br />"),
-            // }}
+          <Box
+            position="absolute"
+            inset="0"
+            bgImage={`url(${timingBg.src})`}
+            bgSize="contain"
+            bgPosition="center"
+            bgRepeat="no-repeat"
+            mixBlendMode="multiply"
+            opacity={0.9}
+          />
+          <VStack
+            position={"relative"}
+            // bgImage={`url(${timingBg.src})`}
+            // bgSize="contain"
+            // bgPos="center"
+            // bgRepeat="no-repeat"
+            minH="1164px"
+            h="100%"
+            minW="1086px"
+            // w="fit-content"
+            gap="60px"
+            px="160px"
+            align={"center"}
+            justify={"center"}
           >
-            {t("classic_timing")}
-          </Text>
-          <Stack gap="40px">
-            {timeline.map((item, i) => (
-              <Flex
-                key={i}
-                justify={"space-between"}
-                align={"center"}
-                gap="20px"
-              >
-                <VStack align="flex-start" gap="24px" minW="160px">
-                  <Text
-                    fontSize={isMobile ? "20px" : "34px"}
-                    fontWeight="800"
-                    lineHeight={"24px"}
-                  >
-                    {item.time || "00:00"}
-                  </Text>
-                  <Text
-                    fontSize={isMobile ? "15px" : "22px"}
-                    fontWeight="500"
-                    lineHeight={"34px"}
-                    textTransform="uppercase"
-                    color="var(--c-primary)"
-                  >
-                    {pickLang(item.venueName, language) || item.venueName}
-                  </Text>
-                  <ChakraLink
-                    as={Link}
-                    href={item.venueLocation}
-                    target="_blank"
-                    fontSize="14px"
-                    color="var(--c-primary)"
-                  >
-                    {t("classic_map")}
-                  </ChakraLink>
-                </VStack>
-              </Flex>
-            ))}
-          </Stack>
-        </VStack>
+            <Image
+              src={timingImg.src}
+              alt="timing"
+              w="391px"
+              position={"absolute"}
+              top="-170px"
+              right="-170px"
+            />
+            <Text
+              fontWeight="800"
+              fontSize={isMobile ? "22px" : "34px"}
+              lineHeight="24px"
+              textTransform="uppercase"
+              color="var(--c-primary)"
+              // dangerouslySetInnerHTML={{
+              //   __html: t("classic_timing").replace(/\n/g, "<br />"),
+              // }}
+            >
+              {t("classic_timing")}
+            </Text>
+            <Stack gap="40px">
+              {timeline.map((item, i) => (
+                <Flex
+                  key={i}
+                  justify={"space-between"}
+                  align={"center"}
+                  gap="20px"
+                >
+                  <VStack align="flex-start" gap="24px" minW="160px">
+                    <Text
+                      fontSize={isMobile ? "20px" : "34px"}
+                      fontWeight="800"
+                      lineHeight={"24px"}
+                    >
+                      {item.time || "00:00"}
+                    </Text>
+                    <Text
+                      fontSize={isMobile ? "15px" : "22px"}
+                      fontWeight="500"
+                      lineHeight={"34px"}
+                      textTransform="uppercase"
+                      color="var(--c-primary)"
+                    >
+                      {pickLang(item.venueName, language) || item.venueName}
+                    </Text>
+                    <ChakraLink
+                      as={Link}
+                      href={item.venueLocation}
+                      target="_blank"
+                      fontSize="14px"
+                      color="var(--c-primary)"
+                    >
+                      {t("classic_map")}
+                    </ChakraLink>
+                  </VStack>
+                </Flex>
+              ))}
+            </Stack>
+          </VStack>
+        </Box>
       </Center>
 
       {/* ————— RSVP ————— */}
@@ -412,8 +457,94 @@ export default function Rustic({ viewport = "pc", palette, data }) {
         handleDecline={handleDecline}
       />
 
-      {/* ————— WEDDING GALLERY ————— */}
+      {/* ————— DRESS CODE ————— */}
       <Center>
+        <VStack
+          maxW="736px"
+          minH="775px"
+          gap={"60px"}
+          textAlign="center"
+          justify={"center"}
+          bgImage={`url(${dresscodeBg.src})`}
+          bgSize="contain"
+          bgPos="center"
+        >
+          <Stack gap="32px" px="102px" position={"relative"}>
+            <Image
+              src={dresscodeImg.src}
+              alt="moments"
+              position={"absolute"}
+              right="-300px"
+              top="150px"
+              boxSize={"423px"}
+            />
+            <Text
+              fontSize={isMobile ? "20px" : "34px"}
+              lineHeight="24px"
+              fontWeight="800"
+              color="var(--c-primary)"
+              textTransform={"uppercase"}
+            >
+              {t("dresscode")}
+            </Text>
+            <Text
+              fontSize={isMobile ? "13px" : "18px"}
+              lineHeight="28px"
+              color="#6F786C"
+            >
+              {dressCodeDesc}
+            </Text>
+          </Stack>
+
+          <Stack gap={"32px"}>
+            <VStack gap="20px">
+              <HStack gap="0">
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-accent)"
+                />
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-secondary)"
+                  ml="-10px"
+                />
+                <Box
+                  w="32px"
+                  h="32px"
+                  borderRadius="50%"
+                  bg="var(--c-surface)"
+                  ml="-10px"
+                />
+              </HStack>
+              <Text
+                fontSize="18px"
+                lineHeight={"22px"}
+                fontWeight="500"
+                color="var(--c-primary)"
+              >
+                {dressCodeName}
+              </Text>
+              {dressCodeAbout && (
+                <Text
+                  fontSize="16px"
+                  fontWeight="400"
+                  lineHeight={"22px"}
+                  color="#6B7280"
+                >
+                  {dressCodeAbout}
+                </Text>
+              )}
+            </VStack>
+          </Stack>
+        </VStack>
+      </Center>
+
+      {/* ————— WEDDING GALLERY ————— */}
+      <Center pt="60px">
         <VStack
           bgImage={`url(${galleryBg.src})`}
           bgSize="contain"
@@ -486,6 +617,55 @@ export default function Rustic({ viewport = "pc", palette, data }) {
           />
         </VStack>
       </Center>
+
+      {/* ————— OUR LOVE STORY ————— */}
+      <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
+        <Flex
+          w="100%"
+          justify={"space-between"}
+          align={"center"}
+          pt="106px"
+          pb="50px"
+        >
+          <Stack gap="40px">
+            <Text
+              color="var(--c-primary)"
+              fontSize={isMobile ? "20px" : "34px"}
+              lineHeight="48px"
+              fontWeight="500"
+            >
+              {t("classic_story")}
+            </Text>
+            <Text
+              maxW="877px"
+              fontSize={isMobile ? "15px" : "18px"}
+              lineHeight="28px"
+              color="var(--c-primary)"
+              whiteSpace="pre-line"
+              fontWeight="400"
+              // dangerouslySetInnerHTML={{
+              //   __html: storyText.replace(/\n/g, "<br />"),
+              // }}
+            >
+              {storyText}
+            </Text>
+          </Stack>
+
+          <Box
+          // position="relative"
+          // w="100%"
+          // py={isMobile ? "60px" : "112px"}
+          // px={isMobile ? "24px" : "120px"}
+          // bgImage={`url(${storyBg.src})`}
+          // bgSize="cover"
+          // bgRepeat={"no-repeat"}
+          // bgPos="center"
+          // h="451px"
+          >
+            SOON
+          </Box>
+        </Flex>
+      </Container>
 
       {/* ————— CONTACT ————— */}
       <Flex

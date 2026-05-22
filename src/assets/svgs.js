@@ -587,3 +587,94 @@ export const view = {
         </svg>
     )
 }
+
+export const topPin = {
+    icon: (
+        // <svg width="282" height="55" viewBox="0 0 282 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //     <path d="M274.531 6.15281L1.71154 0L0 45.1206L270.765 54.3499L269.054 34.1823L281.035 10.9383L274.531 6.15281Z" fill="#DDDAD0" fill-opacity="0.9" />
+        //     <path d="M274.531 6.15281L1.71154 0L0 45.1206L270.765 54.3499L269.054 34.1823L281.035 10.9383L274.531 6.15281Z" fill="url(#paint0_linear_283_336)" fill-opacity="0.1" style={{ mixBlendMode: "multiply" }} />
+        //     <defs>
+        //         <linearGradient id="paint0_linear_283_336" x1="140.517" y1="0" x2="140.517" y2="54.3499" gradientUnits="userSpaceOnUse">
+        //             <stop offset="0.0625" stop-color="white" />
+        //             <stop offset="0.526042" />
+        //             <stop offset="1" stop-opacity="0" />
+        //         </linearGradient>
+        //     </defs>
+        // </svg>
+        <svg
+            width="282"
+            height="55"
+            viewBox="0 0 282 55"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M274.531 6.15281L1.71154 0L0 45.1206L270.765 54.3499L269.054 34.1823L281.035 10.9383L274.531 6.15281Z"
+                fill="currentColor"
+                fillOpacity="0.9"
+            />
+
+            <path
+                d="M274.531 6.15281L1.71154 0L0 45.1206L270.765 54.3499L269.054 34.1823L281.035 10.9383L274.531 6.15281Z"
+                fill="currentColor"
+                fillOpacity="0.1"
+                style={{ mixBlendMode: "multiply" }}
+            />
+
+            <defs>
+                <linearGradient
+                    id="paint0_linear_283_336"
+                    x1="140.517"
+                    y1="0"
+                    x2="140.517"
+                    y2="54.3499"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop offset="0.0625" stopColor="white" />
+                    <stop offset="0.526042" />
+                    <stop offset="1" stopOpacity="0" />
+                </linearGradient>
+            </defs>
+        </svg>
+    )
+}
+
+export const bottomPin = {
+    icon: (
+        <svg
+            width="280"
+            height="64"
+            viewBox="0 0 280 64"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M279.665 0L8.21538 17.7748L0 42.3861L2.39615 63.9209L273.504 47.1716L278.638 39.3097L275.215 25.2949L279.665 0Z"
+                fill="currentColor"
+                fillOpacity="0.9"
+            />
+
+            <path
+                d="M279.665 0L8.21538 17.7748L0 42.3861L2.39615 63.9209L273.504 47.1716L278.638 39.3097L275.215 25.2949L279.665 0Z"
+                fill="currentColor"
+                fillOpacity="0.2"
+                style={{ mixBlendMode: "multiply" }}
+            />
+
+            <defs>
+                <linearGradient
+                    id="paint0_linear_283_333"
+                    x1="139.833"
+                    y1="0"
+                    x2="139.833"
+                    y2="63.9209"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop offset="0.3125" stopOpacity="0" />
+                    <stop offset="0.5" stopColor="#636262" />
+                    <stop offset="0.8125" stopColor="white" />
+                </linearGradient>
+            </defs>
+        </svg>
+    ),
+};
