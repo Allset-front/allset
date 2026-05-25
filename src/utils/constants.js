@@ -51,7 +51,7 @@ export const expired = {
 
 import { enUS, ru, hy } from "react-day-picker/locale";
 
-export const calendarLocales = {
+export const DATE_LOCALES = {
   en: enUS,
   hy: hy,
   ru: ru,

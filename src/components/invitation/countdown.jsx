@@ -16,11 +16,11 @@ export const Countdown = ({ template, value, label, isMobile }) => {
           {value}
         </Text>
         <Text
-          fontSize={isMobile ? "12px" : "34px"}
-          fontWeight="1000"
+          fontSize={isMobile ? "12px" : "14px"}
+          fontWeight="800"
           color="#F3F3F3"
-          lineHeight="28px"
-          textTransform="lowercase"
+          lineHeight="25px"
+          textTransform="uppercase"
         >
           {label}
         </Text>

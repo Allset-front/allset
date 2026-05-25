@@ -3,12 +3,13 @@
 import { useState, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMutateAuthTanstack } from "@/hooks/useTanstack";
-import { formatEventDate, paletteToVars } from "@/utils/formatters";
+import { formatDateByLang, paletteToVars } from "@/utils/formatters";
 import { Language } from "@/components/invitation/language";
 import { getInvitationForm, pickLang } from "@/utils/helpers";
 import {
   Box,
   Button,
+  Center,
   createListCollection,
   Flex,
   For,
@@ -20,11 +21,21 @@ import {
   Stack,
   Text,
   VStack,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
-import { leftBrace, map, rightBrace } from "@/assets/svgs";
+import {
+  leftBrace,
+  map,
+  rightBrace,
+  timingLeft,
+  timingRight,
+  rsvpLeft,
+  rsvpRight,
+} from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
 import mainBg from "@/assets/imgs/invitations/modern/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
+import borderBg from "@/assets/imgs/invitations/modern/border_bg.png";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
@@ -57,8 +68,12 @@ export default function Modern({ viewport = "pc", palette, data }) {
     palette?.colors ?? data?.template?.paletteKeyword?.colors,
   );
   const title = pickLang(data?.title, language) || "Henry & Mariam";
-  const eventDateText = formatEventDate(data?.eventDate);
 
+  const { year, day, monthName, dayName } = formatDateByLang(
+    data?.eventDate,
+    language,
+  );
+  console.log(year, day, monthName, dayName);
   const [form, setForm] = useState(getInvitationForm(id));
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -202,14 +217,48 @@ export default function Modern({ viewport = "pc", palette, data }) {
           >
             {title}
           </Text>
-          <Text
-            fontFamily="var(--font-allegrou)"
-            fontSize={isMobile ? "26px" : "63px"}
-            lineHeight="24px"
-            fontWeight="400"
-          >
-            {eventDateText}
-          </Text>
+          <Flex gap="12px" align="flex-start" justify="center">
+            <Text
+              fontSize={isMobile ? "18px" : "24px"}
+              lineHeight="24px"
+              fontWeight="600"
+              minW="177px"
+              border="2px solid"
+              borderBottomColor="var(--c-primary)"
+              borderTopColor="var(--c-primary)"
+              borderLeftColor="transparent"
+              borderRightColor="transparent"
+              py="12px"
+            >
+              {dayName}
+            </Text>
+            <Stack gap="12px">
+              <Text
+                fontSize={isMobile ? "26px" : "50px"}
+                lineHeight="24px"
+                fontWeight="1000"
+              >
+                {day}
+              </Text>
+              <Text fontSize={"16px"} lineHeight="25px" fontWeight="800">
+                {year}
+              </Text>
+            </Stack>
+            <Text
+              fontSize={isMobile ? "18px" : "24px"}
+              lineHeight="24px"
+              fontWeight="600"
+              minW="177px"
+              border="2px solid"
+              borderBottomColor="var(--c-primary)"
+              borderTopColor="var(--c-primary)"
+              borderLeftColor="transparent"
+              borderRightColor="transparent"
+              py="12px"
+            >
+              {monthName}
+            </Text>
+          </Flex>
         </VStack>
       </Box>
 
@@ -229,20 +278,254 @@ export default function Modern({ viewport = "pc", palette, data }) {
         )}
       </VStack>
 
-      {/* ————— RSVP ————— */}
-      <Rsvp
-        isMobile={isMobile}
-        color="var(--c-secondary)" // needs checking
-        data={data?.rsvp}
-        guestCount={guestCount}
-        form={form}
-        setForm={setForm}
-        guests={guests}
-        handleChange={handleChange}
-        handleGuestCountChange={handleGuestCountChange}
-        handleConfirm={handleConfirm}
-        handleDecline={handleDecline}
-      />
+      <Box
+        w="100%"
+        bgImage={`url(${borderBg.src})`}
+        bgSize="cover"
+        bgPosition="center"
+        bgRepeat="no-repeat"
+      >
+        {/* ————— TIMING ————— */}
+        <Center pt="90px" position="relative">
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            left="5%"
+            top="30%"
+            transform="translateY(-30%)"
+          >
+            {timingLeft.icon}
+          </Icon>
+          <VStack gap="60px" px="160px" align={"center"} justify={"center"}>
+            <Text
+              fontWeight="800"
+              fontSize={isMobile ? "22px" : "34px"}
+              lineHeight="24px"
+              textTransform="uppercase"
+              color="var(--c-primary)"
+              // dangerouslySetInnerHTML={{
+              //   __html: t("classic_timing").replace(/\n/g, "<br />"),
+              // }}
+            >
+              {t("classic_timing")}
+            </Text>
+            <Stack gap="40px" align={"center"} justify={"center"}>
+              {timeline.map((item, i) => (
+                <Flex
+                  key={i}
+                  justify={"space-between"}
+                  align={"center"}
+                  gap="20px"
+                >
+                  <VStack gap="24px" minW="160px">
+                    <Text
+                      fontSize={isMobile ? "20px" : "34px"}
+                      fontWeight="800"
+                      lineHeight={"24px"}
+                    >
+                      {item.time || "00:00"}
+                    </Text>
+                    <Text
+                      fontSize={isMobile ? "15px" : "24px"}
+                      fontWeight="500"
+                      lineHeight={"24px"}
+                      textTransform="uppercase"
+                      color="var(--c-primary)"
+                    >
+                      {pickLang(item.venueName, language) || item.venueName}
+                    </Text>
+                    <ChakraLink
+                      as={Link}
+                      href={item.venueLocation}
+                      target="_blank"
+                      fontSize="14px"
+                      color="var(--c-primary)"
+                      textDecoration="underline"
+                    >
+                      {t("classic_map")}
+                    </ChakraLink>
+                  </VStack>
+                </Flex>
+              ))}
+            </Stack>
+          </VStack>
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            right="5%"
+            top="10%"
+            transform="translateY(-10%)"
+          >
+            {timingRight.icon}
+          </Icon>
+        </Center>
+
+        {/* ————— RSVP ————— */}
+        <Box position="relative">
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            left="10%"
+            bottom="10%"
+            // transform="translateY(-10%)"
+          >
+            {rsvpRight.icon}
+          </Icon>
+          <Rsvp
+            isModern={true}
+            isMobile={isMobile}
+            color="var(--c-secondary)" // needs checking
+            data={data?.rsvp}
+            guestCount={guestCount}
+            form={form}
+            setForm={setForm}
+            guests={guests}
+            handleChange={handleChange}
+            handleGuestCountChange={handleGuestCountChange}
+            handleConfirm={handleConfirm}
+            handleDecline={handleDecline}
+          />
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            right="15%"
+            top="20%"
+            // transform="translateY(-10%)"
+          >
+            {rsvpLeft.icon}
+          </Icon>
+        </Box>
+
+        {/* ————— DRESS CODE ————— */}
+        <Center position="relative">
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            left="15%"
+            top="20%"
+            // transform="translateY(-10%)"
+          >
+            {rsvpLeft.icon}
+          </Icon>
+          <Stack gap="32px">
+            <Stack gap="32px" px="102px" position={"relative"}>
+              <Text
+                fontSize={isMobile ? "20px" : "34px"}
+                lineHeight="24px"
+                fontWeight="800"
+                color="var(--c-primary)"
+                textTransform={"uppercase"}
+                textAlign={"center"}
+              >
+                {t("dresscode")}
+              </Text>
+              <Text
+                fontSize={isMobile ? "13px" : "18px"}
+                lineHeight="28px"
+                color="#6F786C"
+              >
+                {dressCodeDesc}
+              </Text>
+            </Stack>
+
+            <Stack gap={"32px"}>
+              <VStack gap="20px">
+                <HStack gap="0">
+                  <Box
+                    w="32px"
+                    h="32px"
+                    borderRadius="50%"
+                    bg="var(--c-accent)"
+                  />
+                  <Box
+                    w="32px"
+                    h="32px"
+                    borderRadius="50%"
+                    bg="var(--c-secondary)"
+                    ml="-10px"
+                  />
+                  <Box
+                    w="32px"
+                    h="32px"
+                    borderRadius="50%"
+                    bg="var(--c-surface)"
+                    ml="-10px"
+                  />
+                </HStack>
+                <Text
+                  fontSize="18px"
+                  lineHeight={"22px"}
+                  fontWeight="500"
+                  color="var(--c-primary)"
+                >
+                  {dressCodeName}
+                </Text>
+                {dressCodeAbout && (
+                  <Text
+                    fontSize="16px"
+                    fontWeight="400"
+                    lineHeight={"22px"}
+                    color="#6B7280"
+                  >
+                    {dressCodeAbout}
+                  </Text>
+                )}
+              </VStack>
+            </Stack>
+          </Stack>
+          <Icon
+            color="var(--c-accent)"
+            position="absolute"
+            right="10%"
+            bottom="10%"
+            // transform="translateY(-10%)"
+          >
+            {rsvpRight.icon}
+          </Icon>
+        </Center>
+
+        {/* ————— CONTACT ————— */}
+        <Stack
+          // bg="var(--c-primary)"
+          // color="white"
+          // py={isMobile ? "28px" : "40px"}
+          pt="78px"
+          pb="78px"
+          align={"center"}
+          justify={"center"}
+          gap="32px"
+        >
+          <Text
+            fontSize="34px"
+            lineHeight="24px"
+            fontWeight="800"
+            textTransform={"uppercase"}
+            color="var(--c-primary)"
+          >
+            {t("classic_contact")}
+          </Text>
+          <Text
+            as="a"
+            href={`tel:${phone}`}
+            fontSize="18px"
+            lineHeight="24px"
+            fontWeight="400"
+            color="var(--c-primary)"
+          >
+            {phone}
+          </Text>
+          <Text
+            as="a"
+            href={`mailto:${email}`}
+            fontSize="18px"
+            lineHeight="24px"
+            fontWeight="400"
+            color="var(--c-primary)"
+          >
+            {email}
+          </Text>
+        </Stack>
+      </Box>
     </Box>
   );
 }

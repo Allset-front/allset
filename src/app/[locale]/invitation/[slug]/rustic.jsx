@@ -431,6 +431,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
                       target="_blank"
                       fontSize="14px"
                       color="var(--c-primary)"
+                      textDecoration="underline"
                     >
                       {t("classic_map")}
                     </ChakraLink>

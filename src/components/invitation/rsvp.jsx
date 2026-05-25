@@ -16,6 +16,7 @@ import { Radio } from "../auth/invitations/guests/radio";
 import { isNotEmptyArray } from "@/utils/checkers";
 
 export const Rsvp = ({
+  isModern = false,
   isMobile,
   color,
   data,
@@ -40,7 +41,7 @@ export const Rsvp = ({
           lineHeight="48px"
           textAlign="center"
           textTransform="uppercase"
-          color={color}
+          color={isModern ? "var(--c-primary)" : color}
           // dangerouslySetInnerHTML={{
           //   __html: t("classic_join").replace(/\n/g, "<br />"),
           // }}

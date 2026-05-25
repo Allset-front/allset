@@ -192,3 +192,17 @@ export const formatRusticTitle = (title, lang) => {
     name2: capitalize(name2),
   };
 };
+
+import { format } from "date-fns"; // TODO:  dont use date-fns and use
+import { DATE_LOCALES } from "./constants";
+export function formatDateByLang(dateString, locale = "en") {
+  const date = new Date(dateString);
+  const loc = DATE_LOCALES[locale] || enUS;
+
+  return {
+    year: date.getFullYear(),
+    day: date.getDate(),
+    monthName: format(date, "LLLL", { locale: loc }).toUpperCase(),
+    dayName: format(date, "EEEE", { locale: loc }).toUpperCase(),
+  };
+}
