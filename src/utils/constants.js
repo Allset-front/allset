@@ -429,11 +429,25 @@ import fallbackBg2 from "@/assets/imgs/invitations/classic/fallback_bg_2.jpg";
 import fallbackBg3 from "@/assets/imgs/invitations/classic/fallback_bg_3.jpg";
 import fallbackBg4 from "@/assets/imgs/invitations/classic/fallback_bg_4.jpg";
 
-export const GALLERY_FALLBACKS = [
+export const CLASSIC_FALLBACKS = [
   fallbackBg1.src,
   fallbackBg2.src,
   fallbackBg3.src,
   fallbackBg4.src,
+];
+
+import slide1 from "@/assets/imgs/invitations/modern/slide_1.jpg";
+import slide2 from "@/assets/imgs/invitations/modern/slide_2.jpg";
+import slide3 from "@/assets/imgs/invitations/modern/slide_3.jpg";
+import slide4 from "@/assets/imgs/invitations/modern/slide_4.jpg";
+import slide5 from "@/assets/imgs/invitations/modern/slide_5.jpg";
+
+export const MODERN_FALLBACKS = [
+  slide1.src,
+  slide2.src,
+  slide3.src,
+  slide4.src,
+  slide5.src,
 ];
 
 export const GUEST_COUNT = [

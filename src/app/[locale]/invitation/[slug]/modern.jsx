@@ -42,9 +42,12 @@ import mainBg from "@/assets/imgs/invitations/modern/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import borderBg from "@/assets/imgs/invitations/modern/border_bg.png";
 import sliderBg from "@/assets/imgs/invitations/modern/slider_bg.png";
-import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
+import story1 from "@/assets/imgs/invitations/modern/story_1.jpg";
+import story2 from "@/assets/imgs/invitations/modern/story_2.jpg";
+import story1Bg from "@/assets/imgs/invitations/modern/story_1_bg.png";
+import story2Bg from "@/assets/imgs/invitations/modern/story_2_bg.png";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
-import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
+import { GUEST_COUNT, MODERN_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
 import { Radio } from "@/components/auth/invitations/guests/radio";
 import { isNotEmptyArray } from "@/utils/checkers";
@@ -53,7 +56,6 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 import { Rsvp } from "@/components/invitation/rsvp";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import { Autoplay } from "swiper/modules";
 import { EffectCoverflow } from "swiper/modules";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -92,18 +94,19 @@ export default function Modern({ viewport = "pc", palette, data }) {
 
   const initialSlide = Math.floor((data?.mainImages?.length || 0) / 2);
   const heroImage = data?.mainImages?.[0] || mainBg.src;
-  const coupleImage = data?.mainImages?.[1] || timingBg.src;
-  const gallery = data?.ourStory?.photoUrls?.length
-    ? data.ourStory.photoUrls
-    : GALLERY_FALLBACKS;
+  const storyImgOne = data?.ourStory?.photoUrls?.[0] || story1.src;
+  const storyImgTwo = data?.ourStory?.photoUrls?.[1] || story2.src;
+  // TODO: if real invitation,dont show fallback images
+  const slideImages = data.mainImages || MODERN_FALLBACKS;
 
-  const galleryItems = useMemo(
-    () =>
-      gallery.map((src) => {
-        return { original: src, thumbnail: src };
-      }),
-    [gallery],
-  );
+  // const galleryItems = useMemo(
+  //   () =>
+  //     gallery.map((src) => {
+  //       return { original: src, thumbnail: src };
+  //     }),
+  //   [gallery],
+  // );
+  // console.log(galleryItems);
 
   const description =
     pickLang(data?.description, language) || t("classic_title");
@@ -398,7 +401,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
                 slideShadows: false,
               }}
             >
-              {data?.mainImages?.map((el, index) => {
+              {slideImages?.map((el, index) => {
                 return (
                   <SwiperSlide key={index} style={{ width: "448px" }}>
                     <Stack
@@ -505,7 +508,6 @@ export default function Modern({ viewport = "pc", palette, data }) {
             {timingRight.icon}
           </Icon>
         </Center>
-
         {/* ————— RSVP ————— */}
         <Box position="relative">
           <Icon
@@ -541,7 +543,6 @@ export default function Modern({ viewport = "pc", palette, data }) {
             {rsvpLeft.icon}
           </Icon>
         </Box>
-
         {/* ————— DRESS CODE ————— */}
         <Center position="relative">
           <Icon
@@ -637,7 +638,6 @@ export default function Modern({ viewport = "pc", palette, data }) {
             {rsvpRight.icon}
           </Icon>
         </Center>
-
         {/* ————— WEDDING GALLERY ————— */}
         <Center py="100px">
           <Stack
@@ -702,7 +702,72 @@ export default function Modern({ viewport = "pc", palette, data }) {
             />
           </Stack>
         </Center>
+        {/* // TODO: connect with gallery */}
+        {/* ————— OUR LOVE STORY ————— */}
+        <Center>
+          <Flex w="90%" justify={"space-between"} align={"center"}>
+            <Image
+              src={storyImgOne}
+              alt="story 1"
+              minW="260px"
+              maxW="260px"
+              h="260px"
+              objectFit="cover"
+              style={{
+                WebkitMaskImage: `url(${story1Bg.src})`,
+                WebkitMaskSize: "100% 100%",
+                WebkitMaskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskImage: `url(${story1Bg.src})`,
+                maskSize: "100% 100%",
+                maskRepeat: "no-repeat",
+                maskPosition: "center",
+              }}
+            />
+            <VStack gap="40px">
+              <Text
+                textAlign="center"
+                color="var(--c-primary)"
+                fontSize={isMobile ? "20px" : "34px"}
+                lineHeight="48px"
+                fontWeight="800"
+              >
+                {t("classic_story")}
+              </Text>
+              <Text
+                // maxW="877px"
+                // w="50%" //
+                textAlign="center"
+                fontSize={isMobile ? "15px" : "18px"}
+                lineHeight="28px"
+                color="var(--c-primary)"
+                whiteSpace="pre-line"
+                fontWeight="400"
+              >
+                {storyText}
+              </Text>
+            </VStack>
+            <Image
+              src={storyImgTwo}
+              alt="story 2"
+              minW="260px"
+              maxW="260px"
+              h="260px"
+              objectFit="cover"
+              style={{
+                WebkitMaskImage: `url(${story2Bg.src})`,
+                WebkitMaskSize: "100% 100%",
+                WebkitMaskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
 
+                maskImage: `url(${story2Bg.src})`,
+                maskSize: "100% 100%",
+                maskRepeat: "no-repeat",
+                maskPosition: "center",
+              }}
+            />
+          </Flex>
+        </Center>
         {/* ————— CONTACT ————— */}
         <Stack
           // bg="var(--c-primary)"

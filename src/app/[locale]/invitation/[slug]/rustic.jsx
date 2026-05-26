@@ -52,7 +52,7 @@ import timingImg from "@/assets/imgs/invitations/rustic/timing_img.png";
 import dresscodeBg from "@/assets/imgs/invitations/rustic/dresscode_bg.png";
 import dresscodeImg from "@/assets/imgs/invitations/rustic/dresscode_img.png";
 // import storyBg from "@/assets/imgs/invitations/rustic/story_bg.jpg";
-import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
+import { GUEST_COUNT, CLASSIC_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
 import { Radio } from "@/components/auth/invitations/guests/radio";
 import { isNotEmptyArray } from "@/utils/checkers";
@@ -94,7 +94,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
   const coupleImage = data?.mainImages?.[1] || null; //
   const gallery = data?.ourStory?.photoUrls?.length
     ? data.ourStory.photoUrls
-    : GALLERY_FALLBACKS;
+    : CLASSIC_FALLBACKS;
 
   const galleryItems = useMemo(
     () =>
@@ -619,6 +619,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
         </VStack>
       </Center>
 
+      {/* // TODO: connect with gallery like classic */}
       {/* ————— OUR LOVE STORY ————— */}
       <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
         <Flex

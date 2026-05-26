@@ -27,7 +27,7 @@ import mainBg from "@/assets/imgs/invitations/classic/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
-import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
+import { GUEST_COUNT, CLASSIC_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
 import { Radio } from "@/components/auth/invitations/guests/radio";
 import { isNotEmptyArray } from "@/utils/checkers";
@@ -67,7 +67,7 @@ export default function Classic({ viewport = "pc", palette, data }) {
   const coupleImage = data?.mainImages?.[1] || timingBg.src;
   const gallery = data?.ourStory?.photoUrls?.length
     ? data.ourStory.photoUrls
-    : GALLERY_FALLBACKS;
+    : CLASSIC_FALLBACKS;
 
   const galleryItems = useMemo(
     () =>
