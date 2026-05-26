@@ -13,8 +13,10 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow } from "swiper/modules";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 export const PlanningSlide = () => {
@@ -45,20 +47,28 @@ export const PlanningSlide = () => {
 
   return (
     <Swiper
-      slidesPerView={isLaptop ? 2 : 3}
-      // slidesPerView={isMobile ? 1 : isLaptop ? 2 : 3}
-      spaceBetween={16}
+      effect={"coverflow"}
+      slidesPerView={"auto"}
+      centeredSlides={true}
+      grabCursor={true}
+      //
+      // slidesPerView={isLaptop ? 2 : 3}
+      spaceBetween={32}
       speed={500}
-      loop={true}
       pagination={true}
-      modules={[Pagination]}
+      initialSlide={1}
+      modules={[EffectCoverflow, Pagination]}
+      coverflowEffect={{
+        rotate: 18,
+        stretch: 0,
+        depth: 120,
+        modifier: 1,
+        slideShadows: false,
+      }}
     >
       {data?.map(({ id, templateImageMobile }) => {
         return (
-          <SwiperSlide
-            key={id}
-            onClick={() => handleSelect(id)}
-          >
+          <SwiperSlide key={id} onClick={() => handleSelect(id)} style={{ width: "286px" }}>
             <Stack
               cursor={"pointer"}
               w={"100%"}

@@ -191,7 +191,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
 
     mutate({ ...form, status: "DECLINED" });
   };
-  console.log(data);
+  // console.log(data);
   // console.log(vars);
 
   return (
