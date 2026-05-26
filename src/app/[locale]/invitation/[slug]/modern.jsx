@@ -22,6 +22,7 @@ import {
   Text,
   VStack,
   Link as ChakraLink,
+  Image,
 } from "@chakra-ui/react";
 import {
   leftBrace,
@@ -31,11 +32,14 @@ import {
   timingRight,
   rsvpLeft,
   rsvpRight,
+  guestRight,
+  guestLeft,
 } from "@/assets/svgs";
 import { CountdownTimer } from "@/components/invitation/countdownTimer";
 import mainBg from "@/assets/imgs/invitations/modern/main_bg.png";
 import timingBg from "@/assets/imgs/invitations/classic/timing_bg.jpg";
 import borderBg from "@/assets/imgs/invitations/modern/border_bg.png";
+import sliderBg from "@/assets/imgs/invitations/modern/slider_bg.png";
 import storyBg from "@/assets/imgs/invitations/classic/story_bg.jpg";
 import dresscodeBg from "@/assets/imgs/invitations/classic/dresscode_bg.jpg";
 import { GUEST_COUNT, GALLERY_FALLBACKS, TIMELINE } from "@/utils/constants";
@@ -46,6 +50,13 @@ import { error, success } from "@/components/ui/alerts";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/image-gallery.css";
 import { Rsvp } from "@/components/invitation/rsvp";
+import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay } from "swiper/modules";
+import { EffectCoverflow } from "swiper/modules";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 export default function Modern({ viewport = "pc", palette, data }) {
   const t = useTranslations();
@@ -73,7 +84,6 @@ export default function Modern({ viewport = "pc", palette, data }) {
     data?.eventDate,
     language,
   );
-  console.log(year, day, monthName, dayName);
   const [form, setForm] = useState(getInvitationForm(id));
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -175,7 +185,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
 
     mutate({ ...form, status: "DECLINED" });
   };
-  // console.log(data);
+  console.log(data);
   // console.log(vars);
 
   return (
@@ -262,21 +272,149 @@ export default function Modern({ viewport = "pc", palette, data }) {
         </VStack>
       </Box>
 
-      {/* ————— COUNTDOWN ————— */}
-      <VStack
-        bg="#6F786C"
-        py={isMobile ? "40px" : "60px"}
-        px={isMobile ? "24px" : "100px"}
-        gap={isMobile ? "24px" : "100px"}
-      >
-        {data?.countDown !== false && (
-          <CountdownTimer
-            template={data?.templateId}
-            eventDate={data?.eventDate}
-            isMobile={isMobile}
-          />
-        )}
-      </VStack>
+      {/* ————— MAIN ————— */}
+      <Box position="relative" minH="1931px" w="100%">
+        <Box
+          position="absolute"
+          inset="0"
+          bg="var(--c-secondary)"
+          style={{
+            WebkitMaskImage: `url(${sliderBg.src})`,
+            WebkitMaskRepeat: "no-repeat",
+            WebkitMaskPosition: "center",
+            maskImage: `url(${sliderBg.src})`,
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+            // WebkitMaskSize: "contain",
+            // maskSize: "contain",
+            WebkitMaskSize: "100% 100%",
+            maskSize: "100% 100%",
+          }}
+        />
+        <VStack
+          // position={"relative"}
+          align={"center"}
+          justify={"center"}
+          minH="1931px"
+          h="100%"
+        >
+          <Stack
+            position={"relative"}
+            w="100%"
+            align={"center"}
+            justify={"center"}
+            gap="60px"
+          >
+            <Icon
+              color="var(--c-accent)"
+              position="absolute"
+              left="10%"
+              top="0%"
+            >
+              {guestLeft.icon}
+            </Icon>
+            <Icon
+              color="var(--c-accent)"
+              position="absolute"
+              right="10%"
+              top="0%"
+            >
+              {guestRight.icon}
+            </Icon>
+            <Text
+              fontFamily="var(--font-allegrou)"
+              fontWeight="400"
+              fontSize={isMobile ? "100px" : "123px"}
+              lineHeight="1.1"
+              color="#F3F3F3"
+            >
+              {t("dear_guest")}
+            </Text>
+            <Text
+              // maxW="942px"
+              textAlign="center"
+              fontSize={isMobile ? "15px" : "20px"}
+              lineHeight="28px"
+              fontWeight="400"
+              color="#F3F3F3"
+            >
+              {description}
+            </Text>
+            <Text
+              fontWeight="500"
+              fontSize={isMobile ? "15px" : "20px"}
+              lineHeight={"28px"}
+              color="#F3F3F3"
+            >
+              {t("classic_journey")}
+            </Text>
+            {/* ————— COUNTDOWN ————— */}
+            <VStack gap={isMobile ? "24px" : "100px"}>
+              {data?.countDown !== false && (
+                <CountdownTimer
+                  template={data?.templateId}
+                  eventDate={data?.eventDate}
+                  isMobile={isMobile}
+                />
+              )}
+            </VStack>
+            <Text
+              fontWeight="500"
+              fontSize={isMobile ? "15px" : "20px"}
+              lineHeight={"28px"}
+              color="#F3F3F3"
+            >
+              {t("rustic_journey")}
+            </Text>
+          </Stack>
+
+          <Swiper
+            slidesPerView={isMobile ? 3 : 4}
+            speed={500}
+            loop={true}
+            style={{ padding: "100px 0" }}
+            spaceBetween={0}
+            // coverflowEffect={{
+            //   rotate: 18, // degrees each slide rotates away from center
+            //   stretch: 60, // space between slides (px)
+            //   depth: 120, // z-depth of non-active slides
+            //   modifier: 1,
+            //   slideShadows: false,
+            // }}
+            pagination={true}
+            modules={[Pagination]}
+            // modules={[EffectCoverflow, Pagination]}
+          >
+            {data?.mainImages?.map((el, index) => {
+              return (
+                <SwiperSlide key={index}>
+                  <Stack
+                    cursor={"pointer"}
+                    w={"448px"}
+                    h={{ base: "268px", sm: "556px" }}
+                    alignItems={"center"}
+                    // justifyContent={"center"}
+                    // overflow={"hidden"}
+                  >
+                    <Image
+                      src={el}
+                      // alt={`Template ${id}`}
+                      w={{ base: "168px", sm: "448px" }}
+                      h={{ base: "268px", sm: "556px" }}
+                      objectFit="cover"
+                      transition="all 0.3s ease"
+                      borderRadius={"10px"}
+                      // _hover={{
+                      //   transform: "scale(1.1)",
+                      // }}
+                    />
+                  </Stack>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </VStack>
+      </Box>
 
       <Box
         w="100%"

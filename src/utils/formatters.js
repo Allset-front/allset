@@ -193,9 +193,9 @@ export const formatRusticTitle = (title, lang) => {
   };
 };
 
-import { format } from "date-fns"; // TODO:  dont use date-fns and use
+import { format } from "date-fns";
 import { DATE_LOCALES } from "./constants";
-export function formatDateByLang(dateString, locale = "en") {
+export function formatDateByLang(dateString, locale) {
   const date = new Date(dateString);
   const loc = DATE_LOCALES[locale] || enUS;
 
