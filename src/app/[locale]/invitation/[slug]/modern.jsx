@@ -88,6 +88,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  const initialSlide = Math.floor((data?.mainImages?.length || 0) / 2);
   const heroImage = data?.mainImages?.[0] || mainBg.src;
   const coupleImage = data?.mainImages?.[1] || timingBg.src;
   const gallery = data?.ourStory?.photoUrls?.length
@@ -205,17 +206,18 @@ export default function Modern({ viewport = "pc", palette, data }) {
         position="relative"
         w="100%"
         h={isMobile ? "520px" : "750px"}
-        bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
+        // bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url(${heroImage})`}
+        bgImage={`linear-gradient(180deg, rgba(0,0,0,0.05) 50%, #F3F3F3 99.43%), url(${heroImage})`}
         bgSize="cover"
         bgPos="center"
       >
         <VStack
           position="absolute"
-          bottom={isMobile ? "40px" : "80px"}
+          bottom={isMobile ? "40px" : "50px"}
           left="0"
           right="0"
-          gap={isMobile ? "8px" : "100px"}
-          color="white"
+          gap={isMobile ? "8px" : "114px"}
+          // color="white"
           textAlign="center"
         >
           <Text
@@ -227,50 +229,54 @@ export default function Modern({ viewport = "pc", palette, data }) {
           >
             {title}
           </Text>
-          <Flex gap="12px" align="flex-start" justify="center">
-            <Text
-              fontSize={isMobile ? "18px" : "24px"}
-              lineHeight="24px"
-              fontWeight="600"
-              minW="177px"
-              border="2px solid"
-              borderBottomColor="var(--c-primary)"
-              borderTopColor="var(--c-primary)"
-              borderLeftColor="transparent"
-              borderRightColor="transparent"
-              py="12px"
-            >
-              {dayName}
-            </Text>
-            <Stack gap="12px">
-              <Text
-                fontSize={isMobile ? "26px" : "50px"}
-                lineHeight="24px"
-                fontWeight="1000"
-              >
-                {day}
-              </Text>
-              <Text fontSize={"16px"} lineHeight="25px" fontWeight="800">
-                {year}
-              </Text>
-            </Stack>
-            <Text
-              fontSize={isMobile ? "18px" : "24px"}
-              lineHeight="24px"
-              fontWeight="600"
-              minW="177px"
-              border="2px solid"
-              borderBottomColor="var(--c-primary)"
-              borderTopColor="var(--c-primary)"
-              borderLeftColor="transparent"
-              borderRightColor="transparent"
-              py="12px"
-            >
-              {monthName}
-            </Text>
-          </Flex>
         </VStack>
       </Box>
+
+      {/* ————— DATE ————— */}
+      <Flex gap="12px" align="baseline" justify="center" py="100px">
+        <Text
+          textAlign="center"
+          fontSize={isMobile ? "18px" : "24px"}
+          lineHeight="24px"
+          fontWeight="600"
+          minW="177px"
+          border="2px solid"
+          borderBottomColor="var(--c-primary)"
+          borderTopColor="var(--c-primary)"
+          borderLeftColor="transparent"
+          borderRightColor="transparent"
+          py="12px"
+        >
+          {dayName}
+        </Text>
+        <Stack gap="12px" align={"center"}>
+          <Text
+            fontSize={isMobile ? "26px" : "50px"}
+            lineHeight="24px"
+            fontWeight="1000"
+          >
+            {day}
+          </Text>
+          <Text fontSize={"16px"} lineHeight="25px" fontWeight="800">
+            {year}
+          </Text>
+        </Stack>
+        <Text
+          textAlign="center"
+          fontSize={isMobile ? "18px" : "24px"}
+          lineHeight="24px"
+          fontWeight="600"
+          minW="177px"
+          border="2px solid"
+          borderBottomColor="var(--c-primary)"
+          borderTopColor="var(--c-primary)"
+          borderLeftColor="transparent"
+          borderRightColor="transparent"
+          py="12px"
+        >
+          {monthName}
+        </Text>
+      </Flex>
 
       {/* ————— MAIN ————— */}
       <Box position="relative" minH="1931px" w="100%">
@@ -308,7 +314,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
             <Icon
               color="var(--c-accent)"
               position="absolute"
-              left="10%"
+              left="12%"
               top="0%"
             >
               {guestLeft.icon}
@@ -316,7 +322,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
             <Icon
               color="var(--c-accent)"
               position="absolute"
-              right="10%"
+              right="12%"
               top="0%"
             >
               {guestRight.icon}
@@ -337,6 +343,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
               lineHeight="28px"
               fontWeight="400"
               color="#F3F3F3"
+              w="60%"
             >
               {description}
             </Text>
@@ -368,51 +375,50 @@ export default function Modern({ viewport = "pc", palette, data }) {
             </Text>
           </Stack>
 
-          <Swiper
-            slidesPerView={isMobile ? 3 : 4}
-            speed={500}
-            loop={true}
-            style={{ padding: "100px 0" }}
-            spaceBetween={0}
-            // coverflowEffect={{
-            //   rotate: 18, // degrees each slide rotates away from center
-            //   stretch: 60, // space between slides (px)
-            //   depth: 120, // z-depth of non-active slides
-            //   modifier: 1,
-            //   slideShadows: false,
-            // }}
-            pagination={true}
-            modules={[Pagination]}
-            // modules={[EffectCoverflow, Pagination]}
-          >
-            {data?.mainImages?.map((el, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  <Stack
-                    cursor={"pointer"}
-                    w={"448px"}
-                    h={{ base: "268px", sm: "556px" }}
-                    alignItems={"center"}
-                    // justifyContent={"center"}
-                    // overflow={"hidden"}
-                  >
-                    <Image
-                      src={el}
-                      // alt={`Template ${id}`}
-                      w={{ base: "168px", sm: "448px" }}
+          <Box w="100%" display="flex" justifyContent="center">
+            <Swiper
+              style={{ padding: "100px 0" }}
+              effect={"coverflow"}
+              slidesPerView={"auto"}
+              centeredSlides={true}
+              grabCursor={true}
+              // watchOverflow={false}
+              speed={500}
+              spaceBetween={0}
+              pagination={true}
+              initialSlide={initialSlide}
+              modules={[EffectCoverflow, Pagination]}
+              coverflowEffect={{
+                rotate: 18,
+                stretch: 60,
+                depth: 120,
+                modifier: 1,
+                slideShadows: false,
+              }}
+            >
+              {data?.mainImages?.map((el, index) => {
+                return (
+                  <SwiperSlide key={index} style={{ width: "448px" }}>
+                    <Stack
+                      cursor={"pointer"}
+                      w={"448px"}
                       h={{ base: "268px", sm: "556px" }}
-                      objectFit="cover"
-                      transition="all 0.3s ease"
-                      borderRadius={"10px"}
-                      // _hover={{
-                      //   transform: "scale(1.1)",
-                      // }}
-                    />
-                  </Stack>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+                      alignItems={"center"}
+                    >
+                      <Image
+                        src={el}
+                        w={{ base: "168px", sm: "448px" }}
+                        h={{ base: "268px", sm: "556px" }}
+                        objectFit="cover"
+                        transition="all 0.3s ease"
+                        borderRadius={"10px"}
+                      />
+                    </Stack>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </Box>
         </VStack>
       </Box>
 
