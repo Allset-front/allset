@@ -88,6 +88,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
     data?.eventDate,
     language,
   );
+
   const [form, setForm] = useState(getInvitationForm(id));
   const [guests, setGuests] = useState([`${t("classic_count")}`]);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -97,7 +98,7 @@ export default function Modern({ viewport = "pc", palette, data }) {
   const storyImgOne = data?.ourStory?.photoUrls?.[0] || story1.src;
   const storyImgTwo = data?.ourStory?.photoUrls?.[1] || story2.src;
   // TODO: if real invitation,dont show fallback images
-  const slideImages = data.mainImages || MODERN_FALLBACKS;
+  const slideImages = data?.mainImages || MODERN_FALLBACKS;
 
   // const galleryItems = useMemo(
   //   () =>

@@ -195,8 +195,28 @@ export const formatRusticTitle = (title, lang) => {
 
 import { format } from "date-fns";
 import { DATE_LOCALES } from "./constants";
-export function formatDateByLang(dateString, locale) {
-  const date = new Date(dateString);
+// export function formatDateByLang(dateString, locale) {
+//   const date = new Date(dateString);
+//   const loc = DATE_LOCALES[locale] || enUS;
+
+//   return {
+//     year: date.getFullYear(),
+//     day: date.getDate(),
+//     monthName: format(date, "LLLL", { locale: loc }).toUpperCase(),
+//     dayName: format(date, "EEEE", { locale: loc }).toUpperCase(),
+//   };
+// }
+export function formatDateByLang(dateValue, locale) {
+  let date = dateValue ? new Date(dateValue) : new Date();
+
+  if (isNaN(date.getTime())) {
+    date = new Date();
+  }
+
+  if (!dateValue || isNaN(new Date(dateValue).getTime())) {
+    date.setFullYear(date.getFullYear() + 1);
+  }
+
   const loc = DATE_LOCALES[locale] || enUS;
 
   return {
