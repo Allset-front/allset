@@ -45,12 +45,28 @@ import loveBg from "@/assets/imgs/invitations/rustic/love_bg.png";
 import ring from "@/assets/imgs/invitations/rustic/ring.png";
 import overlay from "@/assets/imgs/invitations/rustic/overlay.png";
 import overlay2 from "@/assets/imgs/invitations/rustic/overlay2.png";
+import mainImagesBg from "@/assets/imgs/invitations/rustic/main_images_bg.png";
+import coupleBg from "@/assets/imgs/invitations/rustic/couple_bg.png";
+import img1 from "@/assets/imgs/invitations/rustic/img_1.png";
+import screp from "@/assets/imgs/invitations/rustic/screp.png";
+import img2 from "@/assets/imgs/invitations/rustic/img_2.png";
+import img3 from "@/assets/imgs/invitations/rustic/img_3.jpg";
+import dream from "@/assets/imgs/invitations/rustic/dream.png";
+import img4 from "@/assets/imgs/invitations/rustic/img_4.png";
 import galleryBg from "@/assets/imgs/invitations/rustic/gallery_bg.png";
 import moments from "@/assets/imgs/invitations/rustic/moments.png";
 import timingBg from "@/assets/imgs/invitations/rustic/timing_bg.png";
 import timingImg from "@/assets/imgs/invitations/rustic/timing_img.png";
 import dresscodeBg from "@/assets/imgs/invitations/rustic/dresscode_bg.png";
 import dresscodeImg from "@/assets/imgs/invitations/rustic/dresscode_img.png";
+import storyBg from "@/assets/imgs/invitations/rustic/story_bg.png";
+import story1 from "@/assets/imgs/invitations/rustic/story_1.png";
+import screp2 from "@/assets/imgs/invitations/rustic/screp_2.png";
+import story2 from "@/assets/imgs/invitations/rustic/story_2.png";
+import always from "@/assets/imgs/invitations/rustic/always.png";
+import storyFlowers from "@/assets/imgs/invitations/rustic/story_flowers.png";
+import story3 from "@/assets/imgs/invitations/rustic/story_3.png";
+import storyFlower from "@/assets/imgs/invitations/rustic/story_flower.png";
 // import storyBg from "@/assets/imgs/invitations/rustic/story_bg.jpg";
 import { GUEST_COUNT, CLASSIC_FALLBACKS, TIMELINE } from "@/utils/constants";
 import { Link } from "@/i18n/routing";
@@ -336,8 +352,119 @@ export default function Rustic({ viewport = "pc", palette, data }) {
         </Container>
       </Box>
 
+      {/* ————— MAIN IMAGES ————— */}
+      <Container pb="288px" maxW="1440px" px={{ base: "24px", md: "80px" }}>
+        <VStack
+          w="100%"
+          h="802px"
+          bgImage={`url(${mainImagesBg.src})`}
+          bgSize="cover"
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          justifyContent="center"
+          alignItems="center"
+          position="relative"
+        >
+          <Box position="relative" w="491px" h="282px" zIndex={2}>
+            <Box
+              w="100%"
+              h="100%"
+              bgImage={`url(${coupleBg.src})`}
+              bgSize="contain"
+              bgPosition="center"
+              bgRepeat="no-repeat"
+            />
+            <Text
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              zIndex={3}
+              textAlign="center"
+              fontFamily="var(--font-shk)"
+              fontWeight="400"
+              fontSize="32px"
+              lineHeight="42px"
+            >
+              {t("rustic_couple")}
+              <br />
+              {t("rustic_happy")}
+            </Text>
+          </Box>
+          <Box position="absolute" top="80px" left="103px" zIndex={1}>
+            <Image
+              position="relative"
+              src={img1.src}
+              alt="img 1"
+              maxW="318px"
+              h="480px"
+              objectFit="cover"
+              bg="white"
+              p="12px"
+            />
+            <Image
+              src={screp.src}
+              h="63px"
+              alt="screp"
+              position="absolute"
+              top="-35px"
+              left="50%"
+              transform="translateX(-50%)"
+            />
+          </Box>
+          <Image
+            position="absolute"
+            top="60px"
+            right="153px"
+            src={img2.src}
+            alt="img 2"
+            maxW="368px"
+            h="420px"
+            objectFit="cover"
+            bg="white"
+            p="20px 20px 72px 20px"
+            zIndex={1}
+          />
+          <Box position="absolute" bottom="-110px" left="200px" zIndex={1}>
+            <Image
+              position="relative"
+              src={img3.src}
+              alt="img 3"
+              w="263px"
+              h="300px"
+              objectFit="cover"
+              bg="white"
+              p="17px 17px 53px 17px"
+              transform="rotate(-10deg)"
+            />
+            <Image
+              src={dream.src}
+              h="63px"
+              alt="dream"
+              position="absolute"
+              top="-10px"
+              left="-90px"
+            />
+          </Box>
+          <Image
+            position="absolute"
+            bottom="-50px"
+            right="103px"
+            src={img4.src}
+            alt="img 4"
+            maxW="308px"
+            h="307px"
+            objectFit="cover"
+            bg="white"
+            p="29px 25px 29px 25px"
+            zIndex={1}
+          />
+        </VStack>
+      </Container>
+
       {/* ————— TIMING ————— */}
-      <Center pt="90px">
+      {/* <Center pt="90px"> */}
+      <Center>
         <Box position="relative" minH="1164px" minW="1086px">
           <Box
             position="absolute"
@@ -580,6 +707,7 @@ export default function Rustic({ viewport = "pc", palette, data }) {
             fontWeight={500}
             lineHeight={"48px"}
             color="var(--c-primary)"
+            textTransform="uppercase"
           >
             {t("classic_gallery")}
           </Text>
@@ -621,53 +749,143 @@ export default function Rustic({ viewport = "pc", palette, data }) {
 
       {/* // TODO: connect with gallery like classic */}
       {/* ————— OUR LOVE STORY ————— */}
-      <Container maxW="1440px" px={{ base: "24px", md: "80px" }}>
-        <Flex
+      {/* <Container maxW="1440px" px={{ base: "24px", md: "80px" }}> */}
+      <Flex
+        w="100%"
+        justify={"space-between"}
+        align={"center"}
+        pt="106px"
+        pb="50px"
+        pl="80px"
+      >
+        <Stack gap="40px">
+          <Text
+            color="var(--c-primary)"
+            fontSize={isMobile ? "20px" : "34px"}
+            lineHeight="48px"
+            fontWeight="500"
+            textTransform="uppercase"
+          >
+            {t("classic_story")}
+          </Text>
+          <Text
+            maxW="877px"
+            fontSize={isMobile ? "15px" : "18px"}
+            lineHeight="28px"
+            color="var(--c-primary)"
+            whiteSpace="pre-line"
+            fontWeight="400"
+            // dangerouslySetInnerHTML={{
+            //   __html: storyText.replace(/\n/g, "<br />"),
+            // }}
+          >
+            {storyText}
+          </Text>
+        </Stack>
+
+        <Box
           w="100%"
-          justify={"space-between"}
-          align={"center"}
-          pt="106px"
-          pb="50px"
+          // maxW="830px"
+          minH="488px"
+          bgImage={`url(${storyBg.src})`}
+          bgSize="cover"
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          // justifyContent="center"
+          // alignItems="center"
+          position="relative"
         >
-          <Stack gap="40px">
-            <Text
-              color="var(--c-primary)"
-              fontSize={isMobile ? "20px" : "34px"}
-              lineHeight="48px"
-              fontWeight="500"
-            >
-              {t("classic_story")}
-            </Text>
-            <Text
-              maxW="877px"
-              fontSize={isMobile ? "15px" : "18px"}
-              lineHeight="28px"
-              color="var(--c-primary)"
-              whiteSpace="pre-line"
-              fontWeight="400"
-              // dangerouslySetInnerHTML={{
-              //   __html: storyText.replace(/\n/g, "<br />"),
-              // }}
-            >
-              {storyText}
-            </Text>
-          </Stack>
+          <Box position="absolute" top="58px" left="118px" zIndex={1}>
+            <Image
+              position="relative"
+              src={story1.src}
+              alt="story 1"
+              w="294px"
+              h="210px"
+              objectFit="cover"
+              bg="white"
+              p="8px"
+            />
+            <Image
+              src={screp2.src}
+              h="49px"
+              alt="screp 2"
+              position="absolute"
+              top="-25px"
+              left="50%"
+              transform="translateX(-50%)"
+            />
+          </Box>
+          <Box position="absolute" top="-12px" right="90px" zIndex={1}>
+            <Image
+              position="relative"
+              src={story2.src}
+              alt="story 2"
+              w="263px"
+              h="300px"
+              objectFit="cover"
+              bg="white"
+              p="12px 12px 42px 12px"
+            />
+            <Image
+              src={always.src}
+              h="63px"
+              alt="always"
+              position="absolute"
+              top="-30px"
+              left="-105px"
+            />
+          </Box>
+
+          <Image
+            position="absolute"
+            left="-90px"
+            bottom="-60px"
+            src={storyFlowers.src}
+            alt="story flowers"
+            maxW="391px"
+            h="414px"
+            objectFit="cover"
+            zIndex={1}
+          />
 
           <Box
-          // position="relative"
-          // w="100%"
-          // py={isMobile ? "60px" : "112px"}
-          // px={isMobile ? "24px" : "120px"}
-          // bgImage={`url(${storyBg.src})`}
-          // bgSize="cover"
-          // bgRepeat={"no-repeat"}
-          // bgPos="center"
-          // h="451px"
+            position="absolute"
+            bottom="30px"
+            left="35%"
+            transform="translateX(-35%)"
+            zIndex={2}
           >
-            SOON
+            <Image
+              position="relative"
+              src={story3.src}
+              alt="story 3"
+              w="263px"
+              h="300px"
+              objectFit="cover"
+              bg="white"
+              p="12px 12px 42px 12px"
+            />
+            <Image
+              src={storyFlower.src}
+              boxSize="84px"
+              alt="story flower"
+              position="absolute"
+              top="-40px"
+              left="40px"
+            />
           </Box>
-        </Flex>
-      </Container>
+           <Image
+              src={storyFlower.src}
+              boxSize="144px"
+              alt="story flower"
+              position="absolute"
+              bottom="-70px"
+              right="90px"
+            />
+        </Box>
+      </Flex>
+      {/* </Container> */}
 
       {/* ————— CONTACT ————— */}
       <Flex

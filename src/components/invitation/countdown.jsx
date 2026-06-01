@@ -2,8 +2,11 @@
 
 import React from "react";
 import { HStack, Stack, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 export const Countdown = ({ template, value, label, isMobile }) => {
+  const t = useTranslations();
+
   if (template === "template.modern.romance") {
     return (
       <Stack align="center" gap="12px">
@@ -22,7 +25,7 @@ export const Countdown = ({ template, value, label, isMobile }) => {
           lineHeight="25px"
           textTransform="uppercase"
         >
-          {label}
+          {t(label)}
         </Text>
       </Stack>
     );
@@ -46,7 +49,7 @@ export const Countdown = ({ template, value, label, isMobile }) => {
           lineHeight="28px"
           textTransform="lowercase"
         >
-          {label}
+          {t(label)}
         </Text>
       </HStack>
     );
@@ -71,7 +74,7 @@ export const Countdown = ({ template, value, label, isMobile }) => {
         lineHeight="24px"
         textTransform="lowercase"
       >
-        {label}
+        {t(label)}
       </Text>
     </HStack>
   );
