@@ -9,7 +9,8 @@ const ROUTES = [
     { path: "", priority: 1.0, changeFrequency: "weekly" },
     { path: "/build/templates", priority: 0.9, changeFrequency: "weekly" },
     { path: "/about-us", priority: 0.8, changeFrequency: "monthly" },
-    { path: "/demo", priority: 0.7, changeFrequency: "monthly" },
+    // /demo excluded: it currently returns HTTP 500 (missing @supabase/supabase-js
+    // in src/lib/email) and is a "Coming Soon" placeholder — no point promoting it.
     { path: "/connection", priority: 0.6, changeFrequency: "monthly" },
     { path: "/policies/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
     { path: "/policies/terms-conditions", priority: 0.3, changeFrequency: "yearly" },
