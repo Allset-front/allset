@@ -104,7 +104,7 @@ export const ConfirmClient = () => {
     return arcaMutate({ invitationId: id });
   };
 
-  if (!id || isLoading) {
+  if (!id || isLoading || !data) {
     return (
       <Center pt="40px">
         <Spinner size="xl" color="#004143" />
@@ -142,9 +142,7 @@ export const ConfirmClient = () => {
         <Animate>
           <Payment legal={legal} payment={payment} setQuery={setQuery} />
         </Animate>
-        <Animate>
-          <Pay onSubmit={submit} />
-        </Animate>
+        <Pay onSubmit={submit} />
       </Stack>
       <Success open={status === "success"} data={data} setQuery={setQuery} />
       <Failed

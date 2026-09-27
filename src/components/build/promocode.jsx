@@ -35,7 +35,7 @@ export const Promocode = ({ data }) => {
   //   },
   // };
 
-  const { basePrice, promoCode } = data;
+  const { basePrice = 0, promoCode } = data || {};
 
   const [promocode, setPromocode] = useState(promoCode?.code || "");
   const [appliedPromo, setAppliedPromo] = useState(promoCode);
