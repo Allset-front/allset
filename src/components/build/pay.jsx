@@ -3,14 +3,11 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
-import { useRouter } from "@/i18n/routing";
-import { back } from "@/assets/svgs";
-import { Button, Icon, Stack } from "@chakra-ui/react";
+import { Button, Stack } from "@chakra-ui/react";
 import { Tooltip } from "../ui/tooltip";
 
 export const Pay = () => {
   const t = useTranslations();
-  const router = useRouter();
 
   const [{ legal, payment }] = useQueryStates({
     legal: parseAsString,
@@ -46,19 +43,6 @@ export const Pay = () => {
           {t("pay")}
         </Button>
       </Tooltip>
-      <Button
-        onClick={() => router.back()}
-        variant="ghost"
-        fontWeight="400"
-        lineHeight="24px"
-        color="#004143"
-        w="100%"
-        h="52px"
-      >
-        <Icon>{back.icon}</Icon>
-        {/* {t("back")} {t(backInfo?.name)} */}
-        {t("back")}
-      </Button>
     </Stack>
   );
 };
