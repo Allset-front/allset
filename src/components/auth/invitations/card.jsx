@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { parseAsString, useQueryStates } from "nuqs";
@@ -15,9 +15,11 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
-import { editActive, guestList } from "@/assets/svgs";
+import { copied, copy, editActive, guestList } from "@/assets/svgs";
 import { formatDDMMYYYY } from "@/utils/formatters";
 import { queryClient } from "@/providers/queryProvider";
+import { BASE_URL } from "@/lib/api/config";
+import { error, success } from "@/components/ui/alerts";
 import img from "@/assets/imgs/active_bg.png";
 
 export const Card = ({ el }) => {
@@ -34,16 +36,31 @@ export const Card = ({ el }) => {
     publishedAt,
     createdAt,
     title,
+    urlExtension,
   } = el;
-  
+
   const [{ tab }, setQuery] = useQueryStates({
     tab: parseAsString,
     template: parseAsString,
     palette: parseAsString,
     id: parseAsString,
   });
-  
+
   const isNotDraft = tab !== "drafts";
+
+  const [isCopied, setIsCopied] = useState(false);
+
+  const fullUrl = `${BASE_URL}${language}/invitation/${urlExtension ?? ""}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      setIsCopied(true);
+      success(t("url_copy"));
+    } catch (err) {
+      error("Failed to copy: ", err);
+    }
+  };
 
   const handleNavigate = () => {
     setQuery({
@@ -128,7 +145,7 @@ export const Card = ({ el }) => {
       <Flex gap={"8px"}>
         {isNotDraft && (
           <Button
-            w="223px"
+            flex="1"
             h="52px"
             bg="#004143"
             borderRadius={"10px"}
@@ -152,6 +169,29 @@ export const Card = ({ el }) => {
             <Icon>{guestList.icon}</Icon>
             {t("guests")}
           </Button>
+        )}
+        {isNotDraft && urlExtension && (
+          <Tooltip
+            positioning={{ placement: "top" }}
+            content={isCopied ? t("copied") : t("copy")}
+          >
+            <Button
+              w="52px"
+              h="52px"
+              bg="transparent"
+              borderRadius={"10px"}
+              border={"1px solid"}
+              borderColor={isCopied ? "#004143" : "#80A0A1"}
+              css={{ "& path": { fill: "#004143" } }}
+              _hover={{
+                borderColor: "#004143",
+              }}
+              transition="all 0.3s ease"
+              onClick={handleCopy}
+            >
+              <Icon>{isCopied ? copied.icon : copy.icon}</Icon>
+            </Button>
+          </Tooltip>
         )}
         <Tooltip positioning={{ placement: "top" }} content={t("edit")}>
           <Button
