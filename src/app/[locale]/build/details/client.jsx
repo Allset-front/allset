@@ -278,6 +278,25 @@ export const DetailsClient = () => {
     });
   };
 
+  // groomName/brideName are the source of truth; title is kept in sync as
+  // "groom, bride" per language.
+  const handleNameChange = (lng, which, value) => {
+    setForm((prev) => {
+      const groomName = { ...(prev.groomName || { hy: "", en: "", ru: "" }) };
+      const brideName = { ...(prev.brideName || { hy: "", en: "", ru: "" }) };
+
+      if (which === "groom") groomName[lng] = value;
+      else brideName[lng] = value;
+
+      const title = { ...(prev.title || { hy: "", en: "", ru: "" }) };
+      title[lng] = [groomName[lng]?.trim(), brideName[lng]?.trim()]
+        .filter(Boolean)
+        .join(", ");
+
+      return { ...prev, groomName, brideName, title };
+    });
+  };
+
   const handleTimelineChange = (newTimeline) => {
     setForm((prev) => ({
       ...prev,
@@ -505,10 +524,10 @@ export const DetailsClient = () => {
 
           <Animate>
             <TitleCreator
-              name="title"
-              value={form.title}
+              groomName={form.groomName}
+              brideName={form.brideName}
               urlExtension={urlExtension}
-              onChange={handleLngChange}
+              onNameChange={handleNameChange}
               required={true}
               languages={form.languages}
               status={status}

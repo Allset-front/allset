@@ -171,13 +171,29 @@ export const diffParts = (iso) => {
 //   }, {});
 // };
 
+// Split a combined title into [groom, bride]. Handles the explicit separators
+// the title may use (" + ", " & ", ", ") and falls back to whitespace for
+// legacy two-word titles. Multi-word names are preserved when an explicit
+// separator is present.
+export const splitTitleNames = (raw = "") => {
+  const str = String(raw).trim();
+  if (!str) return ["", ""];
+
+  const match = str.match(/^(.*?)\s*[+&,]\s*(.*)$/);
+  if (match) return [match[1].trim(), match[2].trim()];
+
+  const parts = str.split(/\s+/);
+  if (parts.length >= 2) return [parts[0], parts.slice(1).join(" ")];
+  return [str, ""];
+};
+
 export const formatRusticTitle = (title, lang) => {
   if (!title?.[lang]?.trim()) return { name1: "Henry", name2: "Mariam" };
 
-  const [name1 = "Henry", name2 = "Mariam"] = title[lang].trim().split(/\s+/);
+  const [name1, name2] = splitTitleNames(title[lang]);
   return {
-    name1: capitalize(name1),
-    name2: capitalize(name2),
+    name1: capitalize(name1 || "Henry"),
+    name2: capitalize(name2 || "Mariam"),
   };
 };
 

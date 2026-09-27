@@ -138,6 +138,16 @@ export const detailsForm = {
     en: "",
     ru: ""
   },
+  groomName: {
+    hy: "",
+    en: "",
+    ru: ""
+  },
+  brideName: {
+    hy: "",
+    en: "",
+    ru: ""
+  },
   // urlExtension: "",
   eventDate: "",
   description: {
@@ -193,6 +203,8 @@ export const SERVER_FIELDS = [
 export const INVITATION_FIELDS = [
   "id",
   "title",
+  "groomName",
+  "brideName",
   "urlExtension",
   "eventDate",
   "description",

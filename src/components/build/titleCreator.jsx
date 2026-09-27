@@ -11,10 +11,10 @@ import { Input } from "../ui/input";
 import { error, info, success } from "../ui/alerts";
 
 export const TitleCreator = ({
-  name,
-  value,
+  groomName,
+  brideName,
   urlExtension,
-  onChange,
+  onNameChange,
   required,
   languages,
   status,
@@ -25,13 +25,13 @@ export const TitleCreator = ({
 
   const fullUrl = `${BASE_URL}${languages?.[0]}/invitation/${urlExtension ?? ""}`;
 
-  const handleInputChange = (e, lng) => {
+  const handleInputChange = (which, e, lng) => {
     let val = e.target.value;
 
-    // allow - symbol & space
+    // allow letters, spaces & the - symbol
     val = val.replace(/[^\p{L}\s-]/gu, "").replace(/-+/g, "-");
 
-    onChange(name, lng, val);
+    onNameChange(lng, which, val);
 
     lng == "en" && setIsCopied(false);
   };
@@ -63,13 +63,28 @@ export const TitleCreator = ({
         <Text textStyle="xs" color={"#6B7280"}>
           {t("invitation_text")}
         </Text>
-        <Input
-          languages={languages}
-          name={name}
-          value={value ?? ""}
-          onChange={handleInputChange}
-          placeholder={t("invitation_placeholder")}
-        />
+
+        <Stack gap={"8px"} w="100%">
+          <Label text="invitation_groom_label" />
+          <Input
+            languages={languages}
+            name="groomName"
+            value={groomName}
+            onChange={(e, lng) => handleInputChange("groom", e, lng)}
+            placeholder={t("invitation_groom_placeholder")}
+          />
+        </Stack>
+
+        <Stack gap={"8px"} w="100%">
+          <Label text="invitation_bride_label" />
+          <Input
+            languages={languages}
+            name="brideName"
+            value={brideName}
+            onChange={(e, lng) => handleInputChange("bride", e, lng)}
+            placeholder={t("invitation_bride_placeholder")}
+          />
+        </Stack>
       </Field.Root>
 
       {status === "active" && (
